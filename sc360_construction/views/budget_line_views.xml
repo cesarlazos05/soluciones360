@@ -81,7 +81,7 @@
                             <field name="amount_received"/>
                         </group>
                         <group>
-                            <field name="variance" decoration-danger="variance &lt; 0" decoration-success="variance >= 0"/>
+                            <field name="variance"/>
                             <field name="variance_pct" widget="percentage"/>
                             <field name="execution_pct" widget="progressbar"/>
                         </group>

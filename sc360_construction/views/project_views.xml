@@ -60,7 +60,7 @@
                             <field name="total_received"/>
                         </group>
                         <group>
-                            <field name="budget_variance" decoration-success="budget_variance >= 0" decoration-danger="budget_variance &lt; 0"/>
+                            <field name="budget_variance" />
                             <field name="budget_variance_pct" widget="percentage"/>
                             <field name="budget_execution_pct" widget="progressbar"/>
                         </group>

@@ -154,6 +154,7 @@ class BudgetLine(models.Model):
 
     # === COMPUTES ===
 
+    @api.depends('code', 'name')
     def _compute_display_name(self):
         for line in self:
             if line.code:
