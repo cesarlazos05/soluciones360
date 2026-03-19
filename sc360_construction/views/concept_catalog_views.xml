@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <!-- Actions primero (deben existir antes de ser referenciadas) -->
+
+    <record id="action_concept_category" model="ir.actions.act_window">
+        <field name="name">Partidas</field>
+        <field name="res_model">sc360.concept.category</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Crear la primera partida del catálogo</p>
+        </field>
+    </record>
+
+    <record id="action_concept_template" model="ir.actions.act_window">
+        <field name="name">Conceptos de obra</field>
+        <field name="res_model">sc360.concept.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_group_category': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Crear el primer concepto de obra</p>
+        </field>
+    </record>
+
     <!-- PARTIDAS (CATEGORÍAS) -->
 
     <record id="view_concept_category_list" model="ir.ui.view">
@@ -73,15 +94,6 @@
                     <filter string="Partida padre" name="group_parent" context="{'group_by': 'parent_id'}"/>
                 </group>
             </search>
-        </field>
-    </record>
-
-    <record id="action_concept_category" model="ir.actions.act_window">
-        <field name="name">Partidas</field>
-        <field name="res_model">sc360.concept.category</field>
-        <field name="view_mode">list,form</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">Crear la primera partida del catálogo</p>
         </field>
     </record>
 
@@ -179,16 +191,6 @@
                     <filter string="Partida" name="group_category" context="{'group_by': 'category_id'}"/>
                 </group>
             </search>
-        </field>
-    </record>
-
-    <record id="action_concept_template" model="ir.actions.act_window">
-        <field name="name">Conceptos de obra</field>
-        <field name="res_model">sc360.concept.template</field>
-        <field name="view_mode">list,form</field>
-        <field name="context">{'search_default_group_category': 1}</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">Crear el primer concepto de obra</p>
         </field>
     </record>
 
