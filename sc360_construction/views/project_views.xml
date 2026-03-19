@@ -7,7 +7,6 @@
         <field name="model">project.project</field>
         <field name="inherit_id" ref="project.edit_project"/>
         <field name="arch" type="xml">
-            <!-- Agregar botones de estadísticas -->
             <xpath expr="//div[@name='button_box']" position="inside">
                 <button name="action_view_budget_lines" type="object"
                         class="oe_stat_button" icon="fa-money"
@@ -35,7 +34,6 @@
                 </button>
             </xpath>
 
-            <!-- Agregar página de construcción -->
             <xpath expr="//notebook" position="inside">
                 <page string="Construcción SC360" name="sc360_construction" invisible="not is_construction">
                     <group>
@@ -59,7 +57,7 @@
                             <field name="currency_id" invisible="1"/>
                             <field name="total_budget"/>
                             <field name="total_purchased"/>
-                            <field name="total_invoiced"/>
+                            <field name="total_received"/>
                         </group>
                         <group>
                             <field name="budget_variance" decoration-success="budget_variance >= 0" decoration-danger="budget_variance &lt; 0"/>
@@ -70,16 +68,15 @@
                 </page>
             </xpath>
 
-            <!-- Agregar campo is_construction en la parte superior -->
             <xpath expr="//field[@name='label_tasks']" position="before">
                 <field name="is_construction"/>
             </xpath>
         </field>
     </record>
 
-    <!-- Extensión del tree de proyecto -->
-    <record id="view_project_tree_sc360" model="ir.ui.view">
-        <field name="name">project.project.tree.sc360</field>
+    <!-- Extensión del list de proyecto -->
+    <record id="view_project_list_sc360" model="ir.ui.view">
+        <field name="name">project.project.list.sc360</field>
         <field name="model">project.project</field>
         <field name="inherit_id" ref="project.view_project"/>
         <field name="arch" type="xml">
@@ -115,20 +112,16 @@
     <record id="action_sc360_projects" model="ir.actions.act_window">
         <field name="name">Proyectos de obra</field>
         <field name="res_model">project.project</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">kanban,list,form</field>
         <field name="domain">[('is_construction', '=', True)]</field>
         <field name="context">{'default_is_construction': True}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Crear el primer proyecto de construcción
             </p>
-            <p>
-                Gestiona tus proyectos de obra con presupuestos, requisiciones y control de compras.
-            </p>
         </field>
     </record>
 
-    <!-- Menú de proyectos en operación -->
     <menuitem id="menu_sc360_projects"
               name="Proyectos"
               parent="menu_sc360_operation"

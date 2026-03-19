@@ -150,7 +150,7 @@ class GeneratePurchaseWizard(models.TransientModel):
                 'type': 'ir.actions.act_window',
                 'name': f'Órdenes de compra generadas ({len(created_pos)})',
                 'res_model': 'purchase.order',
-                'view_mode': 'tree,form',
+                'view_mode': 'list,form',
                 'domain': [('id', 'in', created_pos.ids)],
             }
 

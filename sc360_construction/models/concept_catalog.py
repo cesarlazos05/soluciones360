@@ -17,24 +17,24 @@ class ConceptCategory(models.Model):
     code = fields.Char("Código", required=True, index=True)
     name = fields.Char("Nombre", required=True)
     complete_name = fields.Char(
-        "Nombre completo", 
-        compute='_compute_complete_name', 
+        "Nombre completo",
+        compute='_compute_complete_name',
         recursive=True,
         store=True
     )
-    
+
     parent_id = fields.Many2one(
-        'sc360.concept.category', 
+        'sc360.concept.category',
         "Partida padre",
         index=True,
         ondelete='cascade'
     )
     parent_path = fields.Char(index=True, unaccent=False)
     child_ids = fields.One2many('sc360.concept.category', 'parent_id', "Sub-partidas")
-    
+
     concept_ids = fields.One2many('sc360.concept.template', 'category_id', "Conceptos")
     concept_count = fields.Integer(compute='_compute_concept_count')
-    
+
     active = fields.Boolean(default=True)
     notes = fields.Text("Notas")
 
@@ -61,12 +61,9 @@ class ConceptCategory(models.Model):
         if not self._check_recursion():
             raise ValidationError(_('No puede crear partidas recursivas.'))
 
-    def name_get(self):
-        result = []
+    def _compute_display_name(self):
         for rec in self:
-            name = f"[{rec.code}] {rec.name}" if rec.code else rec.name
-            result.append((rec.id, name))
-        return result
+            rec.display_name = f"[{rec.code}] {rec.name}" if rec.code else rec.name
 
 
 class ConceptTemplate(models.Model):
@@ -74,17 +71,16 @@ class ConceptTemplate(models.Model):
     _name = 'sc360.concept.template'
     _description = 'Concepto de obra'
     _order = 'category_id, sequence, code'
-    _rec_name = 'display_name'
+    _rec_name = 'name'
 
     sequence = fields.Integer(default=10)
     code = fields.Char("Código", index=True)
     name = fields.Char("Nombre corto", required=True)
-    display_name = fields.Char(compute='_compute_display_name', store=True)
     description = fields.Text("Descripción completa")
-    
+
     category_id = fields.Many2one(
-        'sc360.concept.category', 
-        "Partida", 
+        'sc360.concept.category',
+        "Partida",
         required=True,
         index=True,
         ondelete='restrict'
@@ -94,37 +90,42 @@ class ConceptTemplate(models.Model):
         string="Partida completa",
         store=True
     )
-    
+
     uom_id = fields.Many2one(
-        'uom.uom', 
-        "Unidad de medida", 
+        'uom.uom',
+        "Unidad de medida",
         required=True,
         default=lambda self: self.env.ref('uom.product_uom_unit', raise_if_not_found=False)
     )
-    
+
+    currency_id = fields.Many2one(
+        'res.currency',
+        default=lambda self: self.env.company.currency_id,
+        string="Moneda"
+    )
+
     # Precios de referencia (opcionales)
     base_unit_price = fields.Float("P.U. Base referencia", digits='Product Price')
     includes_labor = fields.Boolean("Incluye mano de obra")
-    includes_material = fields.Boolean("Incluye material", default=True)
-    
+    includes_materials = fields.Boolean("Incluye material", default=True)
+
     # Insumos típicos
     material_ids = fields.One2many(
-        'sc360.concept.material', 
-        'concept_id', 
+        'sc360.concept.material',
+        'concept_id',
         "Materiales típicos"
     )
     material_count = fields.Integer(compute='_compute_material_count')
-    
+
     # IVA
     tax_included = fields.Boolean("Precio incluye IVA", default=False)
-    
+
     active = fields.Boolean(default=True)
     notes = fields.Text("Notas técnicas")
-    
+
     # Para búsqueda rápida
     search_keywords = fields.Char("Palabras clave", help="Palabras adicionales para búsqueda")
 
-    @api.depends('code', 'name')
     def _compute_display_name(self):
         for rec in self:
             if rec.code:
@@ -158,48 +159,50 @@ class ConceptMaterial(models.Model):
 
     sequence = fields.Integer(default=10)
     concept_id = fields.Many2one(
-        'sc360.concept.template', 
-        required=True, 
+        'sc360.concept.template',
+        required=True,
         ondelete='cascade',
         index=True
     )
-    
+
     product_id = fields.Many2one(
-        'product.product', 
+        'product.product',
         "Producto",
         domain=[('purchase_ok', '=', True)]
     )
-    material_name = fields.Char(
+    description = fields.Char(
         "Nombre material",
         help="Usar si no hay producto definido en el sistema"
     )
-    
+
     qty_per_unit = fields.Float(
-        "Cantidad por unidad", 
+        "Cantidad por unidad",
         default=1.0,
         digits='Product Unit of Measure',
         help="Cantidad de este material por cada unidad del concepto"
     )
     uom_id = fields.Many2one('uom.uom', "UdM")
-    
+
     is_optional = fields.Boolean("Opcional")
     is_labor = fields.Boolean("Es mano de obra")
     notes = fields.Char("Notas")
-    
+
     # Precio de referencia
-    reference_price = fields.Float("Precio referencia", digits='Product Price')
+    unit_price = fields.Float("Precio referencia", digits='Product Price')
+    currency_id = fields.Many2one(
+        related='concept_id.currency_id',
+        store=True,
+        string="Moneda"
+    )
+
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = rec.product_id.name if rec.product_id else rec.description or 'Material'
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
         if self.product_id:
-            self.material_name = self.product_id.name
+            self.description = self.product_id.name
             self.uom_id = self.product_id.uom_id
             if self.product_id.standard_price:
-                self.reference_price = self.product_id.standard_price
-
-    def name_get(self):
-        result = []
-        for rec in self:
-            name = rec.product_id.name if rec.product_id else rec.material_name or 'Material'
-            result.append((rec.id, name))
-        return result
+                self.unit_price = self.product_id.standard_price

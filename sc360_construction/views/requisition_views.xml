@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Tree view de requisiciones -->
-    <record id="view_requisition_tree" model="ir.ui.view">
-        <field name="name">sc360.requisition.tree</field>
+    <record id="view_requisition_list" model="ir.ui.view">
+        <field name="name">sc360.requisition.list</field>
         <field name="model">sc360.requisition</field>
         <field name="arch" type="xml">
-            <tree decoration-info="state == 'draft'"
+            <list decoration-info="state == 'draft'"
                   decoration-warning="state == 'sent'"
                   decoration-success="state == 'done'"
                   decoration-muted="state == 'cancelled'">
@@ -25,11 +24,10 @@
                        decoration-success="state == 'done'"
                        decoration-danger="state == 'cancelled'"/>
                 <field name="currency_id" column_invisible="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 
-    <!-- Form view de requisiciones -->
     <record id="view_requisition_form" model="ir.ui.view">
         <field name="name">sc360.requisition.form</field>
         <field name="model">sc360.requisition</field>
@@ -70,7 +68,7 @@
                     <group>
                         <group string="Información general">
                             <field name="project_id" readonly="state != 'draft'"/>
-                            <field name="budget_line_id" 
+                            <field name="budget_line_id"
                                    readonly="state != 'draft'"
                                    options="{'no_create': True}"
                                    placeholder="Opcional: vincular a partida específica"/>
@@ -82,14 +80,14 @@
                         </group>
                     </group>
                     <group string="Motivo / Justificación">
-                        <field name="reason" nolabel="1" 
+                        <field name="reason" nolabel="1"
                                placeholder="Describa el motivo de esta requisición..."
                                readonly="state not in ('draft', 'sent')"/>
                     </group>
                     <notebook>
                         <page string="Materiales" name="lines">
                             <field name="line_ids" readonly="state not in ('draft', 'sent')">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="sequence" widget="handle"/>
                                     <field name="product_id"/>
                                     <field name="description"/>
@@ -101,7 +99,7 @@
                                     <field name="qty_purchased" decoration-success="qty_purchased >= qty"/>
                                     <field name="fully_purchased" invisible="1"/>
                                     <field name="currency_id" column_invisible="1"/>
-                                </tree>
+                                </list>
                             </field>
                             <group class="oe_subtotal_footer">
                                 <field name="currency_id" invisible="1"/>
@@ -118,7 +116,6 @@
         </field>
     </record>
 
-    <!-- Search view de requisiciones -->
     <record id="view_requisition_search" model="ir.ui.view">
         <field name="name">sc360.requisition.search</field>
         <field name="model">sc360.requisition</field>
@@ -129,7 +126,7 @@
                 <field name="requester_id"/>
                 <field name="category_id"/>
                 <separator/>
-                <filter string="Mis requisiciones" name="my_requisitions" 
+                <filter string="Mis requisiciones" name="my_requisitions"
                         domain="[('requester_id', '=', uid)]"/>
                 <separator/>
                 <filter string="Borrador" name="draft" domain="[('state', '=', 'draft')]"/>
@@ -138,9 +135,6 @@
                 <filter string="Parciales" name="partial" domain="[('state', '=', 'partial')]"/>
                 <filter string="Completadas" name="done" domain="[('state', '=', 'done')]"/>
                 <filter string="Canceladas" name="cancelled" domain="[('state', '=', 'cancelled')]"/>
-                <separator/>
-                <filter string="Urgentes (esta semana)" name="urgent"
-                        domain="[('date_required', '&lt;=', (context_today() + datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
                 <separator/>
                 <group expand="1" string="Agrupar por">
                     <filter string="Proyecto" name="group_project" context="{'group_by': 'project_id'}"/>
@@ -153,23 +147,21 @@
         </field>
     </record>
 
-    <!-- Kanban view de requisiciones -->
     <record id="view_requisition_kanban" model="ir.ui.view">
         <field name="name">sc360.requisition.kanban</field>
         <field name="model">sc360.requisition</field>
         <field name="arch" type="xml">
-            <kanban default_group_by="state" class="o_kanban_small_column">
+            <kanban default_group_by="state">
                 <field name="name"/>
                 <field name="project_id"/>
                 <field name="date_request"/>
-                <field name="date_required"/>
                 <field name="requester_id"/>
                 <field name="state"/>
                 <field name="amount_total"/>
                 <field name="currency_id"/>
                 <field name="line_count"/>
                 <templates>
-                    <t t-name="kanban-card">
+                    <t t-name="card">
                         <div class="oe_kanban_content">
                             <div class="o_kanban_record_top mb-0">
                                 <div class="o_kanban_record_headings">
@@ -177,8 +169,7 @@
                                         <field name="name"/>
                                     </strong>
                                 </div>
-                                <field name="state" widget="label_selection" 
-                                       options="{'classes': {'draft': 'info', 'sent': 'warning', 'in_progress': 'warning', 'partial': 'warning', 'done': 'success', 'cancelled': 'danger'}}"/>
+                                <field name="state" widget="badge"/>
                             </div>
                             <div class="o_kanban_record_body">
                                 <field name="project_id"/>
@@ -200,32 +191,23 @@
         </field>
     </record>
 
-    <!-- Action de requisiciones -->
     <record id="action_requisition" model="ir.actions.act_window">
         <field name="name">Requisiciones</field>
         <field name="res_model">sc360.requisition</field>
-        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_mode">list,kanban,form</field>
         <field name="context">{'search_default_sent': 1, 'search_default_in_progress': 1}</field>
         <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Crear la primera requisición de materiales
-            </p>
-            <p>
-                Las requisiciones permiten solicitar materiales para un proyecto,
-                que luego se convierten en órdenes de compra.
-            </p>
+            <p class="o_view_nocontent_smiling_face">Crear la primera requisición de materiales</p>
         </field>
     </record>
 
-    <!-- Action para mis requisiciones -->
     <record id="action_my_requisitions" model="ir.actions.act_window">
         <field name="name">Mis requisiciones</field>
         <field name="res_model">sc360.requisition</field>
-        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_mode">list,kanban,form</field>
         <field name="context">{'search_default_my_requisitions': 1}</field>
     </record>
 
-    <!-- Menú de requisiciones -->
     <menuitem id="menu_requisition"
               name="Requisiciones"
               parent="menu_sc360_operation"
