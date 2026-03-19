@@ -47,7 +47,7 @@
                     <div class="oe_button_box" name="button_box">
                         <button name="%(action_concept_template)d" type="action"
                                 class="oe_stat_button" icon="fa-list"
-                                context="{'search_default_category_id': active_id}">
+                                context="{'search_default_category_id': id}">
                             <field name="concept_count" string="Conceptos" widget="statinfo"/>
                         </button>
                     </div>
