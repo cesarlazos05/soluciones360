@@ -37,7 +37,6 @@ Desarrollado para Soluciones Constructivas 360.
         'security/ir.model.access.csv',
         # Datos
         'data/sequence_data.xml',
-        'data/uom_data.xml',
         # Vistas
         'views/concept_catalog_views.xml',
         'views/project_views.xml',
