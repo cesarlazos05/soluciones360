@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Extensión del form de purchase.order -->
+    <record id="view_purchase_order_form_sc360" model="ir.ui.view">
+        <field name="name">purchase.order.form.sc360</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Agregar campos SC360 después del proveedor -->
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="sc360_project_id" 
+                       placeholder="Seleccionar proyecto SC360..."
+                       options="{'no_create': True}"/>
+                <field name="sc360_budget_line_id"
+                       placeholder="Partida del presupuesto..."
+                       options="{'no_create': True}"
+                       invisible="not sc360_project_id"/>
+                <field name="sc360_requisition_id"
+                       readonly="1"
+                       invisible="not sc360_requisition_id"/>
+            </xpath>
+
+            <!-- Agregar campo de número interno -->
+            <xpath expr="//field[@name='partner_ref']" position="after">
+                <field name="odc_internal_number" placeholder="# interno"/>
+            </xpath>
+
+            <!-- Agregar columnas SC360 en las líneas -->
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="after">
+                <field name="sc360_budget_line_id" optional="hide" column_invisible="not parent.sc360_project_id"/>
+                <field name="sc360_requisition_line_id" optional="hide" column_invisible="not parent.sc360_requisition_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extensión del tree de purchase.order -->
+    <record id="view_purchase_order_tree_sc360" model="ir.ui.view">
+        <field name="name">purchase.order.tree.sc360</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_kpis_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="sc360_project_id" optional="show"/>
+                <field name="category_id" optional="hide"/>
+                <field name="supervisor_id" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extensión del search de purchase.order -->
+    <record id="view_purchase_order_search_sc360" model="ir.ui.view">
+        <field name="name">purchase.order.search.sc360</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="sc360_project_id"/>
+                <field name="sc360_requisition_id"/>
+            </xpath>
+            <xpath expr="//filter[@name='my_purchases']" position="after">
+                <separator/>
+                <filter string="Con proyecto SC360" name="with_project" 
+                        domain="[('sc360_project_id', '!=', False)]"/>
+            </xpath>
+            <xpath expr="//group" position="inside">
+                <filter string="Proyecto SC360" name="group_sc360_project" 
+                        context="{'group_by': 'sc360_project_id'}"/>
+                <filter string="Partida" name="group_category" 
+                        context="{'group_by': 'category_id'}"/>
+                <filter string="Supervisor" name="group_supervisor" 
+                        context="{'group_by': 'supervisor_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Action para ODCs de SC360 -->
+    <record id="action_sc360_purchase_orders" model="ir.actions.act_window">
+        <field name="name">Órdenes de compra</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">tree,kanban,form,pivot,graph</field>
+        <field name="domain">[('sc360_project_id', '!=', False)]</field>
+        <field name="context">{'search_default_group_sc360_project': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No hay órdenes de compra de proyectos SC360
+            </p>
+            <p>
+                Las órdenes de compra se generan desde las requisiciones de materiales.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menú de compras en operación -->
+    <menuitem id="menu_sc360_purchases"
+              name="Órdenes de compra"
+              parent="menu_sc360_operation"
+              action="action_sc360_purchase_orders"
+              sequence="40"/>
+
+</odoo>

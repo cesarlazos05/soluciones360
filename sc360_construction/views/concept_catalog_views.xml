@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================ -->
+    <!-- PARTIDAS (CATEGORÍAS) -->
+    <!-- ============================================ -->
+
+    <!-- Tree view de partidas -->
+    <record id="view_concept_category_tree" model="ir.ui.view">
+        <field name="name">sc360.concept.category.tree</field>
+        <field name="model">sc360.concept.category</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="parent_id"/>
+                <field name="concept_count"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view de partidas -->
+    <record id="view_concept_category_form" model="ir.ui.view">
+        <field name="name">sc360.concept.category.form</field>
+        <field name="model">sc360.concept.category</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_concept_template)d" type="action"
+                                class="oe_stat_button" icon="fa-list"
+                                context="{'search_default_category_id': active_id}">
+                            <field name="concept_count" string="Conceptos" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archivado" bg_color="text-bg-danger" invisible="active"/>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="parent_id"/>
+                            <field name="sequence"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Notas" name="notes">
+                            <field name="notes" placeholder="Notas internas sobre esta partida..."/>
+                        </page>
+                        <page string="Sub-partidas" name="children" invisible="not child_ids">
+                            <field name="child_ids" mode="tree">
+                                <tree>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="concept_count"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search view de partidas -->
+    <record id="view_concept_category_search" model="ir.ui.view">
+        <field name="name">sc360.concept.category.search</field>
+        <field name="model">sc360.concept.category</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="code"/>
+                <field name="name"/>
+                <filter string="Archivados" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Agrupar por">
+                    <filter string="Partida padre" name="group_parent" context="{'group_by': 'parent_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action de partidas -->
+    <record id="action_concept_category" model="ir.actions.act_window">
+        <field name="name">Partidas</field>
+        <field name="res_model">sc360.concept.category</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear la primera partida del catálogo
+            </p>
+            <p>
+                Las partidas agrupan los conceptos de obra por área o especialidad
+                (ej: Preliminares, Albañilería, Instalación Eléctrica, etc.)
+            </p>
+        </field>
+    </record>
+
+    <!-- ============================================ -->
+    <!-- CONCEPTOS -->
+    <!-- ============================================ -->
+
+    <!-- Tree view de conceptos -->
+    <record id="view_concept_template_tree" model="ir.ui.view">
+        <field name="name">sc360.concept.template.tree</field>
+        <field name="model">sc360.concept.template</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="code"/>
+                <field name="category_id"/>
+                <field name="name"/>
+                <field name="uom_id"/>
+                <field name="base_unit_price" widget="monetary"/>
+                <field name="includes_labor"/>
+                <field name="material_count"/>
+                <field name="usage_count"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view de conceptos -->
+    <record id="view_concept_template_form" model="ir.ui.view">
+        <field name="name">sc360.concept.template.form</field>
+        <field name="model">sc360.concept.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_view_materials" type="object" string="Ver materiales"
+                            class="oe_highlight" icon="fa-cubes" invisible="material_count == 0"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_materials" type="object"
+                                class="oe_stat_button" icon="fa-cubes">
+                            <field name="material_count" string="Materiales" widget="statinfo"/>
+                        </button>
+                        <button class="oe_stat_button" icon="fa-building"
+                                type="object" name="action_view_materials">
+                            <field name="usage_count" string="Usos" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archivado" bg_color="text-bg-danger" invisible="active"/>
+                    <group>
+                        <group string="Información general">
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="category_id"/>
+                            <field name="uom_id"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group string="Precio de referencia">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="base_unit_price"/>
+                            <field name="includes_labor"/>
+                            <field name="includes_materials"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Descripción" name="description">
+                            <field name="description" placeholder="Descripción detallada del concepto de obra..."/>
+                        </page>
+                        <page string="Materiales típicos" name="materials">
+                            <field name="material_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="qty_per_unit"/>
+                                    <field name="uom_id"/>
+                                    <field name="unit_price" widget="monetary"/>
+                                    <field name="is_optional"/>
+                                    <field name="notes"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Notas" name="notes">
+                            <field name="notes" placeholder="Notas internas..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search view de conceptos -->
+    <record id="view_concept_template_search" model="ir.ui.view">
+        <field name="name">sc360.concept.template.search</field>
+        <field name="model">sc360.concept.template</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="description"/>
+                <filter string="Con precio" name="with_price" domain="[('base_unit_price', '>', 0)]"/>
+                <filter string="Incluye M.O." name="with_labor" domain="[('includes_labor', '=', True)]"/>
+                <filter string="Archivados" name="inactive" domain="[('active', '=', False)]"/>
+                <separator/>
+                <group expand="1" string="Agrupar por">
+                    <filter string="Partida" name="group_category" context="{'group_by': 'category_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action de conceptos -->
+    <record id="action_concept_template" model="ir.actions.act_window">
+        <field name="name">Conceptos de obra</field>
+        <field name="res_model">sc360.concept.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_group_category': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear el primer concepto de obra
+            </p>
+            <p>
+                Los conceptos de obra son las unidades de trabajo que conforman
+                el presupuesto de un proyecto (ej: Muro de block, Piso cerámico, etc.)
+            </p>
+        </field>
+    </record>
+
+    <!-- ============================================ -->
+    <!-- MENÚS -->
+    <!-- ============================================ -->
+
+    <menuitem id="menu_concept_category"
+              name="Partidas"
+              parent="menu_sc360_catalogs"
+              action="action_concept_category"
+              sequence="10"/>
+
+    <menuitem id="menu_concept_template"
+              name="Conceptos de obra"
+              parent="menu_sc360_catalogs"
+              action="action_concept_template"
+              sequence="20"/>
+
+    <!-- Wizard importar catálogo en configuración -->
+    <menuitem id="menu_import_catalog"
+              name="Importar catálogo"
+              parent="menu_sc360_config"
+              action="action_import_catalog_wizard"
+              sequence="10"/>
+
+</odoo>

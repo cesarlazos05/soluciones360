@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Extensión del form de proyecto -->
+    <record id="view_project_form_sc360" model="ir.ui.view">
+        <field name="name">project.project.form.sc360</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <!-- Agregar botones de estadísticas -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_budget_lines" type="object"
+                        class="oe_stat_button" icon="fa-money"
+                        invisible="not is_construction">
+                    <div class="o_stat_info">
+                        <field name="budget_line_count" class="o_stat_value"/>
+                        <span class="o_stat_text">Presupuesto</span>
+                    </div>
+                </button>
+                <button name="action_view_requisitions" type="object"
+                        class="oe_stat_button" icon="fa-clipboard"
+                        invisible="not is_construction">
+                    <div class="o_stat_info">
+                        <field name="requisition_count" class="o_stat_value"/>
+                        <span class="o_stat_text">Requisiciones</span>
+                    </div>
+                </button>
+                <button name="action_view_purchases" type="object"
+                        class="oe_stat_button" icon="fa-shopping-cart"
+                        invisible="not is_construction">
+                    <div class="o_stat_info">
+                        <field name="purchase_count" class="o_stat_value"/>
+                        <span class="o_stat_text">Compras</span>
+                    </div>
+                </button>
+            </xpath>
+
+            <!-- Agregar página de construcción -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Construcción SC360" name="sc360_construction" invisible="not is_construction">
+                    <group>
+                        <group string="Datos del proyecto">
+                            <field name="is_construction"/>
+                            <field name="project_type"/>
+                            <field name="client_id"/>
+                            <field name="supervisor_id"/>
+                            <field name="architect_id"/>
+                        </group>
+                        <group string="Datos de la obra">
+                            <field name="construction_area"/>
+                            <field name="terrain_area"/>
+                        </group>
+                    </group>
+                    <group string="Domicilio de obra">
+                        <field name="site_address" nolabel="1" placeholder="Dirección completa de la obra..."/>
+                    </group>
+                    <group string="Resumen financiero" invisible="budget_line_count == 0">
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="total_budget"/>
+                            <field name="total_purchased"/>
+                            <field name="total_invoiced"/>
+                        </group>
+                        <group>
+                            <field name="budget_variance" decoration-success="budget_variance >= 0" decoration-danger="budget_variance &lt; 0"/>
+                            <field name="budget_variance_pct" widget="percentage"/>
+                            <field name="budget_execution_pct" widget="progressbar"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+            <!-- Agregar campo is_construction en la parte superior -->
+            <xpath expr="//field[@name='label_tasks']" position="before">
+                <field name="is_construction"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extensión del tree de proyecto -->
+    <record id="view_project_tree_sc360" model="ir.ui.view">
+        <field name="name">project.project.tree.sc360</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="is_construction" optional="hide"/>
+                <field name="project_type" optional="hide"/>
+                <field name="supervisor_id" optional="hide"/>
+                <field name="total_budget" widget="monetary" optional="hide"/>
+                <field name="budget_execution_pct" widget="progressbar" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extensión del search de proyecto -->
+    <record id="view_project_search_sc360" model="ir.ui.view">
+        <field name="name">project.project.search.sc360</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_project_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='my_projects']" position="after">
+                <separator/>
+                <filter string="Proyectos de construcción" name="construction" domain="[('is_construction', '=', True)]"/>
+            </xpath>
+            <xpath expr="//group" position="inside">
+                <filter string="Tipo de proyecto" name="group_project_type" context="{'group_by': 'project_type'}"/>
+                <filter string="Supervisor" name="group_supervisor" context="{'group_by': 'supervisor_id'}"/>
+                <filter string="Cliente" name="group_client" context="{'group_by': 'client_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Action para proyectos de construcción -->
+    <record id="action_sc360_projects" model="ir.actions.act_window">
+        <field name="name">Proyectos de obra</field>
+        <field name="res_model">project.project</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('is_construction', '=', True)]</field>
+        <field name="context">{'default_is_construction': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear el primer proyecto de construcción
+            </p>
+            <p>
+                Gestiona tus proyectos de obra con presupuestos, requisiciones y control de compras.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menú de proyectos en operación -->
+    <menuitem id="menu_sc360_projects"
+              name="Proyectos"
+              parent="menu_sc360_operation"
+              action="action_sc360_projects"
+              sequence="10"/>
+
+</odoo>

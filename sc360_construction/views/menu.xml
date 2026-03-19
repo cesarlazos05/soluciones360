@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Menú principal SC360 -->
+    <menuitem id="menu_sc360_root"
+              name="SC360 Construcción"
+              sequence="45"
+              web_icon="sc360_construction,static/description/icon.png"
+              groups="group_sc360_user"/>
+
+    <!-- Submenú: Operación -->
+    <menuitem id="menu_sc360_operation"
+              name="Operación"
+              parent="menu_sc360_root"
+              sequence="10"/>
+
+    <!-- Submenú: Catálogos -->
+    <menuitem id="menu_sc360_catalogs"
+              name="Catálogos"
+              parent="menu_sc360_root"
+              sequence="20"
+              groups="group_sc360_supervisor"/>
+
+    <!-- Submenú: Reportes -->
+    <menuitem id="menu_sc360_reports"
+              name="Reportes"
+              parent="menu_sc360_root"
+              sequence="30"
+              groups="group_sc360_supervisor"/>
+
+    <!-- Submenú: Configuración -->
+    <menuitem id="menu_sc360_config"
+              name="Configuración"
+              parent="menu_sc360_root"
+              sequence="99"
+              groups="group_sc360_manager"/>
+
+</odoo>

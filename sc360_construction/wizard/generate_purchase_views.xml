@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Form view del wizard -->
+    <record id="view_generate_purchase_wizard_form" model="ir.ui.view">
+        <field name="name">sc360.generate.purchase.wizard.form</field>
+        <field name="model">sc360.generate.purchase.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generar órdenes de compra">
+                <group>
+                    <group>
+                        <field name="requisition_id" readonly="1"/>
+                        <field name="project_id" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="budget_line_id" readonly="1"/>
+                        <field name="vendor_count"/>
+                    </group>
+                </group>
+                <separator string="Líneas a comprar"/>
+                <p class="text-muted">
+                    Asigne un proveedor a cada línea. Se generará una ODC por cada proveedor diferente.
+                </p>
+                <field name="line_ids">
+                    <tree editable="bottom">
+                        <field name="include" widget="boolean_toggle"/>
+                        <field name="product_id" readonly="1"/>
+                        <field name="description" readonly="1"/>
+                        <field name="qty"/>
+                        <field name="uom_id" readonly="1"/>
+                        <field name="vendor_id" required="include"/>
+                        <field name="price_unit"/>
+                        <field name="subtotal" sum="Total"/>
+                        <field name="currency_id" column_invisible="1"/>
+                    </tree>
+                </field>
+                <group class="oe_subtotal_footer">
+                    <field name="currency_id" invisible="1"/>
+                    <field name="amount_total" widget="monetary"/>
+                </group>
+                <footer>
+                    <button name="action_generate" type="object" 
+                            string="Generar ODCs" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action del wizard -->
+    <record id="action_generate_purchase_wizard" model="ir.actions.act_window">
+        <field name="name">Generar órdenes de compra</field>
+        <field name="res_model">sc360.generate.purchase.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
