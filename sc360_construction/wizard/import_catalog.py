@@ -34,6 +34,11 @@ class ImportCatalogWizard(models.TransientModel):
         default=False,
         help="Si encuentra registros con el mismo código, los actualiza en lugar de omitirlos"
     )
+    create_categories = fields.Boolean(
+        "Crear partidas automáticamente",
+        default=True,
+        help="Crea partidas que no existan durante la importación"
+    )
     create_products = fields.Boolean(
         "Crear productos automáticamente",
         default=False,

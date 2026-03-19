@@ -11,7 +11,7 @@ class ConceptCategory(models.Model):
     _order = 'sequence, code'
     _parent_name = 'parent_id'
     _parent_store = True
-    _rec_name = 'complete_name'
+    _rec_name = 'name'
 
     sequence = fields.Integer(default=10)
     code = fields.Char("Código", required=True, index=True)
@@ -33,7 +33,7 @@ class ConceptCategory(models.Model):
     child_ids = fields.One2many('sc360.concept.category', 'parent_id', "Sub-partidas")
 
     concept_ids = fields.One2many('sc360.concept.template', 'category_id', "Conceptos")
-    concept_count = fields.Integer(compute='_compute_concept_count')
+    concept_count = fields.Integer(compute='_compute_concept_count', store=True)
 
     active = fields.Boolean(default=True)
     notes = fields.Text("Notas")
@@ -50,6 +50,7 @@ class ConceptCategory(models.Model):
             else:
                 category.complete_name = category.name
 
+    @api.depends('concept_ids')
     def _compute_concept_count(self):
         for rec in self:
             rec.concept_count = self.env['sc360.concept.template'].search_count([
@@ -61,9 +62,21 @@ class ConceptCategory(models.Model):
         if not self._check_recursion():
             raise ValidationError(_('No puede crear partidas recursivas.'))
 
+    @api.depends('code', 'name')
     def _compute_display_name(self):
         for rec in self:
             rec.display_name = f"[{rec.code}] {rec.name}" if rec.code else rec.name
+
+    def action_view_concepts(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Conceptos de obra',
+            'res_model': 'sc360.concept.template',
+            'view_mode': 'list,form',
+            'domain': [('category_id', '=', self.id)],
+            'context': {'search_default_category_id': self.id},
+        }
 
 
 class ConceptTemplate(models.Model):
@@ -126,6 +139,7 @@ class ConceptTemplate(models.Model):
     # Para búsqueda rápida
     search_keywords = fields.Char("Palabras clave", help="Palabras adicionales para búsqueda")
 
+    @api.depends('code', 'name')
     def _compute_display_name(self):
         for rec in self:
             if rec.code:
@@ -137,8 +151,7 @@ class ConceptTemplate(models.Model):
         for rec in self:
             rec.material_count = len(rec.material_ids)
 
-    @api.model
-    def _name_search(self, name='', domain=None, operator='ilike', limit=100, order=None):
+    def _name_search(self, name, domain=None, operator='ilike', limit=None, order=None):
         """Búsqueda mejorada por código, nombre o palabras clave"""
         domain = domain or []
         if name:
@@ -195,6 +208,7 @@ class ConceptMaterial(models.Model):
         string="Moneda"
     )
 
+    @api.depends('product_id', 'description')
     def _compute_display_name(self):
         for rec in self:
             rec.display_name = rec.product_id.name if rec.product_id else rec.description or 'Material'

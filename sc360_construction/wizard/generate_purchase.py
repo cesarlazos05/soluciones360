@@ -33,7 +33,7 @@ class GeneratePurchaseWizard(models.TransientModel):
         "Proveedores",
         compute='_compute_summary'
     )
-    total_amount = fields.Float(
+    amount_total = fields.Float(
         "Total estimado",
         compute='_compute_summary'
     )
@@ -78,7 +78,7 @@ class GeneratePurchaseWizard(models.TransientModel):
         for wizard in self:
             included_lines = wizard.line_ids.filtered(lambda l: l.include and l.vendor_id)
             wizard.vendor_count = len(set(included_lines.mapped('vendor_id').ids))
-            wizard.total_amount = sum(included_lines.mapped('subtotal'))
+            wizard.amount_total = sum(included_lines.mapped('subtotal'))
 
     def action_generate(self):
         """Genera ODCs agrupadas por proveedor"""
