@@ -1,6 +1,9 @@
+# -*- coding: utf-8 -*-
+
 import base64
 import io
-from odoo import models, fields, api
+
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 try:

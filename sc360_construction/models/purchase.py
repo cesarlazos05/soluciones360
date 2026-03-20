@@ -1,4 +1,6 @@
-from odoo import models, fields, api
+# -*- coding: utf-8 -*-
+
+from odoo import api, fields, models
 
 
 class PurchaseOrder(models.Model):

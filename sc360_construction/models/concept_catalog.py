@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -27,7 +27,6 @@ class ConceptCategory(models.Model):
         index=True,
         ondelete='cascade'
     )
-    parent_path = fields.Char(index=True, unaccent=False)
     child_ids = fields.One2many('sc360.concept.category', 'parent_id', "Sub-partidas")
 
     concept_ids = fields.One2many('sc360.concept.template', 'category_id', "Conceptos")
@@ -51,9 +50,7 @@ class ConceptCategory(models.Model):
     @api.depends('concept_ids')
     def _compute_concept_count(self):
         for rec in self:
-            rec.concept_count = self.env['sc360.concept.template'].search_count([
-                ('category_id', 'child_of', rec.id)
-            ])
+            rec.concept_count = len(rec.concept_ids)
 
     @api.constrains('parent_id')
     def _check_category_recursion(self):
