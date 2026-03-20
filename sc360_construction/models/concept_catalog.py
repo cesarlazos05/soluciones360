@@ -129,14 +129,6 @@ class ConceptTemplate(models.Model):
     # Para búsqueda rápida
     search_keywords = fields.Char("Palabras clave", help="Palabras adicionales para búsqueda")
 
-    @api.depends('code', 'name')
-    def _compute_display_name(self):
-        for rec in self:
-            if rec.code:
-                rec.display_name = f"[{rec.code}] {rec.name}"
-            else:
-                rec.display_name = rec.name
-
     def _compute_material_count(self):
         for rec in self:
             rec.material_count = len(rec.material_ids)
@@ -170,6 +162,7 @@ class ConceptMaterial(models.Model):
     _name = 'sc360.concept.material'
     _description = 'Material típico de concepto'
     _order = 'sequence, id'
+    _rec_name = 'description'
 
     sequence = fields.Integer(default=10)
     concept_id = fields.Many2one(
@@ -208,11 +201,6 @@ class ConceptMaterial(models.Model):
         store=True,
         string="Moneda"
     )
-
-    @api.depends('product_id', 'description')
-    def _compute_display_name(self):
-        for rec in self:
-            rec.display_name = rec.product_id.name if rec.product_id else rec.description or 'Material'
 
     @api.onchange('product_id')
     def _onchange_product_id(self):

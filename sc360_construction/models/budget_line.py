@@ -154,14 +154,6 @@ class BudgetLine(models.Model):
 
     # === COMPUTES ===
 
-    @api.depends('code', 'name')
-    def _compute_display_name(self):
-        for line in self:
-            if line.code:
-                line.display_name = f"[{line.code}] {line.name}"
-            else:
-                line.display_name = line.name or ''
-
     @api.depends('qty_budget', 'unit_price')
     def _compute_amounts(self):
         for line in self:
