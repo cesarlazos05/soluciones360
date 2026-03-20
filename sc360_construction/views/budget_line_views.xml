@@ -114,7 +114,7 @@
                 <filter string="Sin compras" name="no_purchases" domain="[('amount_purchased', '=', 0)]"/>
                 <filter string="Archivados" name="inactive" domain="[('active', '=', False)]"/>
                 <separator/>
-                <group expand="1" string="Agrupar por">
+                <group string="Agrupar por">
                     <filter string="Proyecto" name="group_project" context="{'group_by': 'project_id'}"/>
                     <filter string="Partida" name="group_by_category" context="{'group_by': 'category_id'}"/>
                 </group>

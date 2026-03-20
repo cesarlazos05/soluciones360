@@ -89,7 +89,8 @@
                 <field name="code"/>
                 <field name="name"/>
                 <filter string="Archivados" name="inactive" domain="[('active', '=', False)]"/>
-                <group expand="0" string="Agrupar por">
+                <separator/>
+                <group string="Agrupar por">
                     <filter string="Partida padre" name="group_parent" context="{'group_by': 'parent_id'}"/>
                 </group>
             </search>
@@ -185,7 +186,7 @@
                 <filter string="Incluye M.O." name="with_labor" domain="[('includes_labor', '=', True)]"/>
                 <filter string="Archivados" name="inactive" domain="[('active', '=', False)]"/>
                 <separator/>
-                <group expand="1" string="Agrupar por">
+                <group string="Agrupar por">
                     <filter string="Partida" name="group_category" context="{'group_by': 'category_id'}"/>
                 </group>
             </search>

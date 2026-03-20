@@ -136,7 +136,7 @@
                 <filter string="Completadas" name="done" domain="[('state', '=', 'done')]"/>
                 <filter string="Canceladas" name="cancelled" domain="[('state', '=', 'cancelled')]"/>
                 <separator/>
-                <group expand="1" string="Agrupar por">
+                <group string="Agrupar por">
                     <filter string="Proyecto" name="group_project" context="{'group_by': 'project_id'}"/>
                     <filter string="Partida" name="group_category" context="{'group_by': 'category_id'}"/>
                     <filter string="Estado" name="group_state" context="{'group_by': 'state'}"/>
