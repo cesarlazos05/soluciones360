@@ -124,7 +124,6 @@
                 <field name="name"/>
                 <field name="project_id"/>
                 <field name="requester_id"/>
-                <field name="category_id"/>
                 <separator/>
                 <filter string="Mis requisiciones" name="my_requisitions"
                         domain="[('requester_id', '=', uid)]"/>
@@ -132,17 +131,8 @@
                 <filter string="Borrador" name="draft" domain="[('state', '=', 'draft')]"/>
                 <filter string="Enviadas" name="sent" domain="[('state', '=', 'sent')]"/>
                 <filter string="En proceso" name="in_progress" domain="[('state', '=', 'in_progress')]"/>
-                <filter string="Parciales" name="partial" domain="[('state', '=', 'partial')]"/>
                 <filter string="Completadas" name="done" domain="[('state', '=', 'done')]"/>
                 <filter string="Canceladas" name="cancelled" domain="[('state', '=', 'cancelled')]"/>
-                <separator/>
-                <group string="Agrupar por">
-                    <filter string="Proyecto" name="group_project" context="{'group_by': 'project_id'}"/>
-                    <filter string="Partida" name="group_category" context="{'group_by': 'category_id'}"/>
-                    <filter string="Estado" name="group_state" context="{'group_by': 'state'}"/>
-                    <filter string="Solicitante" name="group_requester" context="{'group_by': 'requester_id'}"/>
-                    <filter string="Fecha solicitud" name="group_date" context="{'group_by': 'date_request:month'}"/>
-                </group>
             </search>
         </field>
     </record>

@@ -107,17 +107,8 @@
                 <field name="name"/>
                 <field name="project_id"/>
                 <field name="category_id"/>
-                <field name="concept_template_id"/>
                 <separator/>
-                <filter string="Sobre presupuesto" name="over_budget" domain="[('variance', '&lt;', 0)]"/>
-                <filter string="Bajo presupuesto" name="under_budget" domain="[('variance', '>=', 0)]"/>
-                <filter string="Sin compras" name="no_purchases" domain="[('amount_purchased', '=', 0)]"/>
                 <filter string="Archivados" name="inactive" domain="[('active', '=', False)]"/>
-                <separator/>
-                <group string="Agrupar por">
-                    <filter string="Proyecto" name="group_project" context="{'group_by': 'project_id'}"/>
-                    <filter string="Partida" name="group_by_category" context="{'group_by': 'category_id'}"/>
-                </group>
             </search>
         </field>
     </record>
