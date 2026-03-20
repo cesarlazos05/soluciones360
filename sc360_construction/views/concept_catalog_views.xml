@@ -179,14 +179,8 @@
                 <field name="code"/>
                 <field name="name"/>
                 <field name="category_id"/>
-                <field name="description"/>
-                <filter string="Con precio" name="with_price" domain="[('base_unit_price', '>', 0)]"/>
-                <filter string="Incluye M.O." name="with_labor" domain="[('includes_labor', '=', True)]"/>
-                <filter string="Archivados" name="inactive" domain="[('active', '=', False)]"/>
                 <separator/>
-                <group string="Agrupar por">
-                    <filter string="Partida" name="group_category" context="{'group_by': 'category_id'}"/>
-                </group>
+                <filter string="Archivados" name="inactive" domain="[('active', '=', False)]"/>
             </search>
         </field>
     </record>
