@@ -37,13 +37,14 @@ Desarrollado para Soluciones Constructivas 360.
         'security/ir.model.access.csv',
         # Datos
         'data/sequence_data.xml',
+        # Menús principales (antes de vistas que los referencian)
+        'views/menu.xml',
         # Vistas
         'views/concept_catalog_views.xml',
         'views/project_views.xml',
         'views/budget_line_views.xml',
         'views/requisition_views.xml',
         'views/purchase_views.xml',
-        'views/menu.xml',
         # Wizards
         'wizard/generate_purchase_views.xml',
         'wizard/import_catalog_views.xml',
