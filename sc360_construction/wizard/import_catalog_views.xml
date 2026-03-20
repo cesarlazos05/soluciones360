@@ -45,4 +45,11 @@
         <field name="target">new</field>
     </record>
 
+    <!-- Menú (definido aquí para que la action ya exista al momento de cargarse) -->
+    <menuitem id="menu_import_catalog"
+              name="Importar catálogo"
+              parent="menu_sc360_config"
+              action="action_import_catalog_wizard"
+              sequence="10"/>
+
 </odoo>

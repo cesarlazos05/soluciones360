@@ -68,12 +68,6 @@ class Project(models.Model):
     purchase_count = fields.Integer(compute='_compute_purchase_count')
 
     # === TOTALES CALCULADOS ===
-    currency_id = fields.Many2one(
-        'res.currency',
-        default=lambda self: self.env.company.currency_id,
-        string="Moneda"
-    )
-
     total_budget = fields.Monetary(
         "Total presupuesto",
         compute='_compute_budget_totals',

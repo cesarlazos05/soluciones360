@@ -151,6 +151,17 @@ class ConceptTemplate(models.Model):
         for rec in self:
             rec.material_count = len(rec.material_ids)
 
+    def action_view_materials(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Materiales típicos',
+            'res_model': 'sc360.concept.material',
+            'view_mode': 'list,form',
+            'domain': [('concept_id', '=', self.id)],
+            'context': {'default_concept_id': self.id},
+        }
+
     def _name_search(self, name, domain=None, operator='ilike', limit=None, order=None):
         """Búsqueda mejorada por código, nombre o palabras clave"""
         domain = domain or []

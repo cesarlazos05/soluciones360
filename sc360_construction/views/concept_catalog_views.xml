@@ -168,7 +168,6 @@
                         </page>
                     </notebook>
                 </sheet>
-                <chatter/>
             </form>
         </field>
     </record>
@@ -207,10 +206,5 @@
               action="action_concept_template"
               sequence="20"/>
 
-    <menuitem id="menu_import_catalog"
-              name="Importar catálogo"
-              parent="menu_sc360_config"
-              action="action_import_catalog_wizard"
-              sequence="10"/>
 
 </odoo>
