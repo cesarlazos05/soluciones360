@@ -86,13 +86,11 @@
         <field name="model">sc360.concept.category</field>
         <field name="arch" type="xml">
             <search>
+                <field name="complete_name"/>
                 <field name="code"/>
                 <field name="name"/>
-                <filter string="Archivados" name="inactive" domain="[('active', '=', False)]"/>
                 <separator/>
-                <group string="Agrupar por">
-                    <filter string="Partida padre" name="group_parent" context="{'group_by': 'parent_id'}"/>
-                </group>
+                <filter string="Archivados" name="inactive" domain="[('active', '=', False)]"/>
             </search>
         </field>
     </record>

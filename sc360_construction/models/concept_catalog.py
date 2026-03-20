@@ -9,9 +9,7 @@ class ConceptCategory(models.Model):
     _name = 'sc360.concept.category'
     _description = 'Partida de concepto'
     _order = 'sequence, code'
-    _parent_name = 'parent_id'
-    _parent_store = True
-    _rec_name = 'name'
+    _rec_name = 'complete_name'
 
     sequence = fields.Integer(default=10)
     code = fields.Char("Código", required=True, index=True)
@@ -61,11 +59,6 @@ class ConceptCategory(models.Model):
     def _check_category_recursion(self):
         if not self._check_recursion():
             raise ValidationError(_('No puede crear partidas recursivas.'))
-
-    @api.depends('code', 'name')
-    def _compute_display_name(self):
-        for rec in self:
-            rec.display_name = f"[{rec.code}] {rec.name}" if rec.code else rec.name
 
     def action_view_concepts(self):
         self.ensure_one()
