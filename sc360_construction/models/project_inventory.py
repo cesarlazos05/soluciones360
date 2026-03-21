@@ -56,74 +56,7 @@ class ProjectProject(models.Model):
         help='Número de movimientos pendientes'
     )
 
-    # === Sobrescritura de campos de construcción ===
-    is_construction = fields.Boolean(
-        'Es proyecto de construcción',
-        default=True
-    )
-    
-    # Campos existentes del módulo base
-    client_id = fields.Many2one(
-        'res.partner',
-        'Cliente',
-        domain=[('is_company', '=', True)]
-    )
-    
-    supervisor_id = fields.Many2one(
-        'res.users',
-        'Supervisor de obra'
-    )
-    
-    architect_id = fields.Many2one(
-        'res.partner',
-        'Arquitecto'
-    )
-    
-    construction_area = fields.Float(
-        'Superficie construcción (m²)'
-    )
-    
-    terrain_area = fields.Float(
-        'Superficie terreno (m²)'
-    )
-    
-    site_address = fields.Text('Dirección de obra')
-    
-    project_type = fields.Selection([
-        ('admin', 'Administración'),
-        ('llave_mano', 'Llave en mano'),
-        ('supervision', 'Supervisión'),
-        ('remodelacion', 'Remodelación'),
-        ('mantenimiento', 'Mantenimiento'),
-    ], 'Tipo de proyecto')
-    
-    # === Totales (campos existentes) ===
-    total_budget = fields.Float('Total presupuesto')
-    total_purchased = fields.Float('Total comprado')
-    total_received = fields.Float('Total recibido')
-    budget_variance = fields.Float('Variación')
-    budget_variance_pct = fields.Float('Variación %')
-    budget_execution_pct = fields.Float('% Ejecutado')
-    
-    # === Relaciones ===
-    budget_line_ids = fields.One2many(
-        'sc360.budget.line',
-        'project_id',
-        'Líneas de presupuesto'
-    )
-    
-    estimate_ids = fields.One2many(
-        'sc360.estimate',
-        'project_id',
-        'Estimaciones'
-    )
-    
-    requisition_ids = fields.One2many(
-        'sc360.requisition',
-        'project_id',
-        'Requisiciones'
-    )
-    
+    # === Relación con costos indirectos ===
     indirect_cost_ids = fields.One2many(
         'sc360.indirect.cost',
         'project_id',
@@ -278,43 +211,5 @@ class ProjectProject(models.Model):
             'context': {
                 'default_location_dest_id': self.location_id.id,
                 'default_picking_type_id': self.env.ref('stock.picking_type_in').id,
-            },
-        }
-
-    def action_view_estimates(self):
-        """Ver estimaciones del proyecto."""
-        self.ensure_one()
-        return {
-            'type': 'ir.actions.act_window',
-            'name': _('Estimaciones'),
-            'res_model': 'sc360.estimate',
-            'view_mode': 'tree,form,kanban',
-            'domain': [('project_id', '=', self.id)],
-            'context': {'default_project_id': self.id},
-        }
-
-    def action_view_budget(self):
-        """Ver presupuesto del proyecto."""
-        self.ensure_one()
-        return {
-            'type': 'ir.actions.act_window',
-            'name': _('Presupuesto'),
-            'res_model': 'sc360.budget.line',
-            'view_mode': 'tree,form',
-            'domain': [('project_id', '=', self.id)],
-            'context': {'default_project_id': self.id},
-        }
-
-    def action_new_estimate(self):
-        """Crear nueva estimación."""
-        self.ensure_one()
-        return {
-            'type': 'ir.actions.act_window',
-            'name': _('Nueva Estimación'),
-            'res_model': 'sc360.estimate',
-            'view_mode': 'form',
-            'context': {
-                'default_project_id': self.id,
-                'default_supervisor_id': self.supervisor_id.id,
             },
         }
