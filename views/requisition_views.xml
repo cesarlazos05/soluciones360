@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_requisition_list" model="ir.ui.view">
+        <field name="name">sc360.requisition.list</field>
+        <field name="model">sc360.requisition</field>
+        <field name="arch" type="xml">
+            <list decoration-info="state == 'draft'"
+                  decoration-warning="state == 'sent'"
+                  decoration-success="state == 'done'"
+                  decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="date_request"/>
+                <field name="date_required" optional="show"/>
+                <field name="project_id"/>
+                <field name="category_id" optional="show"/>
+                <field name="requester_id"/>
+                <field name="line_count"/>
+                <field name="amount_total" widget="monetary"/>
+                <field name="purchase_count"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state in ('sent', 'in_progress')"
+                       decoration-success="state == 'done'"
+                       decoration-danger="state == 'cancelled'"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_requisition_form" model="ir.ui.view">
+        <field name="name">sc360.requisition.form</field>
+        <field name="model">sc360.requisition</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_send_to_purchase" type="object"
+                            string="Enviar a compras" class="oe_highlight"
+                            invisible="state != 'draft'"/>
+                    <button name="action_create_purchase_orders" type="object"
+                            string="Generar ODCs" class="oe_highlight"
+                            invisible="state not in ('sent', 'in_progress', 'partial')"/>
+                    <button name="action_done" type="object"
+                            string="Marcar completada"
+                            invisible="state not in ('in_progress', 'partial')"/>
+                    <button name="action_set_draft" type="object"
+                            string="Regresar a borrador"
+                            invisible="state not in ('sent', 'cancelled')"/>
+                    <button name="action_cancel" type="object"
+                            string="Cancelar"
+                            invisible="state in ('done', 'cancelled')"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,sent,in_progress,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_purchases" type="object"
+                                class="oe_stat_button" icon="fa-shopping-cart"
+                                invisible="purchase_count == 0">
+                            <field name="purchase_count" string="ODCs" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Información general">
+                            <field name="project_id" readonly="state != 'draft'"/>
+                            <field name="budget_line_id"
+                                   readonly="state != 'draft'"
+                                   options="{'no_create': True}"
+                                   placeholder="Opcional: vincular a partida específica"/>
+                            <field name="requester_id"/>
+                        </group>
+                        <group string="Fechas">
+                            <field name="date_request"/>
+                            <field name="date_required"/>
+                        </group>
+                    </group>
+                    <group string="Motivo / Justificación">
+                        <field name="reason" nolabel="1"
+                               placeholder="Describa el motivo de esta requisición..."
+                               readonly="state not in ('draft', 'sent')"/>
+                    </group>
+                    <notebook>
+                        <page string="Materiales" name="lines">
+                            <field name="line_ids" readonly="state not in ('draft', 'sent')">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="qty"/>
+                                    <field name="uom_id"/>
+                                    <field name="suggested_vendor_id"/>
+                                    <field name="estimated_price" widget="monetary"/>
+                                    <field name="subtotal" widget="monetary" sum="Total"/>
+                                    <field name="qty_purchased" decoration-success="qty_purchased >= qty"/>
+                                    <field name="fully_purchased" invisible="1"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer">
+                                <field name="currency_id" invisible="1"/>
+                                <field name="amount_total" widget="monetary" class="oe_subtotal_footer_separator"/>
+                            </group>
+                        </page>
+                        <page string="Evidencias" name="attachments">
+                            <field name="attachment_ids" widget="many2many_binary"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_requisition_search" model="ir.ui.view">
+        <field name="name">sc360.requisition.search</field>
+        <field name="model">sc360.requisition</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="requester_id"/>
+                <separator/>
+                <filter string="Mis requisiciones" name="my_requisitions"
+                        domain="[('requester_id', '=', uid)]"/>
+                <separator/>
+                <filter string="Borrador" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Enviadas" name="sent" domain="[('state', '=', 'sent')]"/>
+                <filter string="En proceso" name="in_progress" domain="[('state', '=', 'in_progress')]"/>
+                <filter string="Completadas" name="done" domain="[('state', '=', 'done')]"/>
+                <filter string="Canceladas" name="cancelled" domain="[('state', '=', 'cancelled')]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_requisition_kanban" model="ir.ui.view">
+        <field name="name">sc360.requisition.kanban</field>
+        <field name="model">sc360.requisition</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="date_request"/>
+                <field name="requester_id"/>
+                <field name="state"/>
+                <field name="amount_total"/>
+                <field name="currency_id"/>
+                <field name="line_count"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_content">
+                            <div class="o_kanban_record_top mb-0">
+                                <div class="o_kanban_record_headings">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name"/>
+                                    </strong>
+                                </div>
+                                <field name="state" widget="badge"/>
+                            </div>
+                            <div class="o_kanban_record_body">
+                                <field name="project_id"/>
+                                <br/>
+                                <span><t t-out="record.line_count.value"/> materiales</span>
+                            </div>
+                            <div class="o_kanban_record_bottom">
+                                <div class="oe_kanban_bottom_left">
+                                    <field name="amount_total" widget="monetary"/>
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <field name="requester_id" widget="many2one_avatar_user"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_requisition" model="ir.actions.act_window">
+        <field name="name">Requisiciones</field>
+        <field name="res_model">sc360.requisition</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="context">{'search_default_sent': 1, 'search_default_in_progress': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Crear la primera requisición de materiales</p>
+        </field>
+    </record>
+
+    <record id="action_my_requisitions" model="ir.actions.act_window">
+        <field name="name">Mis requisiciones</field>
+        <field name="res_model">sc360.requisition</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="context">{'search_default_my_requisitions': 1}</field>
+    </record>
+
+    <menuitem id="menu_requisition"
+              name="Requisiciones"
+              parent="menu_sc360_operation"
+              action="action_requisition"
+              sequence="30"/>
+
+</odoo>
