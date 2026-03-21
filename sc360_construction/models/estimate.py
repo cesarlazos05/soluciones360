@@ -129,6 +129,19 @@ class SC360Estimate(models.Model):
         string='Evidencias fotográficas'
     )
     
+    # Mano de obra
+    labor_cost_ids = fields.One2many(
+        'sc360.labor.cost',
+        'estimate_id',
+        string='Mano de obra'
+    )
+    labor_total = fields.Monetary(
+        'Total mano de obra',
+        compute='_compute_labor_total',
+        store=True,
+        currency_field='currency_id'
+    )
+    
     # Notas
     notes = fields.Text('Notas / Observaciones')
     rejection_reason = fields.Text('Motivo de rechazo')
@@ -181,11 +194,7 @@ class SC360Estimate(models.Model):
         for estimate in self:
             estimate.line_count = len(estimate.line_ids)
 
-    @api.depends(
-        'line_ids.amount_this',
-        'line_ids.amount_approved',
-        'state'
-    )
+    @api.depends('line_ids.qty_this', 'line_ids.amount_approved', 'state')
     def _compute_totals(self):
         for estimate in self:
             estimate.amount_total = sum(estimate.line_ids.mapped('amount_this'))
@@ -196,6 +205,11 @@ class SC360Estimate(models.Model):
             # Retención
             estimate.amount_retention = estimate.amount_approved * (estimate.retention_pct / 100)
             estimate.amount_to_pay = estimate.amount_approved - estimate.amount_retention
+
+    def _compute_labor_total(self):
+        """Calcula el total de mano de obra."""
+        for estimate in self:
+            estimate.labor_total = sum(estimate.labor_cost_ids.mapped('amount'))
 
     def _compute_previous(self):
         """Calcula acumulados anteriores del proyecto."""

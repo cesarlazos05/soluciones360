@@ -27,3 +27,12 @@ access_estimate_line_manager,sc360.estimate.line.manager,model_sc360_estimate_li
 access_dashboard_user,sc360.dashboard.user,model_sc360_dashboard,sc360_construction.group_sc360_user,1,0,0,0
 access_dashboard_supervisor,sc360.dashboard.supervisor,model_sc360_dashboard,sc360_construction.group_sc360_supervisor,1,0,0,0
 access_dashboard_manager,sc360.dashboard.manager,model_sc360_dashboard,sc360_construction.group_sc360_manager,1,0,0,0
+access_labor_cost_user,sc360.labor.cost.user,model_sc360_labor_cost,sc360_construction.group_sc360_user,1,0,0,0
+access_labor_cost_supervisor,sc360.labor.cost.supervisor,model_sc360_labor_cost,sc360_construction.group_sc360_supervisor,1,1,1,0
+access_labor_cost_manager,sc360.labor.cost.manager,model_sc360_labor_cost,sc360_construction.group_sc360_manager,1,1,1,1
+access_indirect_cost_user,sc360.indirect.cost.user,model_sc360_indirect_cost,sc360_construction.group_sc360_user,1,0,0,0
+access_indirect_cost_supervisor,sc360.indirect.cost.supervisor,model_sc360_indirect_cost,sc360_construction.group_sc360_supervisor,1,1,1,0
+access_indirect_cost_manager,sc360.indirect.cost.manager,model_sc360_indirect_cost,sc360_construction.group_sc360_manager,1,1,1,1
+access_indirect_cost_line_user,sc360.indirect.cost.line.user,model_sc360_indirect_cost_line,sc360_construction.group_sc360_user,1,0,0,0
+access_indirect_cost_line_supervisor,sc360.indirect.cost.line.supervisor,model_sc360_indirect_cost_line,sc360_construction.group_sc360_supervisor,1,1,1,0
+access_indirect_cost_line_manager,sc360.indirect.cost.line.manager,model_sc360_indirect_cost_line,sc360_construction.group_sc360_manager,1,1,1,1

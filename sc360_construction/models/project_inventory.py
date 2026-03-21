@@ -142,6 +142,19 @@ class ProjectProject(models.Model):
         'project_id',
         'Requisiciones'
     )
+    
+    indirect_cost_ids = fields.One2many(
+        'sc360.indirect.cost',
+        'project_id',
+        'Costos indirectos'
+    )
+    
+    indirect_total = fields.Monetary(
+        'Total indirectos',
+        compute='_compute_indirect_total',
+        store=True,
+        currency_field='currency_id'
+    )
 
     # === Métodos de creación ===
 
@@ -246,6 +259,12 @@ class ProjectProject(models.Model):
                 ('state', 'in', ['assigned', 'confirmed', 'waiting']),
             ])
             project.pending_moves = len(moves)
+
+    def _compute_indirect_total(self):
+        """Calcula el total de costos indirectos."""
+        for project in self:
+            confirmed_costs = project.indirect_cost_ids.filtered(lambda c: c.state == 'confirmed')
+            project.indirect_total = sum(confirmed_costs.mapped('distributed_amount'))
 
     # === Acciones ===
 

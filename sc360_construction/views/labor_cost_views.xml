@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Mano de Obra - Formulario dentro de Estimación -->
+    <record id="labor_cost_view_tree" model="ir.ui.view">
+        <field name="name">sc360.labor.cost.tree</field>
+        <field name="model">sc360.labor.cost</field>
+        <field name="arch" type="xml">
+            <tree string="Mano de Obra" editable="bottom">
+                <field name="budget_line_id"/>
+                <field name="worker_type"/>
+                <field name="worker_id" optional="show"/>
+                <field name="date"/>
+                <field name="hours" sum="Total horas"/>
+                <field name="hourly_rate"/>
+                <field name="amount" sum="Total"/>
+                <field name="notes" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Costos Indirectos - Formulario -->
+    <record id="indirect_cost_view_form" model="ir.ui.view">
+        <field name="name">sc360.indirect.cost.form</field>
+        <field name="model">sc360.indirect.cost</field>
+        <field name="arch" type="xml">
+            <form string="Costo Indirecto">
+                <header>
+                    <button name="action_confirm" string="Confirmar" type="object" 
+                            states="draft" class="oe_highlight"/>
+                    <button name="action_draft" string="Volver a Borrador" type="object" 
+                            states="confirmed"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="name"/>
+                            <field name="cost_type"/>
+                        </group>
+                        <group>
+                            <field name="calculation_type"/>
+                            <field name="amount" 
+                                   attrs="{'invisible': [('calculation_type', '!=', 'fixed')],
+                                           'required': [('calculation_type', '=', 'fixed')]}"/>
+                            <field name="percentage"
+                                   attrs="{'invisible': [('calculation_type', '!=', 'percentage')],
+                                           'required': [('calculation_type', '=', 'percentage')]}"/>
+                            <field name="distributed_amount" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Distribución" name="distribution"
+                              attrs="{'invisible': [('calculation_type', '!=', 'prorrate')]}">
+                            <field name="distribution_line_ids">
+                                <tree>
+                                    <field name="budget_line_id"/>
+                                    <field name="amount" sum="Total"/>
+                                    <field name="percentage"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Notas" name="notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Costos Indirectos - Lista -->
+    <record id="indirect_cost_view_tree" model="ir.ui.view">
+        <field name="name">sc360.indirect.cost.tree</field>
+        <field name="model">sc360.indirect.cost</field>
+        <field name="arch" type="xml">
+            <tree string="Costos Indirectos" decoration-muted="state=='draft'">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="cost_type"/>
+                <field name="calculation_type"/>
+                <field name="amount"/>
+                <field name="distributed_amount" sum="Total"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Costos Indirectos - Búsqueda -->
+    <record id="indirect_cost_view_search" model="ir.ui.view">
+        <field name="name">sc360.indirect.cost.search</field>
+        <field name="model">sc360.indirect.cost</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Costos Indirectos">
+                <field name="name"/>
+                <field name="project_id"/>
+                <filter string="Arquitecto" name="architect" 
+                        domain="[('cost_type', '=', 'architect')]"/>
+                <filter string="Ingeniero" name="engineer" 
+                        domain="[('cost_type', '=', 'engineer')]"/>
+                <filter string="Administrativo" name="admin" 
+                        domain="[('cost_type', '=', 'admin')]"/>
+                <group expand="0" string="Agrupar por">
+                    <filter string="Proyecto" name="group_project" context="{'group_by': 'project_id'}"/>
+                    <filter string="Tipo" name="group_type" context="{'group_by': 'cost_type'}"/>
+                    <filter string="Estado" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción: Costos Indirectos desde Proyecto -->
+    <record id="indirect_cost_action_from_project" model="ir.actions.act_window">
+        <field name="name">Costos Indirectos</field>
+        <field name="res_model">sc360.indirect.cost</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('project_id', '=', active_id)]</field>
+        <field name="context">{'default_project_id': active_id}</field>
+    </record>
+
+    <!-- Extensión de Estimación para incluir Mano de Obra -->
+    <record id="estimate_view_form_with_labor" model="ir.ui.view">
+        <field name="name">sc360.estimate.form.labor</field>
+        <field name="model">sc360.estimate</field>
+        <field name="inherit_id" ref="sc360_construction.estimate_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='lines']" position="after">
+                <page string="Mano de Obra" name="labor">
+                    <field name="labor_cost_ids">
+                        <tree editable="bottom">
+                            <field name="budget_line_id"/>
+                            <field name="worker_type"/>
+                            <field name="hours" sum="Total horas"/>
+                            <field name="hourly_rate"/>
+                            <field name="amount" sum="Total"/>
+                        </tree>
+                    </field>
+                    <group class="oe_subtotal_footer">
+                        <field name="labor_total" widget="monetary"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extensión de Proyecto para incluir Costos Indirectos -->
+    <record id="project_view_form_with_indirect" model="ir.ui.view">
+        <field name="name">project.project.form.indirect</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="sc360_construction.project_construction_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Costos Indirectos" name="indirect_costs">
+                    <button name="%(indirect_cost_action_from_project)d" 
+                            string="Ver todos" type="action" class="oe_link"/>
+                    <field name="indirect_cost_ids">
+                        <tree editable="bottom" decoration-muted="state=='draft'">
+                            <field name="sequence" widget="handle"/>
+                            <field name="name"/>
+                            <field name="cost_type"/>
+                            <field name="calculation_type"/>
+                            <field name="amount" sum="Total"/>
+                            <field name="distributed_amount" sum="Distribuido"/>
+                            <field name="state"/>
+                        </tree>
+                    </field>
+                    <group class="oe_subtotal_footer">
+                        <field name="indirect_total" widget="monetary"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Menú: Costos Indirectos -->
+    <menuitem id="menu_sc360_indirect_cost"
+              name="Costos Indirectos"
+              parent="menu_sc360_operation"
+              sequence="60"
+              action="indirect_cost_action_from_project"/>
+
+</odoo>

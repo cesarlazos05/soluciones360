@@ -9,3 +9,4 @@ from . import purchase
 from . import estimate_period
 from . import estimate
 from . import dashboard
+from . import labor_cost
