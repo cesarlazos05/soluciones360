@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, _
-from odoo.exceptions import UserError
 
 
 class ProjectProject(models.Model):
@@ -29,11 +28,10 @@ class ProjectProject(models.Model):
     )
     
     # === Campos de inventario (calculados) ===
-    stock_value = fields.Monetary(
+    stock_value = fields.Float(
         'Valor inventario',
         compute='_compute_stock_value',
         store=False,
-        currency_field='currency_id',
         help='Valor total del inventario en la ubicación de la obra'
     )
     
@@ -64,7 +62,7 @@ class ProjectProject(models.Model):
         default=True
     )
     
-    # Campos existentes (del módulo base)
+    # Campos existentes del módulo base
     client_id = fields.Many2one(
         'res.partner',
         'Cliente',
@@ -100,28 +98,11 @@ class ProjectProject(models.Model):
     ], 'Tipo de proyecto')
     
     # === Totales (campos existentes) ===
-    total_budget = fields.Monetary(
-        'Total presupuesto',
-        currency_field='currency_id'
-    )
-    
-    total_purchased = fields.Monetary(
-        'Total comprado',
-        currency_field='currency_id'
-    )
-    
-    total_received = fields.Monetary(
-        'Total recibido',
-        currency_field='currency_id'
-    )
-    
-    budget_variance = fields.Monetary(
-        'Variación',
-        currency_field='currency_id'
-    )
-    
+    total_budget = fields.Float('Total presupuesto')
+    total_purchased = fields.Float('Total comprado')
+    total_received = fields.Float('Total recibido')
+    budget_variance = fields.Float('Variación')
     budget_variance_pct = fields.Float('Variación %')
-    
     budget_execution_pct = fields.Float('% Ejecutado')
     
     # === Relaciones ===
@@ -149,11 +130,10 @@ class ProjectProject(models.Model):
         'Costos indirectos'
     )
     
-    indirect_total = fields.Monetary(
+    indirect_total = fields.Float(
         'Total indirectos',
         compute='_compute_indirect_total',
-        store=True,
-        currency_field='currency_id'
+        store=True
     )
 
     # === Métodos de creación ===
