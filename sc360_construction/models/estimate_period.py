@@ -9,6 +9,7 @@ class SC360EstimatePeriod(models.Model):
     _name = 'sc360.estimate.period'
     _description = 'Período de Estimación'
     _order = 'date_start desc'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(
         'Nombre',
