@@ -48,31 +48,32 @@ class BudgetLine(models.Model):
         default=lambda self: self.env.ref('uom.product_uom_unit', raise_if_not_found=False)
     )
 
+    # === MONEDA ===
+    currency_id = fields.Many2one(
+        related='project_id.currency_id',
+        store=True
+    )
+
     # === PRESUPUESTO ===
     qty_budget = fields.Float(
         "Cantidad presupuestada",
         default=1.0,
         digits='Product Unit of Measure'
     )
-    unit_price = fields.Float(
+    unit_price = fields.Monetary(
         "P.U.",
-        digits='Product Price'
+        currency_field='currency_id'
     )
-    amount_budget = fields.Float(
+    amount_budget = fields.Monetary(
         "Importe presupuesto",
         compute='_compute_amounts',
         store=True,
-        digits='Product Price'
-    )
-
-    currency_id = fields.Many2one(
-        related='project_id.currency_id',
-        store=True
+        currency_field='currency_id'
     )
 
     # === T.P.U. (opcional, informativo) ===
     tpu_number = fields.Char("No. T.P.U.")
-    tpu_price = fields.Float("$ T.P.U.", digits='Product Price')
+    tpu_price = fields.Monetary("$ T.P.U.", currency_field='currency_id')
     tpu_percentage = fields.Float("% T.P.U.", digits=(5, 2))
 
     # === EJECUCIÓN (calculado desde compras) ===
@@ -82,11 +83,11 @@ class BudgetLine(models.Model):
         store=True,
         digits='Product Unit of Measure'
     )
-    amount_purchased = fields.Float(
+    amount_purchased = fields.Monetary(
         "Importe comprado",
         compute='_compute_execution',
         store=True,
-        digits='Product Price'
+        currency_field='currency_id'
     )
     qty_received = fields.Float(
         "Cantidad recibida",
@@ -94,17 +95,17 @@ class BudgetLine(models.Model):
         store=True,
         digits='Product Unit of Measure'
     )
-    amount_received = fields.Float(
+    amount_received = fields.Monetary(
         "Importe recibido",
         compute='_compute_execution',
         store=True,
-        digits='Product Price'
+        currency_field='currency_id'
     )
-    variance = fields.Float(
+    variance = fields.Monetary(
         "Variación $",
         compute='_compute_execution',
         store=True,
-        digits='Product Price',
+        currency_field='currency_id',
         help="Positivo = ahorro, Negativo = sobregasto"
     )
     variance_pct = fields.Float(
@@ -161,11 +162,11 @@ class BudgetLine(models.Model):
         digits='Product Unit of Measure',
         help='Cantidad total estimada (acumulada)'
     )
-    amount_estimated = fields.Float(
+    amount_estimated = fields.Monetary(
         'Importe estimado',
         compute='_compute_estimated',
         store=True,
-        digits='Product Price',
+        currency_field='currency_id',
         help='Importe total estimado (acumulado)'
     )
     
