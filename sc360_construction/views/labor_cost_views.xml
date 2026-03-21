@@ -6,7 +6,7 @@
         <field name="name">sc360.labor.cost.tree</field>
         <field name="model">sc360.labor.cost</field>
         <field name="arch" type="xml">
-            <tree string="Mano de Obra" editable="bottom">
+            <list string="Mano de Obra" editable="bottom">
                 <field name="budget_line_id"/>
                 <field name="worker_type"/>
                 <field name="worker_id" optional="show"/>
@@ -15,7 +15,7 @@
                 <field name="hourly_rate"/>
                 <field name="amount" sum="Total"/>
                 <field name="notes" optional="show"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -54,11 +54,11 @@
                         <page string="Distribución" name="distribution"
                               attrs="{'invisible': [('calculation_type', '!=', 'prorrate')]}">
                             <field name="distribution_line_ids">
-                                <tree>
+                                <list>
                                     <field name="budget_line_id"/>
                                     <field name="amount" sum="Total"/>
                                     <field name="percentage"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Notas" name="notes">
@@ -75,7 +75,7 @@
         <field name="name">sc360.indirect.cost.tree</field>
         <field name="model">sc360.indirect.cost</field>
         <field name="arch" type="xml">
-            <tree string="Costos Indirectos" decoration-muted="state=='draft'">
+            <list string="Costos Indirectos" decoration-muted="state=='draft'">
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
                 <field name="cost_type"/>
@@ -83,7 +83,7 @@
                 <field name="amount"/>
                 <field name="distributed_amount" sum="Total"/>
                 <field name="state"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -128,13 +128,13 @@
             <xpath expr="//notebook/page[@name='lines']" position="after">
                 <page string="Mano de Obra" name="labor">
                     <field name="labor_cost_ids">
-                        <tree editable="bottom">
+                        <list editable="bottom">
                             <field name="budget_line_id"/>
                             <field name="worker_type"/>
                             <field name="hours" sum="Total horas"/>
                             <field name="hourly_rate"/>
                             <field name="amount" sum="Total"/>
-                        </tree>
+                        </list>
                     </field>
                     <group class="oe_subtotal_footer">
                         <field name="labor_total" widget="monetary"/>
@@ -155,7 +155,7 @@
                     <button name="%(indirect_cost_action_from_project)d" 
                             string="Ver todos" type="action" class="oe_link"/>
                     <field name="indirect_cost_ids">
-                        <tree editable="bottom" decoration-muted="state=='draft'">
+                        <list editable="bottom" decoration-muted="state=='draft'">
                             <field name="sequence" widget="handle"/>
                             <field name="name"/>
                             <field name="cost_type"/>
@@ -163,7 +163,7 @@
                             <field name="amount" sum="Total"/>
                             <field name="distributed_amount" sum="Distribuido"/>
                             <field name="state"/>
-                        </tree>
+                        </list>
                     </field>
                     <group class="oe_subtotal_footer">
                         <field name="indirect_total" widget="monetary"/>

@@ -54,7 +54,7 @@
         <field name="name">sc360.estimate.period.tree</field>
         <field name="model">sc360.estimate.period</field>
         <field name="arch" type="xml">
-            <tree string="Períodos de Estimación" 
+            <list string="Períodos de Estimación" 
                   decoration-info="state=='draft'"
                   decoration-success="state=='open'"
                   decoration-muted="state=='closed'">
@@ -65,7 +65,7 @@
                 <field name="estimate_count"/>
                 <field name="amount_approved" sum="Total"/>
                 <field name="state"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -169,7 +169,7 @@
         <field name="name">sc360.estimate.tree.embedded</field>
         <field name="model">sc360.estimate</field>
         <field name="arch" type="xml">
-            <tree string="Estimaciones" 
+            <list string="Estimaciones" 
                   decoration-info="state=='submitted'"
                   decoration-success="state=='paid'"
                   decoration-warning="state=='approved'">
@@ -179,7 +179,7 @@
                 <field name="amount_total" sum="Total"/>
                 <field name="amount_approved" sum="Aprobado"/>
                 <field name="state"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -188,7 +188,7 @@
         <field name="name">sc360.estimate.tree</field>
         <field name="model">sc360.estimate</field>
         <field name="arch" type="xml">
-            <tree string="Estimaciones" 
+            <list string="Estimaciones" 
                   decoration-info="state=='submitted'"
                   decoration-success="state=='paid'"
                   decoration-warning="state=='approved'">
@@ -200,7 +200,7 @@
                 <field name="amount_approved" sum="Aprobado"/>
                 <field name="progress_pct" widget="progressbar"/>
                 <field name="state"/>
-            </tree>
+            </list>
         </field>
     </record>
 
