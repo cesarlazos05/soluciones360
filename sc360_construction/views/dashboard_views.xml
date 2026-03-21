@@ -5,7 +5,7 @@
     <record id="dashboard_action" model="ir.actions.act_window">
         <field name="name">Dashboard Ejecutivo</field>
         <field name="res_model">project.project</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">kanban,list,form</field>
         <field name="domain">[('is_construction', '=', True)]</field>
         <field name="context">{'default_is_construction': True}</field>
         <field name="help" type="html">
@@ -62,19 +62,21 @@
         </field>
     </record>
 
-    <!-- Vista Tree extendida de Proyecto -->
-    <record id="project_construction_view_tree_dashboard" model="ir.ui.view">
-        <field name="name">project.project.construction.tree.dashboard</field>
+    <!-- Vista Tree de Proyectos (independiente) -->
+    <record id="project_construction_view_list_dashboard" model="ir.ui.view">
+        <field name="name">project.project.construction.list.dashboard</field>
         <field name="model">project.project</field>
-        <field name="inherit_id" ref="project.view_project_tree"/>
-        <field name="domain">[('is_construction', '=', True)]</field>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='name']" position="after">
+            <list string="Proyectos de Construcción" decoration-muted="active==False">
+                <field name="name"/>
                 <field name="client_id"/>
-                <field name="total_budget" sum="Presupuesto"/>
+                <field name="project_type"/>
+                <field name="total_budget" sum="Presupuesto" widget="monetary"/>
                 <field name="budget_execution_pct" widget="progressbar"/>
-                <field name="budget_variance"/>
-            </xpath>
+                <field name="budget_variance" widget="monetary"/>
+                <field name="stage_id"/>
+                <field name="active" optional="hide"/>
+            </list>
         </field>
     </record>
 
