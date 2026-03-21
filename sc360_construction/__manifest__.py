@@ -43,7 +43,9 @@ Desarrollado para Soluciones Constructivas 360.
         'security/ir.model.access.csv',
         # Datos
         'data/sequence_data.xml',
-        # Vistas (deben cargarse antes que el menú)
+        # Menús raíz (se cargan primero)
+        'views/menu_root.xml',
+        # Vistas
         'views/concept_catalog_views.xml',
         'views/project_views.xml',
         'views/budget_line_views.xml',
@@ -55,8 +57,8 @@ Desarrollado para Soluciones Constructivas 360.
         # Wizards
         'wizard/generate_purchase_views.xml',
         'wizard/import_catalog_views.xml',
-        # Menús (debe cargarse al final, después de todas las vistas)
-        'views/menu.xml',
+        # Submenús (se cargan al final, después de las acciones)
+        'views/menu_sub.xml',
     ],
     'demo': [],
     'installable': True,

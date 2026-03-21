@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-    <menuitem id="menu_sc360_root"
-              name="SC360 Construcción"
-              sequence="45"
-              web_icon="sc360_construction,static/description/icon.png"
-              groups="sc360_construction.group_sc360_user"/>
-
-    <menuitem id="menu_sc360_operation"
-              name="Operación"
-              parent="menu_sc360_root"
-              sequence="10"/>
+    <!-- Submenús - se cargan al final porque dependen de las acciones definidas en las vistas -->
 
     <!-- Operación: Dashboard -->
     <menuitem id="menu_sc360_dashboard"
@@ -62,12 +52,6 @@
               sequence="50"
               action="purchase.purchase_rfq"/>
 
-    <menuitem id="menu_sc360_catalogs"
-              name="Catálogos"
-              parent="menu_sc360_root"
-              sequence="20"
-              groups="sc360_construction.group_sc360_supervisor"/>
-
     <!-- Catálogos: Partidas -->
     <menuitem id="menu_sc360_category"
               name="Partidas"
@@ -81,17 +65,4 @@
               parent="menu_sc360_catalogs"
               sequence="20"
               action="sc360_construction.action_concept_template"/>
-
-    <menuitem id="menu_sc360_reports"
-              name="Reportes"
-              parent="menu_sc360_root"
-              sequence="30"
-              groups="sc360_construction.group_sc360_supervisor"/>
-
-    <menuitem id="menu_sc360_config"
-              name="Configuración"
-              parent="menu_sc360_root"
-              sequence="99"
-              groups="sc360_construction.group_sc360_manager"/>
-
 </odoo>
