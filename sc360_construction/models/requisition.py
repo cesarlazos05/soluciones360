@@ -384,7 +384,7 @@ class RequisitionLine(models.Model):
     def _onchange_product(self):
         if self.product_id:
             self.description = self.product_id.display_name
-            self.uom_id = self.product_id.uom_po_id or self.product_id.uom_id
+            self.uom_id = self.product_id.uom_id
 
             last_price = self.env['purchase.order.line'].search([
                 ('product_id', '=', self.product_id.id),

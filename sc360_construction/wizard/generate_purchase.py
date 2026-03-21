@@ -226,4 +226,4 @@ class GeneratePurchaseWizardLine(models.TransientModel):
                 self.price_unit = seller.price
             
             if not self.uom_id:
-                self.uom_id = self.product_id.uom_po_id or self.product_id.uom_id
+                self.uom_id = self.product_id.uom_id
