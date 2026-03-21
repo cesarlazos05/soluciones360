@@ -148,7 +148,7 @@
     <record id="project_view_form_with_indirect" model="ir.ui.view">
         <field name="name">project.project.form.indirect</field>
         <field name="model">project.project</field>
-        <field name="inherit_id" ref="sc360_construction.project_construction_view_form"/>
+        <field name="inherit_id" ref="sc360_construction.view_project_form_sc360"/>
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
                 <page string="Costos Indirectos" name="indirect_costs">
