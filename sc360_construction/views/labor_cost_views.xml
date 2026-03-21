@@ -101,7 +101,7 @@
                         domain="[('cost_type', '=', 'engineer')]"/>
                 <filter string="Administrativo" name="admin" 
                         domain="[('cost_type', '=', 'admin')]"/>
-                <group expand="0" string="Agrupar por">
+                <group>
                     <filter string="Proyecto" name="group_project" context="{'group_by': 'project_id'}"/>
                     <filter string="Tipo" name="group_type" context="{'group_by': 'cost_type'}"/>
                     <filter string="Estado" name="group_state" context="{'group_by': 'state'}"/>

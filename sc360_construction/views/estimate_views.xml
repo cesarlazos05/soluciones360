@@ -222,7 +222,7 @@
                         domain="[('state', '=', 'approved')]"/>
                 <filter string="Pagadas" name="paid" 
                         domain="[('state', '=', 'paid')]"/>
-                <group expand="0" string="Agrupar por">
+                <group>
                     <filter string="Obra" name="group_project" context="{'group_by': 'project_id'}"/>
                     <filter string="Período" name="group_period" context="{'group_by': 'period_id'}"/>
                     <filter string="Estado" name="group_state" context="{'group_by': 'state'}"/>
