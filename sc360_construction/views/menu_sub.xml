@@ -15,7 +15,7 @@
               name="Obras"
               parent="menu_sc360_operation"
               sequence="10"
-              action="project.action_view_project"/>
+              action="sc360_construction.action_sc360_projects"/>
 
     <!-- Operación: Presupuestos -->
     <menuitem id="menu_sc360_budget_line"
