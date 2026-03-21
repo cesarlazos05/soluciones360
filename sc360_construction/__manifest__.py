@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'SC360 Construcción',
-    'version': '19.0.2.0.0',
+    'version': '19.0.3.0.0',
     'category': 'Construction',
     'summary': 'Gestión integral de proyectos de construcción para Soluciones Constructivas 360',
     'description': """
@@ -49,6 +49,7 @@ Desarrollado para Soluciones Constructivas 360.
         'views/requisition_views.xml',
         'views/purchase_views.xml',
         'views/estimate_views.xml',
+        'views/dashboard_views.xml',
         # Wizards
         'wizard/generate_purchase_views.xml',
         'wizard/import_catalog_views.xml',

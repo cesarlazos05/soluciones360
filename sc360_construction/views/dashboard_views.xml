@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Dashboard - Vista Kanban -->
+    <record id="dashboard_view_kanban" model="ir.ui.view">
+        <field name="name">sc360.dashboard.kanban</field>
+        <field name="model">sc360.dashboard</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="project_id" create="false">
+                <field name="id"/>
+                <field name="project_id"/>
+                <field name="budget_total"/>
+                <field name="budget_execution_pct"/>
+                <field name="progress_amount"/>
+                <field name="variance_pct"/>
+                <field name="estimate_count"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_top">
+                                    <h4><field name="project_id"/></h4>
+                                </div>
+                                <div class="row mt8">
+                                    <div class="col-6">
+                                        <div class="text-muted">Presupuesto</div>
+                                        <div class="oe_kanban_record_value">
+                                            <field name="budget_total" widget="monetary"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="text-muted">Ejecutado</div>
+                                        <div class="oe_kanban_record_value">
+                                            <span t-esc="record.budget_execution_pct"/>%
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt8">
+                                    <div class="col-12">
+                                        <div class="progress" style="height: 8px;">
+                                            <div t-attf-class="progress-bar #{record.variance_pct > 5 ? 'bg-success' : record.variance_pct > 0 ? 'bg-warning' : 'bg-danger'}"
+                                                 t-attf-style="width: #{record.budget_execution_pct}%">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt8">
+                                    <div class="col-4">
+                                        <div class="text-center">
+                                            <field name="progress_amount" widget="progressbar"/>
+                                            <small>Avance</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="text-center">
+                                            <field name="estimate_count"/>
+                                            <small>Estimaciones</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="text-center">
+                                            <field name="stock_value" widget="monetary"/>
+                                            <small>Inventario</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Dashboard - Vista Tree -->
+    <record id="dashboard_view_tree" model="ir.ui.view">
+        <field name="name">sc360.dashboard.tree</field>
+        <field name="model">sc360.dashboard</field>
+        <field name="arch" type="xml">
+            <tree string="Dashboard de Obras" create="false">
+                <field name="project_id"/>
+                <field name="budget_total" sum="Total"/>
+                <field name="budget_executed" sum="Ejecutado"/>
+                <field name="budget_execution_pct" widget="progressbar"/>
+                <field name="progress_amount" widget="progressbar"/>
+                <field name="purchases_total" sum="Compras"/>
+                <field name="stock_value" sum="Inventario"/>
+                <field name="variance_amount" sum="Variación"/>
+                <field name="estimate_count"/>
+                <field name="requisition_count"/>
+                <field name="purchase_count"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Dashboard - Vista Pivot -->
+    <record id="dashboard_view_pivot" model="ir.ui.view">
+        <field name="name">sc360.dashboard.pivot</field>
+        <field name="model">sc360.dashboard</field>
+        <field name="arch" type="xml">
+            <pivot string="Análisis de Obras">
+                <field name="budget_total" type="measure"/>
+                <field name="budget_executed" type="measure"/>
+                <field name="progress_amount" type="measure"/>
+                <field name="variance_amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Dashboard - Vista Graph -->
+    <record id="dashboard_view_graph" model="ir.ui.view">
+        <field name="name">sc360.dashboard.graph</field>
+        <field name="model">sc360.dashboard</field>
+        <field name="arch" type="xml">
+            <graph string="Presupuesto vs Ejecutado" type="bar">
+                <field name="project_id"/>
+                <field name="budget_total" type="measure"/>
+                <field name="budget_executed" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Dashboard - Búsqueda -->
+    <record id="dashboard_view_search" model="ir.ui.view">
+        <field name="name">sc360.dashboard.search</field>
+        <field name="model">sc360.dashboard</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Obras">
+                <field name="project_id"/>
+                <filter string="Con Variación" name="with_variance" 
+                        domain="[('variance_amount', '!=', 0)]"/>
+                <filter string="Sobre Presupuesto" name="over_budget" 
+                        domain="[('variance_pct', '&lt;', 0)]"/>
+                <group expand="0" string="Agrupar por">
+                    <filter string="Obra" name="group_project" context="{'group_by': 'project_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción del Dashboard -->
+    <record id="dashboard_action" model="ir.actions.act_window">
+        <field name="name">Dashboard Ejecutivo</field>
+        <field name="res_model">sc360.dashboard</field>
+        <field name="view_mode">kanban,tree,pivot,graph</field>
+        <field name="search_view_id" ref="dashboard_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Vista general del estado de todas las obras
+            </p>
+        </field>
+    </record>
+
+    <!-- Vista de Proyecto extendida con inventario -->
+    <record id="project_construction_view_form" model="ir.ui.view">
+        <field name="name">project.project.construction.form</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_new_estimate" string="Nueva Estimación" 
+                        type="object" class="oe_highlight"
+                        groups="sc360_construction.group_sc360_user"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="is_construction" invisible="1"/>
+                <field name="client_id"/>
+                <field name="supervisor_id"/>
+                <field name="architect_id"/>
+            </xpath>
+            <xpath expr="//field[@name='date_start']" position="after">
+                <field name="project_type"/>
+                <field name="construction_area"/>
+                <field name="terrain_area"/>
+                <field name="site_address"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Presupuesto" name="budget">
+                    <button name="action_view_budget" string="Ver Presupuesto Completo" 
+                            type="object" class="oe_highlight"/>
+                    <field name="budget_line_ids">
+                        <tree editable="bottom" decoration-warning="progress_amount>100">
+                            <field name="category_id"/>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="uom_id"/>
+                            <field name="qty_budget"/>
+                            <field name="unit_price"/>
+                            <field name="amount_budget" sum="Presupuesto"/>
+                            <field name="qty_estimated"/>
+                            <field name="amount_estimated" sum="Estimado"/>
+                            <field name="progress_amount" widget="progressbar"/>
+                            <field name="variance"/>
+                            <field name="variance_pct"/>
+                        </tree>
+                    </field>
+                    <group>
+                        <group>
+                            <field name="total_budget"/>
+                            <field name="total_purchased"/>
+                        </group>
+                        <group>
+                            <field name="total_received"/>
+                            <field name="budget_variance"/>
+                            <field name="budget_variance_pct"/>
+                            <field name="budget_execution_pct" widget="progressbar"/>
+                        </group>
+                    </group>
+                </page>
+                <page string="Estimaciones" name="estimates">
+                    <button name="action_view_estimates" string="Ver Todas las Estimaciones" 
+                            type="object" class="oe_highlight"/>
+                    <field name="estimate_ids">
+                        <tree decoration-info="state=='submitted'"
+                              decoration-success="state=='paid'"
+                              decoration-warning="state=='approved'">
+                            <field name="name"/>
+                            <field name="period_id"/>
+                            <field name="amount_total" sum="Total"/>
+                            <field name="amount_approved" sum="Aprobado"/>
+                            <field name="state"/>
+                        </tree>
+                    </field>
+                </page>
+                <page string="Inventario" name="inventory">
+                    <group>
+                        <group>
+                            <field name="location_id"/>
+                            <field name="warehouse_id"/>
+                            <field name="create_location"/>
+                        </group>
+                        <group>
+                            <field name="stock_value"/>
+                            <field name="stock_products"/>
+                            <field name="pending_receptions"/>
+                        </group>
+                    </group>
+                    <button name="action_view_stock" string="Ver Inventario" 
+                            type="object" class="oe_highlight"/>
+                    <button name="action_view_receptions" string="Ver Recepciones Pendientes" 
+                            type="object"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vista Tree extendida de Proyecto -->
+    <record id="project_construction_view_tree" model="ir.ui.view">
+        <field name="name">project.project.construction.tree</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="client_id"/>
+                <field name="total_budget" sum="Presupuesto"/>
+                <field name="budget_execution_pct" widget="progressbar"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

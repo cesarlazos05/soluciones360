@@ -12,6 +12,14 @@
               parent="menu_sc360_root"
               sequence="10"/>
 
+    <!-- Operación: Dashboard -->
+    <menuitem id="menu_sc360_dashboard"
+              name="Dashboard"
+              parent="menu_sc360_root"
+              sequence="5"
+              action="sc360_construction.dashboard_action"
+              groups="sc360_construction.group_sc360_supervisor"/>
+
     <!-- Operación: Obras -->
     <menuitem id="menu_sc360_project"
               name="Obras"

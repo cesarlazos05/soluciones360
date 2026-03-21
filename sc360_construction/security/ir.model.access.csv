@@ -24,3 +24,6 @@ access_estimate_manager,sc360.estimate.manager,model_sc360_estimate,sc360_constr
 access_estimate_line_user,sc360.estimate.line.user,model_sc360_estimate_line,sc360_construction.group_sc360_user,1,0,0,0
 access_estimate_line_supervisor,sc360.estimate.line.supervisor,model_sc360_estimate_line,sc360_construction.group_sc360_supervisor,1,1,1,0
 access_estimate_line_manager,sc360.estimate.line.manager,model_sc360_estimate_line,sc360_construction.group_sc360_manager,1,1,1,1
+access_dashboard_user,sc360.dashboard.user,model_sc360_dashboard,sc360_construction.group_sc360_user,1,0,0,0
+access_dashboard_supervisor,sc360.dashboard.supervisor,model_sc360_dashboard,sc360_construction.group_sc360_supervisor,1,0,0,0
+access_dashboard_manager,sc360.dashboard.manager,model_sc360_dashboard,sc360_construction.group_sc360_manager,1,0,0,0
