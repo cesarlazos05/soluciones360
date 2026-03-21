@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'SC360 Construcción',
+    'name': 'SC360 Construcción Demo',
     'version': '19.0.1.0.0',
     'category': 'Construction',
     'summary': 'Gestión integral de proyectos de construcción para Soluciones Constructivas 360',
