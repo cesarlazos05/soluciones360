@@ -139,6 +139,7 @@
         </field>
     </record>
 
+    <!-- Acción: Presupuestos -->
     <record id="action_budget_line" model="ir.actions.act_window">
         <field name="name">Presupuestos</field>
         <field name="res_model">sc360.budget.line</field>
@@ -148,17 +149,5 @@
             <p class="o_view_nocontent_smiling_face">No hay líneas de presupuesto</p>
         </field>
     </record>
-
-    <menuitem id="menu_budget_line"
-              name="Presupuestos"
-              parent="menu_sc360_operation"
-              action="action_budget_line"
-              sequence="20"/>
-
-    <menuitem id="menu_budget_report"
-              name="Análisis de presupuesto"
-              parent="menu_sc360_reports"
-              action="action_budget_line"
-              sequence="10"/>
 
 </odoo>

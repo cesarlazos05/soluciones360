@@ -122,10 +122,4 @@
         </field>
     </record>
 
-    <menuitem id="menu_sc360_projects"
-              name="Proyectos"
-              parent="menu_sc360_operation"
-              action="action_sc360_projects"
-              sequence="10"/>
-
 </odoo>

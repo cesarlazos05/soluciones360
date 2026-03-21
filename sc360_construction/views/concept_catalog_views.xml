@@ -185,19 +185,4 @@
         </field>
     </record>
 
-    <!-- MENÚS -->
-
-    <menuitem id="menu_concept_category"
-              name="Partidas"
-              parent="menu_sc360_catalogs"
-              action="action_concept_category"
-              sequence="10"/>
-
-    <menuitem id="menu_concept_template"
-              name="Conceptos de obra"
-              parent="menu_sc360_catalogs"
-              action="action_concept_template"
-              sequence="20"/>
-
-
 </odoo>
