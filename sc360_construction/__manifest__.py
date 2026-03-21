@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'SC360 Construcción',
-    'version': '19.0.1.0.0',
+    'version': '19.0.2.0.0',
     'category': 'Construction',
     'summary': 'Gestión integral de proyectos de construcción para Soluciones Constructivas 360',
     'description': """
@@ -15,6 +15,9 @@ Módulo integral para gestión de proyectos de construcción:
 * Requisiciones de materiales (flujo directo sin aprobaciones)
 * Generación de ODCs multi-proveedor desde requisiciones
 * Trazabilidad completa: presupuesto vs comprado vs recibido
+* Estimaciones de avance por período (semanal/quincenal)
+* Control de inventario por obra
+* Dashboard ejecutivo con KPIs
 * Campos T.P.U. opcionales (informativos)
 
 Desarrollado para Soluciones Constructivas 360.
@@ -37,7 +40,7 @@ Desarrollado para Soluciones Constructivas 360.
         'security/ir.model.access.csv',
         # Datos
         'data/sequence_data.xml',
-        # Menús principales (antes de vistas que los referencian)
+        # Menús principales
         'views/menu.xml',
         # Vistas
         'views/concept_catalog_views.xml',
@@ -45,6 +48,7 @@ Desarrollado para Soluciones Constructivas 360.
         'views/budget_line_views.xml',
         'views/requisition_views.xml',
         'views/purchase_views.xml',
+        'views/estimate_views.xml',
         # Wizards
         'wizard/generate_purchase_views.xml',
         'wizard/import_catalog_views.xml',

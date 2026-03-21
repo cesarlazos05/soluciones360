@@ -146,6 +146,42 @@ class BudgetLine(models.Model):
     active = fields.Boolean(default=True)
     notes = fields.Text("Notas")
 
+    # === ESTIMACIONES (nuevos campos) ===
+    estimate_ids = fields.One2many(
+        'sc360.estimate.line',
+        'budget_line_id',
+        string='Estimaciones'
+    )
+    estimate_count = fields.Integer(compute='_compute_estimate_count')
+    
+    qty_estimated = fields.Float(
+        'Cantidad estimada',
+        compute='_compute_estimated',
+        store=True,
+        digits='Product Unit of Measure',
+        help='Cantidad total estimada (acumulada)'
+    )
+    amount_estimated = fields.Float(
+        'Importe estimado',
+        compute='_compute_estimated',
+        store=True,
+        digits='Product Price',
+        help='Importe total estimado (acumulado)'
+    )
+    
+    progress_qty = fields.Float(
+        '% Avance cant.',
+        compute='_compute_progress',
+        store=True,
+        digits=(5, 2)
+    )
+    progress_amount = fields.Float(
+        '% Avance importe',
+        compute='_compute_progress',
+        store=True,
+        digits=(5, 2)
+    )
+
     # === CONSTRAINTS ===
     _sql_constraints = [
         ('positive_qty', 'CHECK(qty_budget >= 0)', 'La cantidad presupuestada debe ser positiva'),
@@ -153,6 +189,34 @@ class BudgetLine(models.Model):
     ]
 
     # === COMPUTES ===
+
+    def _compute_estimate_count(self):
+        for line in self:
+            line.estimate_count = len(line.estimate_ids)
+
+    @api.depends('estimate_ids.qty_approved', 'estimate_ids.amount_approved', 'estimate_ids.estimate_id.state')
+    def _compute_estimated(self):
+        """Calcula acumulados desde estimaciones aprobadas."""
+        for line in self:
+            approved_lines = line.estimate_ids.filtered(
+                lambda l: l.estimate_id.state in ['approved', 'paid']
+            )
+            line.qty_estimated = sum(approved_lines.mapped('qty_approved'))
+            line.amount_estimated = sum(approved_lines.mapped('amount_approved'))
+
+    @api.depends('qty_estimated', 'amount_estimated', 'qty_budget', 'amount_budget')
+    def _compute_progress(self):
+        """Calcula porcentaje de avance."""
+        for line in self:
+            if line.qty_budget:
+                line.progress_qty = (line.qty_estimated / line.qty_budget) * 100
+            else:
+                line.progress_qty = 0
+            
+            if line.amount_budget:
+                line.progress_amount = (line.amount_estimated / line.amount_budget) * 100
+            else:
+                line.progress_amount = 0
 
     @api.depends('qty_budget', 'unit_price')
     def _compute_amounts(self):

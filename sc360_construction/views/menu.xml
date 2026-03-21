@@ -12,11 +12,67 @@
               parent="menu_sc360_root"
               sequence="10"/>
 
+    <!-- Operación: Obras -->
+    <menuitem id="menu_sc360_project"
+              name="Obras"
+              parent="menu_sc360_operation"
+              sequence="10"
+              action="project.action_view_project"/>
+
+    <!-- Operación: Presupuestos -->
+    <menuitem id="menu_sc360_budget_line"
+              name="Presupuestos"
+              parent="menu_sc360_operation"
+              sequence="20"
+              action="sc360_construction.action_budget_line"/>
+
+    <!-- Operación: Estimaciones -->
+    <menuitem id="menu_sc360_estimate"
+              name="Estimaciones"
+              parent="menu_sc360_operation"
+              sequence="30"
+              action="sc360_construction.estimate_action"/>
+
+    <!-- Operación: Períodos de Estimación -->
+    <menuitem id="menu_sc360_estimate_period"
+              name="Períodos de Estimación"
+              parent="menu_sc360_operation"
+              sequence="35"
+              action="sc360_construction.estimate_period_action"/>
+
+    <!-- Operación: Requisiciones -->
+    <menuitem id="menu_sc360_requisition"
+              name="Requisiciones"
+              parent="menu_sc360_operation"
+              sequence="40"
+              action="sc360_construction.action_requisition"/>
+
+    <!-- Operación: Órdenes de Compra -->
+    <menuitem id="menu_sc360_purchase"
+              name="Órdenes de Compra"
+              parent="menu_sc360_operation"
+              sequence="50"
+              action="purchase.purchase_rfq"/>
+
     <menuitem id="menu_sc360_catalogs"
               name="Catálogos"
               parent="menu_sc360_root"
               sequence="20"
               groups="sc360_construction.group_sc360_supervisor"/>
+
+    <!-- Catálogos: Partidas -->
+    <menuitem id="menu_sc360_category"
+              name="Partidas"
+              parent="menu_sc360_catalogs"
+              sequence="10"
+              action="sc360_construction.action_concept_category"/>
+
+    <!-- Catálogos: Conceptos -->
+    <menuitem id="menu_sc360_concept"
+              name="Conceptos"
+              parent="menu_sc360_catalogs"
+              sequence="20"
+              action="sc360_construction.action_concept_template"/>
 
     <menuitem id="menu_sc360_reports"
               name="Reportes"
