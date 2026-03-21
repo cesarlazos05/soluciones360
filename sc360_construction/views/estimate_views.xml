@@ -9,11 +9,11 @@
             <form string="Período de Estimación">
                 <header>
                     <button name="action_open" string="Abrir" type="object" 
-                            states="draft" class="oe_highlight"/>
+                            invisible="state != 'draft'" class="oe_highlight"/>
                     <button name="action_close" string="Cerrar" type="object" 
-                            states="open" class="oe_highlight"/>
+                            invisible="state != 'open'" class="oe_highlight"/>
                     <button name="action_draft" string="Reabrir" type="object" 
-                            states="closed" groups="sc360_construction.group_sc360_manager"/>
+                            invisible="state != 'closed'" groups="sc360_construction.group_sc360_manager"/>
                     <field name="state" widget="statusbar" 
                            statusbar_visible="draft,open,closed"/>
                 </header>
@@ -36,18 +36,7 @@
                     </group>
                     <notebook>
                         <page string="Estimaciones" name="estimates">
-                            <field name="estimate_ids">
-                                <tree decoration-info="state=='submitted'" 
-                                      decoration-success="state=='paid'"
-                                      decoration-warning="state=='approved'">
-                                    <field name="name"/>
-                                    <field name="project_id"/>
-                                    <field name="contractor_id"/>
-                                    <field name="amount_total" sum="Total"/>
-                                    <field name="amount_approved" sum="Aprobado"/>
-                                    <field name="state"/>
-                                </tree>
-                            </field>
+                            <field name="estimate_ids"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -88,20 +77,20 @@
             <form string="Estimación de Avance">
                 <header>
                     <button name="action_submit" string="Enviar" type="object" 
-                            states="draft" class="oe_highlight"/>
+                            invisible="state != 'draft'" class="oe_highlight"/>
                     <button name="action_approve" string="Aprobar" type="object" 
-                            states="submitted" class="oe_highlight"
+                            invisible="state != 'submitted'" class="oe_highlight"
                             groups="sc360_construction.group_sc360_supervisor"/>
                     <button name="action_reject" string="Rechazar" type="object" 
-                            states="submitted"
+                            invisible="state != 'submitted'"
                             groups="sc360_construction.group_sc360_supervisor"/>
                     <button name="action_pay" string="Marcar Pagada" type="object" 
-                            states="approved" class="oe_highlight"
+                            invisible="state != 'approved'" class="oe_highlight"
                             groups="sc360_construction.group_sc360_manager"/>
                     <button name="action_draft" string="Volver a Borrador" type="object" 
-                            states="submitted,approved"/>
+                            invisible="state not in ('submitted', 'approved')"/>
                     <button name="action_cancel" string="Cancelar" type="object" 
-                            states="draft,submitted"/>
+                            invisible="state not in ('draft', 'submitted')"/>
                     <field name="state" widget="statusbar" 
                            statusbar_visible="draft,submitted,approved,paid"/>
                 </header>
@@ -151,76 +140,10 @@
                         <page string="Conceptos" name="lines">
                             <button name="action_add_all_concepts" string="Añadir todos los conceptos" 
                                     type="object" class="oe_highlight"
-                                    attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                                    invisible="state != 'draft'"/>
                             <field name="line_ids" 
                                    context="{'default_estimate_id': id}"
-                                   attrs="{'readonly': [('state', 'not in', ('draft', 'submitted'))]}">
-                                <tree string="Conceptos" editable="bottom" 
-                                      decoration-warning="progress_amount>100">
-                                    <field name="sequence" widget="handle"/>
-                                    <field name="category_id"/>
-                                    <field name="code"/>
-                                    <field name="name"/>
-                                    <field name="uom_id"/>
-                                    <field name="qty_budget" readonly="1"/>
-                                    <field name="unit_price" readonly="1"/>
-                                    <field name="amount_budget" readonly="1" sum="Presupuesto"/>
-                                    <field name="qty_previous" readonly="1"/>
-                                    <field name="amount_previous" readonly="1" sum="Anterior"/>
-                                    <field name="qty_this"/>
-                                    <field name="unit_price_this" optional="show"/>
-                                    <field name="amount_this" readonly="1" sum="Esta est."/>
-                                    <field name="qty_accumulated" readonly="1"/>
-                                    <field name="amount_accumulated" readonly="1" sum="Acumulado"/>
-                                    <field name="progress_amount" readonly="1" widget="progressbar"/>
-                                    <field name="qty_approved" optional="show" 
-                                           attrs="{'readonly': [('parent.state', '!=', 'approved')]}"/>
-                                    <field name="amount_approved" optional="show" sum="Aprobado"/>
-                                </tree>
-                                <form string="Concepto">
-                                    <group>
-                                        <group>
-                                            <field name="category_id"/>
-                                            <field name="code"/>
-                                            <field name="name"/>
-                                            <field name="uom_id"/>
-                                        </group>
-                                        <group>
-                                            <field name="qty_budget"/>
-                                            <field name="unit_price"/>
-                                            <field name="amount_budget"/>
-                                        </group>
-                                    </group>
-                                    <group>
-                                        <group string="Anterior">
-                                            <field name="qty_previous"/>
-                                            <field name="amount_previous"/>
-                                        </group>
-                                        <group string="Esta Estimación">
-                                            <field name="qty_this"/>
-                                            <field name="unit_price_this"/>
-                                            <field name="amount_this"/>
-                                        </group>
-                                    </group>
-                                    <group>
-                                        <group string="Acumulado">
-                                            <field name="qty_accumulated"/>
-                                            <field name="amount_accumulated"/>
-                                        </group>
-                                        <group string="Avance">
-                                            <field name="progress_qty"/>
-                                            <field name="progress_amount"/>
-                                        </group>
-                                    </group>
-                                    <group groups="sc360_construction.group_sc360_supervisor">
-                                        <group string="Aprobación">
-                                            <field name="qty_approved"/>
-                                            <field name="amount_approved"/>
-                                        </group>
-                                    </group>
-                                    <field name="notes"/>
-                                </form>
-                            </field>
+                                   readonly="state not in ('draft', 'submitted')"/>
                         </page>
                         <page string="Evidencias" name="evidence">
                             <field name="evidence_ids" widget="many2many_binary"/>
@@ -228,7 +151,7 @@
                         <page string="Notas" name="notes" groups="sc360_construction.group_sc360_user">
                             <field name="notes" placeholder="Observaciones..."/>
                             <field name="rejection_reason" 
-                                   attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                                   invisible="state != 'draft'"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -241,7 +164,26 @@
         </field>
     </record>
 
-    <!-- Estimación - Lista -->
+    <!-- Estimación - Lista (para vista One2many) -->
+    <record id="estimate_view_tree_embedded" model="ir.ui.view">
+        <field name="name">sc360.estimate.tree.embedded</field>
+        <field name="model">sc360.estimate</field>
+        <field name="arch" type="xml">
+            <tree string="Estimaciones" 
+                  decoration-info="state=='submitted'"
+                  decoration-success="state=='paid'"
+                  decoration-warning="state=='approved'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="contractor_id"/>
+                <field name="amount_total" sum="Total"/>
+                <field name="amount_approved" sum="Aprobado"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Estimación - Lista (principal) -->
     <record id="estimate_view_tree" model="ir.ui.view">
         <field name="name">sc360.estimate.tree</field>
         <field name="model">sc360.estimate</field>
