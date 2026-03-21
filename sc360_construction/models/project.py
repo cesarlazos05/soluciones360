@@ -106,6 +106,14 @@ class Project(models.Model):
         digits=(5, 2)
     )
 
+    # Moneda
+    currency_id = fields.Many2one(
+        'res.currency',
+        string='Moneda',
+        default=lambda self: self.env.company.currency_id,
+        readonly=True
+    )
+
     # === COMPUTES ===
 
     def _compute_budget_counts(self):

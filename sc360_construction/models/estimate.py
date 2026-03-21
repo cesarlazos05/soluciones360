@@ -148,10 +148,13 @@ class SC360Estimate(models.Model):
     
     # Moneda
     currency_id = fields.Many2one(
-        related='project_id.currency_id',
-        store=True
+        'res.currency',
+        string='Moneda',
+        default=lambda self: self.env.company.currency_id,
+        readonly=True
     )
     company_id = fields.Many2one(
+        'res.company',
         related='project_id.company_id',
         store=True
     )
