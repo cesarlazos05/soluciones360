@@ -39,7 +39,6 @@
         <field name="name">Ajustes SC360</field>
         <field name="res_model">res.config.settings</field>
         <field name="view_mode">form</field>
-        <field name="target">inline</field>
         <field name="context">{'module': 'sc360_construction'}</field>
     </record>
 
