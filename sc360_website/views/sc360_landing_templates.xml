@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- SC360 Logo SVG snippet (reusable) -->
+    <template id="sc360_logo_white">
+        <svg viewBox="0 0 400 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 58.5C8 58.5 14.5 64 27 64C40.5 64 47 57 47 49.5C47 42 41 38.5 28.5 35.5C16 32.5 8 28.5 8 18C8 7.5 17 1 29 1C41 1 48 7 48 7L43.5 14.5C43.5 14.5 37.5 9 29 9C20.5 9 16 14 16 19C16 24 21.5 26.5 33 29.5C44.5 32.5 55 37.5 55 49.5C55 61.5 44.5 72 27 72C9.5 72 2.5 63.5 2.5 63.5L8 58.5Z" fill="#fafafa"/>
+            <path d="M100 55C100 55 92 64 78 64C62 64 52 51.5 52 36.5C52 21.5 63 8 80 8C92 8 99 15 99 15L94.5 22.5C94.5 22.5 89 17 80 17C69 17 61 26 61 36.5C61 47 68.5 56 79.5 56C90.5 56 96 48 96 48L100 55Z" fill="#fafafa"/>
+            <path d="M140 36C148 33 152 27.5 152 21C152 12 145 5 133 5C122 5 115 12 115 12L119.5 19C119.5 19 125 13.5 133 13.5C139 13.5 143.5 17 143.5 22C143.5 27 139.5 31 131 31H126V39H131.5C141 39 145.5 43.5 145.5 49.5C145.5 55.5 140.5 59 133 59C123 59 116.5 52 116.5 52L112 59C112 59 120 67 133.5 67C148 67 154.5 58 154.5 49.5C154.5 41 148.5 37.5 140 36Z" fill="#fafafa"/>
+            <path d="M186 5L178 16C173 23 168 32.5 168 43.5C168 56 176 67 190 67C202.5 67 210 57.5 210 47C210 37 202.5 29.5 192 29.5C185 29.5 180 33 177.5 36C178 29 182 21 187.5 14L196 5H186ZM190.5 37.5C198 37.5 202 42.5 202 47.5C202 53 198 59 190 59C182 59 177 53 177 46C177 43 178 40.5 180 38.5C182.5 37.5 186 37.5 190.5 37.5Z" fill="#fafafa"/>
+            <path d="M240 67C256 67 266 54 266 36C266 18 256 5 240 5C224 5 214 18 214 36C214 54 224 67 240 67ZM240 59C230 59 223 50 223 36C223 22 230 13 240 13C250 13 257 22 257 36C257 50 250 59 240 59Z" fill="#fafafa"/>
+            <rect x="280" y="30" width="40" height="4" rx="2" fill="#14b8a6"/>
+        </svg>
+    </template>
+
+    <!-- SC360 Mark SVG snippet -->
+    <template id="sc360_mark_white">
+        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="8" width="64" height="64" rx="4" stroke="#fafafa" stroke-width="2.5" fill="none"/>
+            <text x="40" y="48" text-anchor="middle" font-family="DM Sans, sans-serif" font-weight="700" font-size="28" fill="#fafafa" letter-spacing="-1">SC</text>
+            <rect x="28" y="56" width="24" height="2.5" rx="1.25" fill="#14b8a6"/>
+        </svg>
+    </template>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- LANDING PAGE TEMPLATE -->
+    <!-- ═══════════════════════════════════════════ -->
+    <template id="sc360_landing_page" name="SC360 Landing Page">
+        <t t-call="website.layout">
+            <t t-set="no_header" t-value="True"/>
+            <t t-set="no_footer" t-value="True"/>
+
+            <div class="sc360-landing">
+
+                <!-- NAV -->
+                <nav class="sc360-nav">
+                    <a href="/" class="sc360-nav-logo">
+                        <t t-call="sc360_website.sc360_logo_white"/>
+                    </a>
+                    <div class="sc360-nav-links">
+                        <a href="#servicios" class="sc360-nav-link">Servicios</a>
+                        <a href="#proyectos" class="sc360-nav-link">Proyectos</a>
+                        <a href="#nosotros" class="sc360-nav-link">Nosotros</a>
+                        <a href="#contacto" class="sc360-nav-cta">Contacto</a>
+                    </div>
+                    <div class="sc360-nav-hamburger">
+                        <span/>
+                        <span/>
+                    </div>
+                </nav>
+
+                <!-- HERO -->
+                <section class="sc360-hero">
+                    <div class="sc360-hero-circle-1"/>
+                    <div class="sc360-hero-glow"/>
+                    <div class="sc360-hero-content">
+                        <span class="sc360-hero-label">Construcción integral</span>
+                        <h1 class="sc360-hero-title">
+                            Construimos lo que<br/>otros solo<br/><span class="sc360-accent">imaginan.</span>
+                        </h1>
+                        <p class="sc360-hero-desc">
+                            Residencial, comercial y obra civil. Más de 15 años transformando visiones en estructuras que perduran.
+                        </p>
+                        <div class="sc360-hero-actions">
+                            <a href="#contacto" class="sc360-btn-primary">Solicitar cotización</a>
+                            <a href="#proyectos" class="sc360-btn-secondary">Ver proyectos</a>
+                        </div>
+                    </div>
+                    <div class="sc360-stats">
+                        <div>
+                            <div class="sc360-stat-number">150<span class="sc360-accent">+</span></div>
+                            <div class="sc360-stat-label">Proyectos entregados</div>
+                        </div>
+                        <div>
+                            <div class="sc360-stat-number">15</div>
+                            <div class="sc360-stat-label">Años de experiencia</div>
+                        </div>
+                        <div>
+                            <div class="sc360-stat-number">98<span class="sc360-accent">%</span></div>
+                            <div class="sc360-stat-label">Clientes satisfechos</div>
+                        </div>
+                        <div>
+                            <div class="sc360-stat-number">3</div>
+                            <div class="sc360-stat-label">Sectores de especialidad</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SERVICIOS -->
+                <section id="servicios" class="sc360-services">
+                    <span class="sc360-section-label">Servicios</span>
+                    <h2 class="sc360-section-title">Lo que hacemos,<br/>lo hacemos bien.</h2>
+                    <div class="sc360-services-grid">
+                        <div class="sc360-service-card">
+                            <div class="sc360-service-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#14b8a6" stroke-width="1.5"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
+                            </div>
+                            <h3 class="sc360-service-title">Residencial</h3>
+                            <p class="sc360-service-desc">Casas, departamentos y desarrollos habitacionales. Desde el diseño arquitectónico hasta la entrega de llaves.</p>
+                            <div class="sc360-service-tags">Casas · Departamentos · Fraccionamientos</div>
+                        </div>
+                        <div class="sc360-service-card">
+                            <div class="sc360-service-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#14b8a6" stroke-width="1.5"><path d="M2 20h20M4 20V8h6v12M10 20V4h10v16M14 8h2M14 12h2M14 16h2"/></svg>
+                            </div>
+                            <h3 class="sc360-service-title">Comercial e Industrial</h3>
+                            <p class="sc360-service-desc">Naves industriales, plazas comerciales y edificios de oficinas. Estructuras que optimizan operación y rentabilidad.</p>
+                            <div class="sc360-service-tags">Naves · Plazas · Oficinas</div>
+                        </div>
+                        <div class="sc360-service-card">
+                            <div class="sc360-service-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#14b8a6" stroke-width="1.5"><path d="M2 18h20M4 18l2-12h12l2 12M8 6h8M12 2v4"/></svg>
+                            </div>
+                            <h3 class="sc360-service-title">Obra Civil</h3>
+                            <p class="sc360-service-desc">Infraestructura pública y privada. Caminos, puentes, urbanización y proyectos de gran escala con estándares rigurosos.</p>
+                            <div class="sc360-service-tags">Infraestructura · Urbanización · Puentes</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PROCESO -->
+                <section id="nosotros" class="sc360-process">
+                    <div class="sc360-process-grid">
+                        <div>
+                            <span class="sc360-section-label">Proceso</span>
+                            <h2 class="sc360-section-title">De la visión<br/>a la realidad.</h2>
+                            <div>
+                                <div class="sc360-process-step">
+                                    <div class="sc360-step-number">01</div>
+                                    <div>
+                                        <div class="sc360-step-title">Consulta inicial</div>
+                                        <div class="sc360-step-desc">Entendemos tu proyecto, tus tiempos y tu presupuesto. Sin compromiso.</div>
+                                    </div>
+                                </div>
+                                <div class="sc360-process-step">
+                                    <div class="sc360-step-number">02</div>
+                                    <div>
+                                        <div class="sc360-step-title">Diseño y planeación</div>
+                                        <div class="sc360-step-desc">Arquitectura, ingeniería estructural y presupuesto detallado.</div>
+                                    </div>
+                                </div>
+                                <div class="sc360-process-step">
+                                    <div class="sc360-step-number">03</div>
+                                    <div>
+                                        <div class="sc360-step-title">Construcción</div>
+                                        <div class="sc360-step-desc">Ejecución con supervisión constante. Reportes de avance semanales.</div>
+                                    </div>
+                                </div>
+                                <div class="sc360-process-step">
+                                    <div class="sc360-step-number">04</div>
+                                    <div>
+                                        <div class="sc360-step-title">Entrega y garantía</div>
+                                        <div class="sc360-step-desc">Inspección final, documentación completa y garantía por escrito.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sc360-process-visual">
+                            <div class="sc360-process-visual-circle"/>
+                            <t t-call="sc360_website.sc360_mark_white"/>
+                            <div class="sc360-process-visual-title">Calidad sin<br/>negociación.</div>
+                            <div class="sc360-process-visual-desc">Cada proyecto pasa por control de calidad en cada fase. No entregamos hasta que esté perfecto.</div>
+                            <div class="sc360-process-visual-badges">
+                                <span>ISO 9001</span>
+                                <span>NOM Compliant</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PROYECTOS -->
+                <section id="proyectos" class="sc360-projects">
+                    <span class="sc360-section-label">Proyectos</span>
+                    <div class="sc360-projects-header">
+                        <h2 class="sc360-section-title" style="margin-bottom: 0;">Trabajo reciente.</h2>
+                        <a href="#" class="sc360-projects-link">Ver todos los proyectos</a>
+                    </div>
+                    <div class="sc360-projects-grid">
+                        <div class="sc360-project-card">
+                            <div class="sc360-project-card-bg" style="background: linear-gradient(135deg, #1a1a2e 0%, #0f766e 100%);"/>
+                            <span class="sc360-project-tag">Residencial</span>
+                            <div style="position: relative; z-index: 1;">
+                                <div class="sc360-project-year">2025</div>
+                                <div class="sc360-project-name">Residencial Los Álamos</div>
+                                <div class="sc360-project-detail">48 viviendas · Monterrey, N.L.</div>
+                            </div>
+                        </div>
+                        <div class="sc360-project-card">
+                            <div class="sc360-project-card-bg" style="background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);"/>
+                            <span class="sc360-project-tag">Comercial</span>
+                            <div style="position: relative; z-index: 1;">
+                                <div class="sc360-project-year">2024</div>
+                                <div class="sc360-project-name">Plaza Comercial Valle</div>
+                                <div class="sc360-project-detail">12,000 m² · Guadalajara, Jal.</div>
+                            </div>
+                        </div>
+                        <div class="sc360-project-card">
+                            <div class="sc360-project-card-bg" style="background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);"/>
+                            <span class="sc360-project-tag">Obra Civil</span>
+                            <div style="position: relative; z-index: 1;">
+                                <div class="sc360-project-year">2024</div>
+                                <div class="sc360-project-name">Vialidad Metropolitana Norte</div>
+                                <div class="sc360-project-detail">3.2 km · Zona Metropolitana</div>
+                            </div>
+                        </div>
+                        <div class="sc360-project-card">
+                            <div class="sc360-project-card-bg" style="background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0a 100%);"/>
+                            <span class="sc360-project-tag">Industrial</span>
+                            <div style="position: relative; z-index: 1;">
+                                <div class="sc360-project-year">2023</div>
+                                <div class="sc360-project-name">Nave Industrial Apodaca</div>
+                                <div class="sc360-project-detail">8,500 m² · Apodaca, N.L.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TESTIMONIAL -->
+                <section class="sc360-testimonial">
+                    <div class="sc360-testimonial-inner">
+                        <div class="sc360-testimonial-bar"/>
+                        <blockquote>
+                            "Contratamos a SC360 para nuestra nave industrial y la entregaron antes de plazo, sin un solo cambio de orden. Es raro encontrar ese nivel de profesionalismo."
+                        </blockquote>
+                        <div class="sc360-testimonial-author">Roberto Mendoza</div>
+                        <div class="sc360-testimonial-role">Director de Operaciones, Grupo Logístico del Norte</div>
+                    </div>
+                </section>
+
+                <!-- CTA -->
+                <section id="contacto" class="sc360-cta">
+                    <div class="sc360-cta-inner">
+                        <h2 class="sc360-cta-title">¿Listo para<br/>construir?</h2>
+                        <p class="sc360-cta-desc">Cuéntanos sobre tu proyecto. La primera consulta es sin costo y sin compromiso.</p>
+                        <div class="sc360-cta-actions">
+                            <a href="/contacto" class="sc360-btn-dark">Agendar consulta gratuita</a>
+                            <a href="https://wa.me/521234567890" class="sc360-btn-outline">WhatsApp directo</a>
+                        </div>
+                        <div class="sc360-cta-contact">
+                            +52 (55) 1234 5678 · contacto@sc360.mx
+                        </div>
+                    </div>
+                </section>
+
+                <!-- FOOTER -->
+                <footer class="sc360-footer">
+                    <a href="/" class="sc360-footer-logo">
+                        <t t-call="sc360_website.sc360_logo_white"/>
+                    </a>
+                    <div class="sc360-footer-links">
+                        <span>Servicios</span>
+                        <span>Proyectos</span>
+                        <span>Nosotros</span>
+                        <span>Contacto</span>
+                    </div>
+                    <span class="sc360-footer-copy">© 2026 SC360. Todos los derechos reservados.</span>
+                </footer>
+
+            </div>
+        </t>
+    </template>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- PAGE REGISTRATION -->
+    <!-- ═══════════════════════════════════════════ -->
+    <record id="sc360_landing_page_view" model="website.page">
+        <field name="name">SC360 Landing</field>
+        <field name="url">/landing</field>
+        <field name="view_id" ref="sc360_landing_page"/>
+        <field name="website_published">True</field>
+        <field name="is_published">True</field>
+    </record>
+
+</odoo>
