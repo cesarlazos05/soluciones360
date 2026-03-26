@@ -1,6 +1,6 @@
 {
     'name': 'SC360 Construccion',
-    'version': '19.0.1.0.0',
+    'version': '19.0.5.0.0',
     'category': 'Construction',
     'summary': 'Gestion de proyectos de construccion con presupuestos, '
                'requisiciones, contratos y estimaciones',
