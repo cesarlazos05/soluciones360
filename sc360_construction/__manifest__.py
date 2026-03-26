@@ -20,7 +20,7 @@
         'security/sc360_security.xml',
         'security/ir.model.access.csv',
         'data/sequence_data.xml',
-        'data/uom_data.xml',
+        # 'data/uom_data.xml',  # TODO: fix UoM conflicts, create manually
         'views/concept_catalog_views.xml',
         'views/project_views.xml',
         'views/budget_views.xml',
