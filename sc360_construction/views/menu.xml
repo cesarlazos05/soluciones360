@@ -1,33 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <!-- ============================================================ -->
+    <!-- Root menu                                                    -->
+    <!-- ============================================================ -->
+
     <menuitem id="menu_sc360_root"
-              name="SC360 Construcción"
+              name="SC360 Construccion"
               sequence="45"
               web_icon="sc360_construction,static/description/icon.png"
               groups="sc360_construction.group_sc360_user"/>
 
+    <!-- ============================================================ -->
+    <!-- Dashboard (sequence=5)                                       -->
+    <!-- ============================================================ -->
+
+    <menuitem id="menu_sc360_dashboard_parent"
+              name="Dashboard"
+              parent="menu_sc360_root"
+              sequence="5"/>
+
+    <menuitem id="menu_sc360_dashboard"
+              name="Control Presupuestal"
+              parent="menu_sc360_dashboard_parent"
+              sequence="10"
+              action="sc360_construction.action_dashboard"/>
+
+    <!-- ============================================================ -->
+    <!-- Operacion (sequence=10)                                      -->
+    <!-- ============================================================ -->
+
     <menuitem id="menu_sc360_operation"
-              name="Operación"
+              name="Operacion"
               parent="menu_sc360_root"
               sequence="10"/>
 
-    <menuitem id="menu_sc360_catalogs"
-              name="Catálogos"
-              parent="menu_sc360_root"
-              sequence="20"
-              groups="sc360_construction.group_sc360_supervisor"/>
+    <menuitem id="menu_sc360_projects"
+              name="Proyectos"
+              parent="menu_sc360_operation"
+              sequence="10"
+              action="sc360_construction.action_sc360_projects"/>
 
-    <menuitem id="menu_sc360_reports"
-              name="Reportes"
-              parent="menu_sc360_root"
+    <menuitem id="menu_sc360_requisition"
+              name="Requisiciones"
+              parent="menu_sc360_operation"
+              sequence="20"
+              action="sc360_construction.action_requisition"/>
+
+    <menuitem id="menu_sc360_contract"
+              name="Contratos"
+              parent="menu_sc360_operation"
               sequence="30"
-              groups="sc360_construction.group_sc360_supervisor"/>
+              action="sc360_construction.action_contract"/>
+
+    <menuitem id="menu_sc360_estimation"
+              name="Estimaciones"
+              parent="menu_sc360_operation"
+              sequence="40"
+              action="sc360_construction.action_estimation"/>
+
+    <menuitem id="menu_sc360_logbook"
+              name="Bitacora"
+              parent="menu_sc360_operation"
+              sequence="50"
+              action="sc360_construction.action_logbook"/>
+
+    <!-- ============================================================ -->
+    <!-- Compras (sequence=20)                                        -->
+    <!-- ============================================================ -->
+
+    <menuitem id="menu_sc360_purchase_parent"
+              name="Compras"
+              parent="menu_sc360_root"
+              sequence="20"/>
+
+    <menuitem id="menu_sc360_purchase_orders"
+              name="Ordenes de Compra"
+              parent="menu_sc360_purchase_parent"
+              sequence="10"
+              action="sc360_construction.action_sc360_purchase_orders"/>
+
+    <!-- ============================================================ -->
+    <!-- Catalogos (sequence=30)                                      -->
+    <!-- ============================================================ -->
+
+    <menuitem id="menu_sc360_catalogs"
+              name="Catalogos"
+              parent="menu_sc360_root"
+              sequence="30"/>
+
+    <menuitem id="menu_sc360_category"
+              name="Partidas"
+              parent="menu_sc360_catalogs"
+              sequence="10"
+              action="sc360_construction.action_concept_category"/>
+
+    <menuitem id="menu_sc360_concept"
+              name="Conceptos"
+              parent="menu_sc360_catalogs"
+              sequence="20"
+              action="sc360_construction.action_concept_template"/>
+
+    <!-- ============================================================ -->
+    <!-- Inventario (sequence=40)                                     -->
+    <!-- ============================================================ -->
+
+    <menuitem id="menu_sc360_inventory_parent"
+              name="Inventario"
+              parent="menu_sc360_root"
+              sequence="40"/>
+
+    <menuitem id="menu_sc360_inventory"
+              name="Inventario por Obra"
+              parent="menu_sc360_inventory_parent"
+              sequence="10"
+              action="stock.action_picking_tree_all"/>
+
+    <!-- ============================================================ -->
+    <!-- Configuracion (sequence=90)                                  -->
+    <!-- ============================================================ -->
 
     <menuitem id="menu_sc360_config"
-              name="Configuración"
+              name="Configuracion"
               parent="menu_sc360_root"
-              sequence="99"
+              sequence="90"
               groups="sc360_construction.group_sc360_manager"/>
+
+    <menuitem id="menu_sc360_settings"
+              name="Ajustes"
+              parent="menu_sc360_config"
+              sequence="10"
+              action="sc360_construction.action_sc360_config_settings"/>
 
 </odoo>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- Logbook Form                                                 -->
+    <!-- ============================================================ -->
+
+    <record id="view_logbook_form" model="ir.ui.view">
+        <field name="name">sc360.logbook.form</field>
+        <field name="model">sc360.logbook</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Informacion general">
+                            <field name="project_id"/>
+                            <field name="date"/>
+                            <field name="author_id"/>
+                        </group>
+                        <group string="Periodo (calculado)">
+                            <field name="period_start" readonly="1"/>
+                            <field name="period_end" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Resumen de Actividades" name="summary">
+                            <field name="summary"
+                                   placeholder="Resumen de actividades por partida..."/>
+                        </page>
+                        <page string="Avance" name="progress">
+                            <field name="progress_notes"
+                                   placeholder="Porcentaje de avance por partida..."/>
+                        </page>
+                        <page string="Observaciones" name="observations">
+                            <field name="observations"
+                                   placeholder="Observaciones generales de la semana..."/>
+                        </page>
+                        <page string="Pendientes" name="pending">
+                            <field name="next_week_pending"
+                                   placeholder="Pendientes para la siguiente semana..."/>
+                        </page>
+                        <page string="Evidencias" name="photos">
+                            <field name="photo_ids" widget="many2many_binary"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Logbook List                                                 -->
+    <!-- ============================================================ -->
+
+    <record id="view_logbook_list" model="ir.ui.view">
+        <field name="name">sc360.logbook.list</field>
+        <field name="model">sc360.logbook</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="date"/>
+                <field name="author_id"/>
+                <field name="period_start" optional="show"/>
+                <field name="period_end" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Logbook Calendar                                             -->
+    <!-- ============================================================ -->
+
+    <record id="view_logbook_calendar" model="ir.ui.view">
+        <field name="name">sc360.logbook.calendar</field>
+        <field name="model">sc360.logbook</field>
+        <field name="arch" type="xml">
+            <calendar string="Bitacora" date_start="date" color="project_id"
+                      mode="month" quick_create="0">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="author_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Logbook Search                                               -->
+    <!-- ============================================================ -->
+
+    <record id="view_logbook_search" model="ir.ui.view">
+        <field name="name">sc360.logbook.search</field>
+        <field name="model">sc360.logbook</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="author_id"/>
+                <separator/>
+                <filter string="Esta semana" name="this_week"
+                        domain="[('date', '&gt;=', '=week_start'),
+                                 ('date', '&lt;', '=week_start +1w')]"/>
+                <filter string="Este mes" name="this_month"
+                        domain="[('date', '&gt;=', 'today =1d')]"/>
+                <group>
+                    <filter string="Proyecto" name="group_project"
+                            context="{'group_by': 'project_id'}"/>
+                    <filter string="Autor" name="group_author"
+                            context="{'group_by': 'author_id'}"/>
+                    <filter string="Fecha" name="group_date"
+                            context="{'group_by': 'date:week'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Logbook Action                                               -->
+    <!-- ============================================================ -->
+
+    <record id="action_logbook" model="ir.actions.act_window">
+        <field name="name">Bitacora</field>
+        <field name="res_model">sc360.logbook</field>
+        <field name="view_mode">list,calendar,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Crear la primera entrada de bitacora</p>
+        </field>
+    </record>
+
+</odoo>

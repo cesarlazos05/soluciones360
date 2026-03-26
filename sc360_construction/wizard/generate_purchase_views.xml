@@ -1,42 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <!-- ============================================================ -->
+    <!-- Generate Purchase Wizard Form                                -->
+    <!-- ============================================================ -->
+
     <record id="view_generate_purchase_wizard_form" model="ir.ui.view">
         <field name="name">sc360.generate.purchase.wizard.form</field>
         <field name="model">sc360.generate.purchase.wizard</field>
         <field name="arch" type="xml">
-            <form string="Generar órdenes de compra">
+            <form string="Generar ordenes de compra">
                 <group>
-                    <group>
-                        <field name="requisition_id" readonly="1"/>
-                        <field name="project_id" readonly="1"/>
-                    </group>
-                    <group>
-                        <field name="budget_line_id" readonly="1"/>
-                        <field name="vendor_count"/>
-                    </group>
+                    <field name="requisition_id" readonly="1"/>
                 </group>
-                <separator string="Líneas a comprar"/>
+                <separator string="Lineas a comprar"/>
                 <p class="text-muted">
-                    Asigne un proveedor a cada línea. Se generará una ODC por cada proveedor diferente.
+                    Asigne un proveedor y precio a cada linea. Se generara una ODC por cada proveedor diferente.
                 </p>
                 <field name="line_ids">
                     <list editable="bottom">
-                        <field name="include" widget="boolean_toggle"/>
+                        <field name="requisition_line_id" column_invisible="1"/>
                         <field name="product_id" readonly="1"/>
                         <field name="description" readonly="1"/>
-                        <field name="qty"/>
+                        <field name="quantity"/>
                         <field name="uom_id" readonly="1"/>
-                        <field name="vendor_id" required="include"/>
+                        <field name="partner_id"/>
                         <field name="price_unit"/>
-                        <field name="subtotal" sum="Total"/>
-                        <field name="currency_id" column_invisible="1"/>
                     </list>
                 </field>
-                <group class="oe_subtotal_footer">
-                    <field name="currency_id" invisible="1"/>
-                    <field name="amount_total" widget="monetary"/>
-                </group>
                 <footer>
                     <button name="action_generate" type="object"
                             string="Generar ODCs" class="btn-primary"/>
@@ -44,13 +35,6 @@
                 </footer>
             </form>
         </field>
-    </record>
-
-    <record id="action_generate_purchase_wizard" model="ir.actions.act_window">
-        <field name="name">Generar órdenes de compra</field>
-        <field name="res_model">sc360.generate.purchase.wizard</field>
-        <field name="view_mode">form</field>
-        <field name="target">new</field>
     </record>
 
 </odoo>

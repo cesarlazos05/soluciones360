@@ -1,26 +1,11 @@
-# -*- coding: utf-8 -*-
 {
-    'name': 'SC360 Construcción Demo',
-    'version': '19.0.1.0.0',
+    'name': 'SC360 Construccion',
+    'version': '19.0.5.1.0',
     'category': 'Construction',
-    'summary': 'Gestión integral de proyectos de construcción para Soluciones Constructivas 360',
-    'description': """
-SC360 Construcción
-==================
-
-Módulo integral para gestión de proyectos de construcción:
-
-* Catálogo maestro de conceptos y partidas
-* Presupuestos por proyecto con control de ejecución
-* Requisiciones de materiales (flujo directo sin aprobaciones)
-* Generación de ODCs multi-proveedor desde requisiciones
-* Trazabilidad completa: presupuesto vs comprado vs recibido
-* Campos T.P.U. opcionales (informativos)
-
-Desarrollado para Soluciones Constructivas 360.
-    """,
-    'author': 'Soluciones Constructivas 360',
-    'website': 'https://sc360.mx',
+    'summary': 'Gestion de proyectos de construccion con presupuestos, '
+               'requisiciones, contratos y estimaciones',
+    'description': 'Modulo para Soluciones Constructivas 360',
+    'author': 'Orvin Odoo',
     'license': 'LGPL-3',
     'depends': [
         'base',
@@ -32,30 +17,22 @@ Desarrollado para Soluciones Constructivas 360.
         'uom',
     ],
     'data': [
-        # Seguridad
         'security/sc360_security.xml',
         'security/ir.model.access.csv',
-        # Datos
         'data/sequence_data.xml',
-        # Menús principales (antes de vistas que los referencian)
-        'views/menu.xml',
-        # Vistas
         'views/concept_catalog_views.xml',
         'views/project_views.xml',
-        'views/budget_line_views.xml',
+        'views/budget_views.xml',
         'views/requisition_views.xml',
+        'views/contract_views.xml',
+        'views/estimation_views.xml',
+        'views/logbook_views.xml',
         'views/purchase_views.xml',
-        # Wizards
+        'views/dashboard_views.xml',
+        'views/res_config_settings_views.xml',
         'wizard/generate_purchase_views.xml',
-        'wizard/import_catalog_views.xml',
+        'views/menu.xml',
     ],
-    'demo': [],
-    'installable': True,
     'application': True,
-    'auto_install': False,
-    'assets': {
-        'web.assets_backend': [
-            'sc360_construction/static/src/css/sc360_styles.css',
-        ],
-    },
+    'installable': True,
 }

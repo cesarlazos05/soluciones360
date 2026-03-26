@@ -1,37 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Extensión del form de purchase.order -->
+    <!-- ============================================================ -->
+    <!-- Inherit purchase.order form                                  -->
+    <!-- ============================================================ -->
+
     <record id="view_purchase_order_form_sc360" model="ir.ui.view">
         <field name="name">purchase.order.form.sc360</field>
         <field name="model">purchase.order</field>
         <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
+            <!-- Add SC360 group after partner_id -->
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="sc360_project_id"
-                       placeholder="Seleccionar proyecto SC360..."
+                       placeholder="Proyecto SC360..."
                        options="{'no_create': True}"/>
-                <field name="sc360_budget_line_id"
-                       placeholder="Partida del presupuesto..."
-                       options="{'no_create': True}"
+                <field name="sc360_category_id"
+                       placeholder="Partida..."
+                       invisible="not sc360_project_id"/>
+                <field name="sc360_concept_id"
+                       placeholder="Concepto..."
                        invisible="not sc360_project_id"/>
                 <field name="sc360_requisition_id"
                        readonly="1"
                        invisible="not sc360_requisition_id"/>
+                <field name="sc360_tpu_reference"
+                       invisible="not sc360_project_id"/>
             </xpath>
 
-            <xpath expr="//field[@name='partner_ref']" position="after">
-                <field name="odc_internal_number" placeholder="# interno"/>
-            </xpath>
-
+            <!-- Add SC360 fields to order lines -->
             <xpath expr="//field[@name='order_line']/list/field[@name='product_id']" position="after">
-                <field name="sc360_budget_line_id" optional="hide" column_invisible="not parent.sc360_project_id"/>
-                <field name="sc360_requisition_line_id" optional="hide" column_invisible="not parent.sc360_requisition_id"/>
+                <field name="sc360_budget_line_id" optional="hide"
+                       column_invisible="not parent.sc360_project_id"/>
+                <field name="sc360_requisition_line_id" optional="hide"
+                       column_invisible="not parent.sc360_requisition_id"/>
             </xpath>
         </field>
     </record>
 
-    <!-- Extensión del search de purchase.order -->
+    <!-- ============================================================ -->
+    <!-- Inherit purchase.order search                                -->
+    <!-- ============================================================ -->
+
     <record id="view_purchase_order_search_sc360" model="ir.ui.view">
         <field name="name">purchase.order.search.sc360</field>
         <field name="model">purchase.order</field>
@@ -43,7 +53,7 @@
             </xpath>
             <xpath expr="//filter[@name='my_purchases']" position="after">
                 <separator/>
-                <filter string="Con proyecto SC360" name="with_project"
+                <filter string="Con proyecto SC360" name="with_sc360_project"
                         domain="[('sc360_project_id', '!=', False)]"/>
             </xpath>
             <xpath expr="//group" position="inside">
@@ -53,22 +63,19 @@
         </field>
     </record>
 
-    <!-- Action para ODCs de SC360 -->
+    <!-- ============================================================ -->
+    <!-- Action: SC360 Purchase Orders                                -->
+    <!-- ============================================================ -->
+
     <record id="action_sc360_purchase_orders" model="ir.actions.act_window">
-        <field name="name">Órdenes de compra</field>
+        <field name="name">Ordenes de Compra</field>
         <field name="res_model">purchase.order</field>
-        <field name="view_mode">list,kanban,form,pivot,graph</field>
+        <field name="view_mode">list,kanban,form</field>
         <field name="domain">[('sc360_project_id', '!=', False)]</field>
         <field name="context">{'search_default_group_sc360_project': 1}</field>
         <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">No hay órdenes de compra de proyectos SC360</p>
+            <p class="o_view_nocontent_smiling_face">No hay ordenes de compra de proyectos SC360</p>
         </field>
     </record>
-
-    <menuitem id="menu_sc360_purchases"
-              name="Órdenes de compra"
-              parent="menu_sc360_operation"
-              action="action_sc360_purchase_orders"
-              sequence="40"/>
 
 </odoo>

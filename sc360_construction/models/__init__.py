@@ -1,7 +1,9 @@
-# -*- coding: utf-8 -*-
-
 from . import concept_catalog
 from . import project
-from . import budget_line
+from . import budget
 from . import requisition
+from . import contract
+from . import estimation
+from . import logbook
 from . import purchase
+from . import res_config_settings
