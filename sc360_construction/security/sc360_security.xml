@@ -7,24 +7,16 @@
         <field name="sequence">100</field>
     </record>
 
-    <!-- Privilege -->
-    <record id="privilege_sc360" model="res.groups.privilege">
-        <field name="name">SC360 Construccion</field>
-        <field name="category_id" ref="module_category_sc360"/>
-    </record>
-
     <!-- Group: Supervisor de Obra (base) -->
     <record id="group_sc360_user" model="res.groups">
         <field name="name">Supervisor de Obra</field>
         <field name="category_id" ref="module_category_sc360"/>
-        <field name="privilege_id" ref="privilege_sc360"/>
     </record>
 
     <!-- Group: Compras (implies user) -->
     <record id="group_sc360_purchase" model="res.groups">
         <field name="name">Compras</field>
         <field name="category_id" ref="module_category_sc360"/>
-        <field name="privilege_id" ref="privilege_sc360"/>
         <field name="implied_ids" eval="[(4, ref('group_sc360_user'))]"/>
     </record>
 
@@ -32,7 +24,6 @@
     <record id="group_sc360_architect" model="res.groups">
         <field name="name">Arquitectura</field>
         <field name="category_id" ref="module_category_sc360"/>
-        <field name="privilege_id" ref="privilege_sc360"/>
         <field name="implied_ids" eval="[(4, ref('group_sc360_user'))]"/>
     </record>
 
@@ -40,7 +31,6 @@
     <record id="group_sc360_manager" model="res.groups">
         <field name="name">Administrador</field>
         <field name="category_id" ref="module_category_sc360"/>
-        <field name="privilege_id" ref="privilege_sc360"/>
         <field name="implied_ids" eval="[(4, ref('group_sc360_purchase')), (4, ref('group_sc360_architect'))]"/>
     </record>
 
