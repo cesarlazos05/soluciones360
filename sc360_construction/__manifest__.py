@@ -1,6 +1,6 @@
 {
     'name': 'SC360 Construccion',
-    'version': '19.0.5.0.0',
+    'version': '19.0.5.1.0',
     'category': 'Construction',
     'summary': 'Gestion de proyectos de construccion con presupuestos, '
                'requisiciones, contratos y estimaciones',
@@ -20,19 +20,6 @@
         'security/sc360_security.xml',
         'security/ir.model.access.csv',
         'data/sequence_data.xml',
-        # 'data/uom_data.xml',  # TODO: fix UoM conflicts, create manually
-        'views/concept_catalog_views.xml',
-        'views/project_views.xml',
-        'views/budget_views.xml',
-        'views/requisition_views.xml',
-        'views/contract_views.xml',
-        'views/estimation_views.xml',
-        'views/logbook_views.xml',
-        'views/purchase_views.xml',
-        'views/dashboard_views.xml',
-        'views/res_config_settings_views.xml',
-        'wizard/generate_purchase_views.xml',
-        'views/menu.xml',
     ],
     'application': True,
     'installable': True,
