@@ -1,41 +1,212 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- SC360 Logo SVG snippet (reusable) -->
-    <template id="sc360_logo_white">
-        <svg viewBox="0 0 400 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 58.5C8 58.5 14.5 64 27 64C40.5 64 47 57 47 49.5C47 42 41 38.5 28.5 35.5C16 32.5 8 28.5 8 18C8 7.5 17 1 29 1C41 1 48 7 48 7L43.5 14.5C43.5 14.5 37.5 9 29 9C20.5 9 16 14 16 19C16 24 21.5 26.5 33 29.5C44.5 32.5 55 37.5 55 49.5C55 61.5 44.5 72 27 72C9.5 72 2.5 63.5 2.5 63.5L8 58.5Z" fill="#fafafa"/>
-            <path d="M100 55C100 55 92 64 78 64C62 64 52 51.5 52 36.5C52 21.5 63 8 80 8C92 8 99 15 99 15L94.5 22.5C94.5 22.5 89 17 80 17C69 17 61 26 61 36.5C61 47 68.5 56 79.5 56C90.5 56 96 48 96 48L100 55Z" fill="#fafafa"/>
-            <path d="M140 36C148 33 152 27.5 152 21C152 12 145 5 133 5C122 5 115 12 115 12L119.5 19C119.5 19 125 13.5 133 13.5C139 13.5 143.5 17 143.5 22C143.5 27 139.5 31 131 31H126V39H131.5C141 39 145.5 43.5 145.5 49.5C145.5 55.5 140.5 59 133 59C123 59 116.5 52 116.5 52L112 59C112 59 120 67 133.5 67C148 67 154.5 58 154.5 49.5C154.5 41 148.5 37.5 140 36Z" fill="#fafafa"/>
-            <path d="M186 5L178 16C173 23 168 32.5 168 43.5C168 56 176 67 190 67C202.5 67 210 57.5 210 47C210 37 202.5 29.5 192 29.5C185 29.5 180 33 177.5 36C178 29 182 21 187.5 14L196 5H186ZM190.5 37.5C198 37.5 202 42.5 202 47.5C202 53 198 59 190 59C182 59 177 53 177 46C177 43 178 40.5 180 38.5C182.5 37.5 186 37.5 190.5 37.5Z" fill="#fafafa"/>
-            <path d="M240 67C256 67 266 54 266 36C266 18 256 5 240 5C224 5 214 18 214 36C214 54 224 67 240 67ZM240 59C230 59 223 50 223 36C223 22 230 13 240 13C250 13 257 22 257 36C257 50 250 59 240 59Z" fill="#fafafa"/>
-            <rect x="280" y="30" width="40" height="4" rx="2" fill="#14b8a6"/>
-        </svg>
-    </template>
-
-    <!-- SC360 Mark SVG snippet -->
-    <template id="sc360_mark_white">
-        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="8" y="8" width="64" height="64" rx="4" stroke="#fafafa" stroke-width="2.5" fill="none"/>
-            <text x="40" y="48" text-anchor="middle" font-family="DM Sans, sans-serif" font-weight="700" font-size="28" fill="#fafafa" letter-spacing="-1">SC</text>
-            <rect x="28" y="56" width="24" height="2.5" rx="1.25" fill="#14b8a6"/>
-        </svg>
-    </template>
-
-    <!-- ═══════════════════════════════════════════ -->
-    <!-- LANDING PAGE TEMPLATE -->
-    <!-- ═══════════════════════════════════════════ -->
     <template id="sc360_landing_page" name="SC360 Landing Page">
         <t t-call="website.layout">
             <t t-set="no_header" t-value="True"/>
             <t t-set="no_footer" t-value="True"/>
+
+            <style>
+                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap');
+
+                /* AGGRESSIVE RESET - Override Odoo/Bootstrap */
+                .sc360-landing,
+                .sc360-landing * {
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    box-sizing: border-box !important;
+                    border: none !important;
+                    text-decoration: none !important;
+                    list-style: none !important;
+                }
+
+                .sc360-landing {
+                    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+                    -webkit-font-smoothing: antialiased !important;
+                    color: #0a0a0a !important;
+                    line-height: 1.5 !important;
+                    background: #fafafa !important;
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    overflow-x: hidden !important;
+                }
+
+                .sc360-landing a { transition: opacity 0.2s !important; cursor: pointer !important; }
+                .sc360-landing a:hover { opacity: 0.85 !important; }
+
+                /* Hide Odoo edit bar in preview */
+                #oe_main_menu_navbar { display: none !important; }
+
+                /* NAV */
+                .sc360-nav {
+                    display: flex !important;
+                    justify-content: space-between !important;
+                    align-items: center !important;
+                    padding: 24px 48px !important;
+                    background: #0a0a0a !important;
+                    position: sticky !important;
+                    top: 0 !important;
+                    z-index: 1000 !important;
+                }
+                .sc360-nav-logo svg { width: 120px !important; height: auto !important; display: block !important; }
+                .sc360-nav-links { display: flex !important; gap: 40px !important; align-items: center !important; }
+                .sc360-nav-link { font-size: 13px !important; color: #a3a3a3 !important; letter-spacing: 0.5px !important; font-weight: 400 !important; }
+                .sc360-nav-cta { font-size: 13px !important; background: #0f766e !important; color: white !important; padding: 10px 24px !important; border-radius: 6px !important; font-weight: 500 !important; letter-spacing: 0.3px !important; display: inline-block !important; }
+
+                /* HERO */
+                .sc360-hero {
+                    background: #0a0a0a !important;
+                    padding: 120px 80px 140px !important;
+                    position: relative !important;
+                    overflow: hidden !important;
+                }
+                .sc360-hero-circle {
+                    position: absolute !important; top: -100px !important; right: -100px !important;
+                    width: 500px !important; height: 500px !important;
+                    border: 1px solid rgba(255,255,255,0.03) !important; border-radius: 50% !important;
+                    pointer-events: none !important;
+                }
+                .sc360-hero-glow {
+                    position: absolute !important; bottom: -200px !important; left: 10% !important;
+                    width: 600px !important; height: 600px !important;
+                    background: #0f766e !important; opacity: 0.04 !important;
+                    border-radius: 50% !important; filter: blur(80px) !important;
+                    pointer-events: none !important;
+                }
+                .sc360-hero-content { position: relative !important; z-index: 1 !important; max-width: 800px !important; }
+                .sc360-hero-label { font-size: 11px !important; letter-spacing: 4px !important; text-transform: uppercase !important; color: #14b8a6 !important; font-weight: 500 !important; display: block !important; }
+                .sc360-hero-title {
+                    font-family: 'DM Sans', sans-serif !important; font-size: 72px !important; font-weight: 700 !important;
+                    line-height: 1.05 !important; letter-spacing: -3px !important; color: #fafafa !important; margin-top: 24px !important;
+                }
+                .sc360-accent { color: #14b8a6 !important; }
+                .sc360-hero-desc { font-size: 19px !important; line-height: 1.7 !important; color: #a3a3a3 !important; max-width: 520px !important; margin-top: 32px !important; }
+                .sc360-hero-actions { display: flex !important; gap: 16px !important; margin-top: 48px !important; }
+                .sc360-btn-primary { font-size: 15px !important; background: #0f766e !important; color: white !important; padding: 16px 36px !important; border-radius: 8px !important; font-weight: 600 !important; letter-spacing: 0.3px !important; display: inline-block !important; }
+                .sc360-btn-secondary { font-size: 15px !important; background: transparent !important; color: #fafafa !important; padding: 16px 36px !important; border-radius: 8px !important; font-weight: 500 !important; border: 1px solid rgba(255,255,255,0.15) !important; display: inline-block !important; }
+
+                /* STATS */
+                .sc360-stats { display: flex !important; gap: 80px !important; margin-top: 100px !important; position: relative !important; z-index: 1 !important; padding-top: 48px !important; border-top: 1px solid rgba(255,255,255,0.08) !important; }
+                .sc360-stat-number { font-family: 'DM Sans', sans-serif !important; font-size: 48px !important; font-weight: 700 !important; color: #fafafa !important; letter-spacing: -2px !important; }
+                .sc360-stat-label { font-size: 13px !important; color: #737373 !important; margin-top: 4px !important; letter-spacing: 0.5px !important; }
+
+                /* SERVICES */
+                .sc360-services { padding: 120px 80px !important; background: #fafafa !important; }
+                .sc360-section-label { font-size: 11px !important; font-weight: 500 !important; letter-spacing: 3px !important; text-transform: uppercase !important; color: #a3a3a3 !important; display: block !important; }
+                .sc360-section-title { font-family: 'DM Sans', sans-serif !important; font-size: 44px !important; font-weight: 500 !important; letter-spacing: -1.5px !important; color: #171717 !important; margin-top: 24px !important; margin-bottom: 64px !important; line-height: 1.15 !important; }
+                .sc360-services-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 32px !important; }
+                .sc360-service-card { padding: 48px 40px !important; background: #f5f5f5 !important; border-radius: 16px !important; display: flex !important; flex-direction: column !important; gap: 24px !important; }
+                .sc360-service-icon { width: 48px !important; height: 48px !important; background: #0a0a0a !important; border-radius: 10px !important; display: flex !important; align-items: center !important; justify-content: center !important; }
+                .sc360-service-icon svg { width: 22px !important; height: 22px !important; }
+                .sc360-service-title { font-family: 'DM Sans', sans-serif !important; font-size: 22px !important; font-weight: 600 !important; color: #171717 !important; letter-spacing: -0.5px !important; }
+                .sc360-service-desc { font-size: 15px !important; line-height: 1.65 !important; color: #737373 !important; }
+                .sc360-service-tags { margin-top: auto !important; padding-top: 24px !important; border-top: 1px solid #d4d4d4 !important; font-size: 12px !important; color: #0f766e !important; font-weight: 500 !important; letter-spacing: 0.5px !important; }
+
+                /* PROCESS */
+                .sc360-process { padding: 120px 80px !important; background: #f5f5f5 !important; border-top: 1px solid #e8e8e8 !important; }
+                .sc360-process-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 100px !important; align-items: center !important; }
+                .sc360-process-step { display: flex !important; gap: 24px !important; padding: 28px 0 !important; border-bottom: 1px solid #d4d4d4 !important; }
+                .sc360-process-step-last { border-bottom: none !important; }
+                .sc360-step-number { font-family: 'DM Sans', sans-serif !important; font-size: 14px !important; font-weight: 700 !important; color: #0f766e !important; min-width: 28px !important; }
+                .sc360-step-title { font-family: 'DM Sans', sans-serif !important; font-size: 17px !important; font-weight: 600 !important; color: #171717 !important; margin-bottom: 6px !important; }
+                .sc360-step-desc { font-size: 14px !important; color: #737373 !important; line-height: 1.6 !important; }
+                .sc360-process-visual {
+                    background: #0a0a0a !important; border-radius: 16px !important; padding: 64px !important;
+                    display: flex !important; flex-direction: column !important; align-items: center !important;
+                    justify-content: center !important; min-height: 500px !important; position: relative !important; overflow: hidden !important;
+                }
+                .sc360-process-visual-circle { position: absolute !important; top: -50% !important; right: -30% !important; width: 400px !important; height: 400px !important; border: 1px solid rgba(255,255,255,0.04) !important; border-radius: 50% !important; pointer-events: none !important; }
+                .sc360-process-visual svg { width: 80px !important; height: auto !important; }
+                .sc360-process-visual-title { font-family: 'DM Sans', sans-serif !important; font-size: 24px !important; font-weight: 600 !important; color: #fafafa !important; letter-spacing: -0.5px !important; margin-top: 40px !important; text-align: center !important; }
+                .sc360-process-visual-desc { font-size: 13px !important; color: #737373 !important; margin-top: 16px !important; line-height: 1.6 !important; max-width: 260px !important; text-align: center !important; }
+                .sc360-process-visual-badges { position: absolute !important; bottom: 40px !important; left: 40px !important; right: 40px !important; display: flex !important; justify-content: space-between !important; }
+                .sc360-process-visual-badges span { font-size: 10px !important; letter-spacing: 2px !important; color: #525252 !important; text-transform: uppercase !important; }
+
+                /* PROJECTS */
+                .sc360-projects { padding: 120px 80px !important; background: #fafafa !important; }
+                .sc360-projects-header { display: flex !important; justify-content: space-between !important; align-items: flex-end !important; margin-top: 24px !important; margin-bottom: 64px !important; }
+                .sc360-projects-link { font-size: 13px !important; color: #0f766e !important; font-weight: 500 !important; letter-spacing: 0.5px !important; border-bottom: 1px solid #0f766e !important; padding-bottom: 2px !important; }
+                .sc360-projects-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 32px !important; }
+                .sc360-project-card { border-radius: 16px !important; overflow: hidden !important; background: #f5f5f5 !important; aspect-ratio: 4/3 !important; display: flex !important; flex-direction: column !important; justify-content: flex-end !important; padding: 40px !important; position: relative !important; }
+                .sc360-project-card-bg { position: absolute !important; inset: 0 !important; opacity: 0.07 !important; }
+                .sc360-project-tag { position: absolute !important; top: 24px !important; right: 24px !important; background: #fafafa !important; padding: 6px 14px !important; border-radius: 20px !important; font-size: 11px !important; color: #525252 !important; font-weight: 500 !important; }
+                .sc360-project-year { font-family: 'DM Sans', sans-serif !important; font-size: 11px !important; color: #0f766e !important; font-weight: 600 !important; letter-spacing: 1px !important; text-transform: uppercase !important; margin-bottom: 8px !important; }
+                .sc360-project-name { font-family: 'DM Sans', sans-serif !important; font-size: 26px !important; font-weight: 600 !important; color: #171717 !important; letter-spacing: -0.5px !important; }
+                .sc360-project-detail { font-size: 14px !important; color: #737373 !important; margin-top: 8px !important; }
+
+                /* TESTIMONIAL */
+                .sc360-testimonial { padding: 120px 80px !important; background: #0a0a0a !important; text-align: center !important; }
+                .sc360-testimonial-inner { max-width: 700px !important; margin: 0 auto !important; }
+                .sc360-testimonial-bar { width: 48px !important; height: 3px !important; background: #0f766e !important; margin: 0 auto 48px !important; border-radius: 2px !important; }
+                .sc360-testimonial blockquote { font-family: 'DM Sans', sans-serif !important; font-size: 28px !important; font-weight: 400 !important; color: #fafafa !important; line-height: 1.5 !important; letter-spacing: -0.5px !important; font-style: normal !important; margin: 0 !important; padding: 0 !important; border: none !important; background: none !important; }
+                .sc360-testimonial-author { font-family: 'DM Sans', sans-serif !important; font-size: 15px !important; font-weight: 600 !important; color: #fafafa !important; margin-top: 40px !important; }
+                .sc360-testimonial-role { font-size: 13px !important; color: #737373 !important; margin-top: 4px !important; }
+
+                /* CTA */
+                .sc360-cta { padding: 120px 80px !important; background: #fafafa !important; text-align: center !important; }
+                .sc360-cta-inner { max-width: 600px !important; margin: 0 auto !important; }
+                .sc360-cta-title { font-family: 'DM Sans', sans-serif !important; font-size: 48px !important; font-weight: 500 !important; letter-spacing: -2px !important; color: #171717 !important; line-height: 1.1 !important; }
+                .sc360-cta-desc { font-size: 17px !important; color: #737373 !important; margin-top: 24px !important; line-height: 1.7 !important; }
+                .sc360-cta-actions { display: flex !important; gap: 16px !important; justify-content: center !important; margin-top: 48px !important; }
+                .sc360-btn-dark { font-size: 15px !important; background: #0a0a0a !important; color: white !important; padding: 18px 40px !important; border-radius: 8px !important; font-weight: 600 !important; letter-spacing: 0.3px !important; display: inline-block !important; }
+                .sc360-btn-outline { font-size: 15px !important; background: transparent !important; color: #171717 !important; padding: 18px 40px !important; border-radius: 8px !important; font-weight: 500 !important; border: 1px solid #d4d4d4 !important; display: inline-block !important; }
+                .sc360-cta-contact { margin-top: 40px !important; font-size: 13px !important; color: #a3a3a3 !important; }
+
+                /* FOOTER */
+                .sc360-footer { padding: 48px 80px !important; background: #0a0a0a !important; display: flex !important; justify-content: space-between !important; align-items: center !important; border-top: 1px solid rgba(255,255,255,0.06) !important; }
+                .sc360-footer-logo svg { width: 90px !important; height: auto !important; display: block !important; }
+                .sc360-footer-links { display: flex !important; gap: 32px !important; }
+                .sc360-footer-links span { font-size: 12px !important; color: #525252 !important; }
+                .sc360-footer-copy { font-size: 11px !important; color: #525252 !important; }
+
+                /* RESPONSIVE */
+                @media (max-width: 768px) {
+                    .sc360-nav { padding: 16px 20px !important; }
+                    .sc360-nav-logo svg { width: 80px !important; }
+                    .sc360-nav-links { display: none !important; }
+                    .sc360-hero { padding: 64px 24px 72px !important; }
+                    .sc360-hero-title { font-size: 38px !important; letter-spacing: -1.5px !important; }
+                    .sc360-hero-desc { font-size: 15px !important; margin-top: 20px !important; }
+                    .sc360-hero-actions { flex-direction: column !important; margin-top: 32px !important; }
+                    .sc360-btn-primary, .sc360-btn-secondary { text-align: center !important; display: block !important; font-size: 14px !important; padding: 14px 28px !important; }
+                    .sc360-stats { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 24px !important; margin-top: 56px !important; padding-top: 32px !important; }
+                    .sc360-stat-number { font-size: 32px !important; letter-spacing: -1.5px !important; }
+                    .sc360-stat-label { font-size: 11px !important; }
+                    .sc360-services { padding: 64px 24px !important; }
+                    .sc360-section-title { font-size: 28px !important; letter-spacing: -1px !important; margin-bottom: 36px !important; }
+                    .sc360-services-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+                    .sc360-service-card { padding: 32px 24px !important; gap: 16px !important; }
+                    .sc360-process { padding: 64px 24px !important; }
+                    .sc360-process-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+                    .sc360-process-visual { padding: 48px 24px !important; min-height: auto !important; }
+                    .sc360-projects { padding: 64px 24px !important; }
+                    .sc360-projects-header { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; }
+                    .sc360-projects-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+                    .sc360-project-card { padding: 24px !important; }
+                    .sc360-project-name { font-size: 20px !important; }
+                    .sc360-testimonial { padding: 64px 24px !important; }
+                    .sc360-testimonial blockquote { font-size: 20px !important; }
+                    .sc360-cta { padding: 64px 24px !important; }
+                    .sc360-cta-title { font-size: 32px !important; letter-spacing: -1.5px !important; }
+                    .sc360-cta-actions { flex-direction: column !important; }
+                    .sc360-btn-dark, .sc360-btn-outline { display: block !important; text-align: center !important; padding: 16px 32px !important; font-size: 14px !important; }
+                    .sc360-footer { padding: 32px 24px !important; flex-direction: column !important; align-items: center !important; gap: 20px !important; text-align: center !important; }
+                }
+            </style>
 
             <div class="sc360-landing">
 
                 <!-- NAV -->
                 <nav class="sc360-nav">
                     <a href="/" class="sc360-nav-logo">
-                        <t t-call="sc360_website.sc360_logo_white"/>
+                        <svg viewBox="0 0 400 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 58.5C8 58.5 14.5 64 27 64C40.5 64 47 57 47 49.5C47 42 41 38.5 28.5 35.5C16 32.5 8 28.5 8 18C8 7.5 17 1 29 1C41 1 48 7 48 7L43.5 14.5C43.5 14.5 37.5 9 29 9C20.5 9 16 14 16 19C16 24 21.5 26.5 33 29.5C44.5 32.5 55 37.5 55 49.5C55 61.5 44.5 72 27 72C9.5 72 2.5 63.5 2.5 63.5L8 58.5Z" fill="#fafafa"/>
+                            <path d="M100 55C100 55 92 64 78 64C62 64 52 51.5 52 36.5C52 21.5 63 8 80 8C92 8 99 15 99 15L94.5 22.5C94.5 22.5 89 17 80 17C69 17 61 26 61 36.5C61 47 68.5 56 79.5 56C90.5 56 96 48 96 48L100 55Z" fill="#fafafa"/>
+                            <path d="M140 36C148 33 152 27.5 152 21C152 12 145 5 133 5C122 5 115 12 115 12L119.5 19C119.5 19 125 13.5 133 13.5C139 13.5 143.5 17 143.5 22C143.5 27 139.5 31 131 31H126V39H131.5C141 39 145.5 43.5 145.5 49.5C145.5 55.5 140.5 59 133 59C123 59 116.5 52 116.5 52L112 59C112 59 120 67 133.5 67C148 67 154.5 58 154.5 49.5C154.5 41 148.5 37.5 140 36Z" fill="#fafafa"/>
+                            <path d="M186 5L178 16C173 23 168 32.5 168 43.5C168 56 176 67 190 67C202.5 67 210 57.5 210 47C210 37 202.5 29.5 192 29.5C185 29.5 180 33 177.5 36C178 29 182 21 187.5 14L196 5H186ZM190.5 37.5C198 37.5 202 42.5 202 47.5C202 53 198 59 190 59C182 59 177 53 177 46C177 43 178 40.5 180 38.5C182.5 37.5 186 37.5 190.5 37.5Z" fill="#fafafa"/>
+                            <path d="M240 67C256 67 266 54 266 36C266 18 256 5 240 5C224 5 214 18 214 36C214 54 224 67 240 67ZM240 59C230 59 223 50 223 36C223 22 230 13 240 13C250 13 257 22 257 36C257 50 250 59 240 59Z" fill="#fafafa"/>
+                            <rect x="280" y="30" width="40" height="4" rx="2" fill="#14b8a6"/>
+                        </svg>
                     </a>
                     <div class="sc360-nav-links">
                         <a href="#servicios" class="sc360-nav-link">Servicios</a>
@@ -43,24 +214,16 @@
                         <a href="#nosotros" class="sc360-nav-link">Nosotros</a>
                         <a href="#contacto" class="sc360-nav-cta">Contacto</a>
                     </div>
-                    <div class="sc360-nav-hamburger">
-                        <span/>
-                        <span/>
-                    </div>
                 </nav>
 
                 <!-- HERO -->
                 <section class="sc360-hero">
-                    <div class="sc360-hero-circle-1"/>
+                    <div class="sc360-hero-circle"/>
                     <div class="sc360-hero-glow"/>
                     <div class="sc360-hero-content">
                         <span class="sc360-hero-label">Construcción integral</span>
-                        <h1 class="sc360-hero-title">
-                            Construimos lo que<br/>otros solo<br/><span class="sc360-accent">imaginan.</span>
-                        </h1>
-                        <p class="sc360-hero-desc">
-                            Residencial, comercial y obra civil. Más de 15 años transformando visiones en estructuras que perduran.
-                        </p>
+                        <h1 class="sc360-hero-title">Construimos lo que<br/>otros solo<br/><span class="sc360-accent">imaginan.</span></h1>
+                        <p class="sc360-hero-desc">Residencial, comercial y obra civil. Más de 15 años transformando visiones en estructuras que perduran.</p>
                         <div class="sc360-hero-actions">
                             <a href="#contacto" class="sc360-btn-primary">Solicitar cotización</a>
                             <a href="#proyectos" class="sc360-btn-secondary">Ver proyectos</a>
@@ -146,7 +309,7 @@
                                         <div class="sc360-step-desc">Ejecución con supervisión constante. Reportes de avance semanales.</div>
                                     </div>
                                 </div>
-                                <div class="sc360-process-step">
+                                <div class="sc360-process-step sc360-process-step-last">
                                     <div class="sc360-step-number">04</div>
                                     <div>
                                         <div class="sc360-step-title">Entrega y garantía</div>
@@ -157,7 +320,11 @@
                         </div>
                         <div class="sc360-process-visual">
                             <div class="sc360-process-visual-circle"/>
-                            <t t-call="sc360_website.sc360_mark_white"/>
+                            <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="8" y="8" width="64" height="64" rx="4" stroke="#fafafa" stroke-width="2.5" fill="none"/>
+                                <text x="40" y="48" text-anchor="middle" font-family="DM Sans, sans-serif" font-weight="700" font-size="28" fill="#fafafa" letter-spacing="-1">SC</text>
+                                <rect x="28" y="56" width="24" height="2.5" rx="1.25" fill="#14b8a6"/>
+                            </svg>
                             <div class="sc360-process-visual-title">Calidad sin<br/>negociación.</div>
                             <div class="sc360-process-visual-desc">Cada proyecto pasa por control de calidad en cada fase. No entregamos hasta que esté perfecto.</div>
                             <div class="sc360-process-visual-badges">
@@ -172,41 +339,41 @@
                 <section id="proyectos" class="sc360-projects">
                     <span class="sc360-section-label">Proyectos</span>
                     <div class="sc360-projects-header">
-                        <h2 class="sc360-section-title" style="margin-bottom: 0;">Trabajo reciente.</h2>
+                        <h2 class="sc360-section-title" style="margin-bottom: 0 !important;">Trabajo reciente.</h2>
                         <a href="#" class="sc360-projects-link">Ver todos los proyectos</a>
                     </div>
                     <div class="sc360-projects-grid">
                         <div class="sc360-project-card">
-                            <div class="sc360-project-card-bg" style="background: linear-gradient(135deg, #1a1a2e 0%, #0f766e 100%);"/>
+                            <div class="sc360-project-card-bg" style="background: linear-gradient(135deg, #1a1a2e 0%, #0f766e 100%) !important;"/>
                             <span class="sc360-project-tag">Residencial</span>
-                            <div style="position: relative; z-index: 1;">
+                            <div style="position: relative !important; z-index: 1 !important;">
                                 <div class="sc360-project-year">2025</div>
                                 <div class="sc360-project-name">Residencial Los Álamos</div>
                                 <div class="sc360-project-detail">48 viviendas · Monterrey, N.L.</div>
                             </div>
                         </div>
                         <div class="sc360-project-card">
-                            <div class="sc360-project-card-bg" style="background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);"/>
+                            <div class="sc360-project-card-bg" style="background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%) !important;"/>
                             <span class="sc360-project-tag">Comercial</span>
-                            <div style="position: relative; z-index: 1;">
+                            <div style="position: relative !important; z-index: 1 !important;">
                                 <div class="sc360-project-year">2024</div>
                                 <div class="sc360-project-name">Plaza Comercial Valle</div>
                                 <div class="sc360-project-detail">12,000 m² · Guadalajara, Jal.</div>
                             </div>
                         </div>
                         <div class="sc360-project-card">
-                            <div class="sc360-project-card-bg" style="background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);"/>
+                            <div class="sc360-project-card-bg" style="background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%) !important;"/>
                             <span class="sc360-project-tag">Obra Civil</span>
-                            <div style="position: relative; z-index: 1;">
+                            <div style="position: relative !important; z-index: 1 !important;">
                                 <div class="sc360-project-year">2024</div>
                                 <div class="sc360-project-name">Vialidad Metropolitana Norte</div>
                                 <div class="sc360-project-detail">3.2 km · Zona Metropolitana</div>
                             </div>
                         </div>
                         <div class="sc360-project-card">
-                            <div class="sc360-project-card-bg" style="background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0a 100%);"/>
+                            <div class="sc360-project-card-bg" style="background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0a 100%) !important;"/>
                             <span class="sc360-project-tag">Industrial</span>
-                            <div style="position: relative; z-index: 1;">
+                            <div style="position: relative !important; z-index: 1 !important;">
                                 <div class="sc360-project-year">2023</div>
                                 <div class="sc360-project-name">Nave Industrial Apodaca</div>
                                 <div class="sc360-project-detail">8,500 m² · Apodaca, N.L.</div>
@@ -236,16 +403,21 @@
                             <a href="/contacto" class="sc360-btn-dark">Agendar consulta gratuita</a>
                             <a href="https://wa.me/521234567890" class="sc360-btn-outline">WhatsApp directo</a>
                         </div>
-                        <div class="sc360-cta-contact">
-                            +52 (55) 1234 5678 · contacto@sc360.mx
-                        </div>
+                        <div class="sc360-cta-contact">+52 (55) 1234 5678 · contacto@sc360.mx</div>
                     </div>
                 </section>
 
                 <!-- FOOTER -->
                 <footer class="sc360-footer">
                     <a href="/" class="sc360-footer-logo">
-                        <t t-call="sc360_website.sc360_logo_white"/>
+                        <svg viewBox="0 0 400 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 58.5C8 58.5 14.5 64 27 64C40.5 64 47 57 47 49.5C47 42 41 38.5 28.5 35.5C16 32.5 8 28.5 8 18C8 7.5 17 1 29 1C41 1 48 7 48 7L43.5 14.5C43.5 14.5 37.5 9 29 9C20.5 9 16 14 16 19C16 24 21.5 26.5 33 29.5C44.5 32.5 55 37.5 55 49.5C55 61.5 44.5 72 27 72C9.5 72 2.5 63.5 2.5 63.5L8 58.5Z" fill="#fafafa"/>
+                            <path d="M100 55C100 55 92 64 78 64C62 64 52 51.5 52 36.5C52 21.5 63 8 80 8C92 8 99 15 99 15L94.5 22.5C94.5 22.5 89 17 80 17C69 17 61 26 61 36.5C61 47 68.5 56 79.5 56C90.5 56 96 48 96 48L100 55Z" fill="#fafafa"/>
+                            <path d="M140 36C148 33 152 27.5 152 21C152 12 145 5 133 5C122 5 115 12 115 12L119.5 19C119.5 19 125 13.5 133 13.5C139 13.5 143.5 17 143.5 22C143.5 27 139.5 31 131 31H126V39H131.5C141 39 145.5 43.5 145.5 49.5C145.5 55.5 140.5 59 133 59C123 59 116.5 52 116.5 52L112 59C112 59 120 67 133.5 67C148 67 154.5 58 154.5 49.5C154.5 41 148.5 37.5 140 36Z" fill="#fafafa"/>
+                            <path d="M186 5L178 16C173 23 168 32.5 168 43.5C168 56 176 67 190 67C202.5 67 210 57.5 210 47C210 37 202.5 29.5 192 29.5C185 29.5 180 33 177.5 36C178 29 182 21 187.5 14L196 5H186ZM190.5 37.5C198 37.5 202 42.5 202 47.5C202 53 198 59 190 59C182 59 177 53 177 46C177 43 178 40.5 180 38.5C182.5 37.5 186 37.5 190.5 37.5Z" fill="#fafafa"/>
+                            <path d="M240 67C256 67 266 54 266 36C266 18 256 5 240 5C224 5 214 18 214 36C214 54 224 67 240 67ZM240 59C230 59 223 50 223 36C223 22 230 13 240 13C250 13 257 22 257 36C257 50 250 59 240 59Z" fill="#fafafa"/>
+                            <rect x="280" y="30" width="40" height="4" rx="2" fill="#14b8a6"/>
+                        </svg>
                     </a>
                     <div class="sc360-footer-links">
                         <span>Servicios</span>
@@ -260,9 +432,7 @@
         </t>
     </template>
 
-    <!-- ═══════════════════════════════════════════ -->
     <!-- PAGE REGISTRATION -->
-    <!-- ═══════════════════════════════════════════ -->
     <record id="sc360_landing_page_view" model="website.page">
         <field name="name">SC360 Landing</field>
         <field name="url">/landing</field>
