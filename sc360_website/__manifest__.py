@@ -1,24 +1,16 @@
 {
     'name': 'SC360 Website Landing Page',
-    'version': '19.0.1.0.0',
+    'version': '19.0.2.0.0',
     'category': 'Website',
     'summary': 'Landing page para SC360 Constructora',
     'description': """
         Landing page corporativa para SC360 — Soluciones Constructivas 360.
-        Incluye hero, servicios, proceso, proyectos, testimonial y CTA.
+        Servida como HTML puro via controller para maximo control visual.
     """,
     'author': 'SC360',
     'website': 'https://sc360.mx',
     'depends': ['website'],
-    'data': [
-        'views/sc360_landing_templates.xml',
-    ],
-    'assets': {
-        'web.assets_frontend': [
-            'sc360_website/static/src/css/sc360_fonts.css',
-            'sc360_website/static/src/css/sc360_landing.css',
-        ],
-    },
+    'data': [],
     'installable': True,
     'application': False,
     'license': 'LGPL-3',
