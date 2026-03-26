@@ -2,38 +2,60 @@
 <odoo>
     <data noupdate="1">
 
-        <!-- Categoría para unidades de construcción -->
-        <record id="uom_categ_construction" model="uom.category">
-            <field name="name">Construcción</field>
+        <!-- ============================================================ -->
+        <!-- Custom UoM Categories                                        -->
+        <!-- ============================================================ -->
+
+        <record id="uom_categ_surface" model="uom.category">
+            <field name="name">Superficie</field>
         </record>
 
-        <!-- Unidades comunes en construcción mexicana -->
+        <record id="uom_categ_volume" model="uom.category">
+            <field name="name">Volumen</field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- Surface UoMs                                                 -->
+        <!-- ============================================================ -->
+
         <record id="uom_m2" model="uom.uom">
-            <field name="name">m²</field>
-            <field name="category_id" ref="uom.product_uom_categ_unit"/>
+            <field name="name">M2</field>
+            <field name="category_id" ref="uom_categ_surface"/>
             <field name="factor">1</field>
             <field name="uom_type">reference</field>
             <field name="rounding">0.01</field>
         </record>
+
+        <!-- ============================================================ -->
+        <!-- Volume UoMs                                                  -->
+        <!-- ============================================================ -->
 
         <record id="uom_m3" model="uom.uom">
-            <field name="name">m³</field>
-            <field name="category_id" ref="uom.product_uom_categ_unit"/>
+            <field name="name">M3</field>
+            <field name="category_id" ref="uom_categ_volume"/>
             <field name="factor">1</field>
             <field name="uom_type">reference</field>
             <field name="rounding">0.01</field>
         </record>
+
+        <!-- ============================================================ -->
+        <!-- Length UoMs                                                  -->
+        <!-- ============================================================ -->
 
         <record id="uom_ml" model="uom.uom">
-            <field name="name">ml</field>
-            <field name="category_id" ref="uom.product_uom_categ_unit"/>
+            <field name="name">ML</field>
+            <field name="category_id" ref="uom.uom_categ_length"/>
             <field name="factor">1</field>
             <field name="uom_type">reference</field>
             <field name="rounding">0.01</field>
         </record>
 
+        <!-- ============================================================ -->
+        <!-- Unit-based UoMs                                              -->
+        <!-- ============================================================ -->
+
         <record id="uom_pza" model="uom.uom">
-            <field name="name">pza</field>
+            <field name="name">PZ</field>
             <field name="category_id" ref="uom.product_uom_categ_unit"/>
             <field name="factor">1</field>
             <field name="uom_type">reference</field>
@@ -41,7 +63,47 @@
         </record>
 
         <record id="uom_lote" model="uom.uom">
-            <field name="name">lote</field>
+            <field name="name">LOTE</field>
+            <field name="category_id" ref="uom.product_uom_categ_unit"/>
+            <field name="factor">1</field>
+            <field name="uom_type">reference</field>
+            <field name="rounding">1</field>
+        </record>
+
+        <record id="uom_viaje" model="uom.uom">
+            <field name="name">VIAJE</field>
+            <field name="category_id" ref="uom.product_uom_categ_unit"/>
+            <field name="factor">1</field>
+            <field name="uom_type">reference</field>
+            <field name="rounding">1</field>
+        </record>
+
+        <record id="uom_bulto" model="uom.uom">
+            <field name="name">BULTO</field>
+            <field name="category_id" ref="uom.product_uom_categ_unit"/>
+            <field name="factor">1</field>
+            <field name="uom_type">reference</field>
+            <field name="rounding">1</field>
+        </record>
+
+        <record id="uom_caja" model="uom.uom">
+            <field name="name">CAJA</field>
+            <field name="category_id" ref="uom.product_uom_categ_unit"/>
+            <field name="factor">1</field>
+            <field name="uom_type">reference</field>
+            <field name="rounding">1</field>
+        </record>
+
+        <record id="uom_rollo" model="uom.uom">
+            <field name="name">ROLLO</field>
+            <field name="category_id" ref="uom.product_uom_categ_unit"/>
+            <field name="factor">1</field>
+            <field name="uom_type">reference</field>
+            <field name="rounding">1</field>
+        </record>
+
+        <record id="uom_unidad" model="uom.uom">
+            <field name="name">UNIDAD</field>
             <field name="category_id" ref="uom.product_uom_categ_unit"/>
             <field name="factor">1</field>
             <field name="uom_type">reference</field>
@@ -49,7 +111,7 @@
         </record>
 
         <record id="uom_salida" model="uom.uom">
-            <field name="name">salida</field>
+            <field name="name">SALIDA</field>
             <field name="category_id" ref="uom.product_uom_categ_unit"/>
             <field name="factor">1</field>
             <field name="uom_type">reference</field>
@@ -57,11 +119,35 @@
         </record>
 
         <record id="uom_jgo" model="uom.uom">
-            <field name="name">jgo</field>
+            <field name="name">JGO</field>
             <field name="category_id" ref="uom.product_uom_categ_unit"/>
             <field name="factor">1</field>
             <field name="uom_type">reference</field>
             <field name="rounding">1</field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- Weight UoMs                                                  -->
+        <!-- ============================================================ -->
+
+        <record id="uom_tn" model="uom.uom">
+            <field name="name">TN</field>
+            <field name="category_id" ref="uom.product_uom_categ_kgm"/>
+            <field name="factor" eval="0.001"/>
+            <field name="uom_type">bigger</field>
+            <field name="rounding">0.01</field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- Working Time UoMs                                            -->
+        <!-- ============================================================ -->
+
+        <record id="uom_dia" model="uom.uom">
+            <field name="name">DIA</field>
+            <field name="category_id" ref="uom.uom_categ_wtime"/>
+            <field name="factor" eval="0.125"/>
+            <field name="uom_type">bigger</field>
+            <field name="rounding">0.01</field>
         </record>
 
     </data>

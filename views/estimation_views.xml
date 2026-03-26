@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- Estimate Form                                                -->
+    <!-- ============================================================ -->
+
+    <record id="view_estimation_form" model="ir.ui.view">
+        <field name="name">sc360.estimate.form</field>
+        <field name="model">sc360.estimate</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_approve" type="object"
+                            string="Aprobar" class="oe_highlight"
+                            invisible="state != 'draft'"
+                            groups="sc360_construction.group_sc360_manager"/>
+                    <button name="action_pay" type="object"
+                            string="Marcar pagada" class="oe_highlight"
+                            invisible="state != 'approved'"
+                            groups="sc360_construction.group_sc360_manager"/>
+                    <button name="action_draft" type="object"
+                            string="Regresar a borrador"
+                            invisible="state == 'draft'"
+                            groups="sc360_construction.group_sc360_manager"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,approved,paid"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Contrato">
+                            <field name="contract_id" readonly="state != 'draft'"/>
+                            <field name="project_id" readonly="1"/>
+                            <field name="contractor_id" readonly="1"/>
+                            <field name="number" readonly="1"/>
+                        </group>
+                        <group string="Periodo">
+                            <field name="period_start" readonly="state != 'draft'"/>
+                            <field name="period_end" readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+                    <group string="Totales">
+                        <group>
+                            <field name="subtotal"/>
+                            <field name="iva_amount"/>
+                        </group>
+                        <group>
+                            <field name="total"/>
+                        </group>
+                    </group>
+
+                    <!-- Button to load lines from contract -->
+                    <div invisible="state != 'draft'">
+                        <button name="action_populate_lines" type="object"
+                                string="Cargar lineas del contrato"
+                                class="oe_highlight" icon="fa-download"/>
+                    </div>
+
+                    <notebook>
+                        <page string="Conceptos" name="lines">
+                            <field name="line_ids"
+                                   readonly="state != 'draft'">
+                                <list editable="bottom">
+                                    <field name="contract_line_id" column_invisible="1"/>
+                                    <field name="concept_name" readonly="1"/>
+                                    <field name="uom_id" readonly="1"/>
+                                    <field name="unit_price" readonly="1"/>
+                                    <field name="contract_qty" readonly="1"/>
+                                    <field name="accum_prev" readonly="1"/>
+                                    <field name="this_estim"/>
+                                    <field name="accum_total" readonly="1"/>
+                                    <field name="remaining" readonly="1"/>
+                                    <field name="amount" sum="Total estimacion" readonly="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Firmas" name="signatures">
+                            <group>
+                                <group string="Firma contratista">
+                                    <field name="contractor_signature" widget="signature"
+                                           nolabel="1"/>
+                                </group>
+                                <group string="Firma supervisor">
+                                    <field name="supervisor_signature" widget="signature"
+                                           nolabel="1"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Estimate List                                                -->
+    <!-- ============================================================ -->
+
+    <record id="view_estimation_list" model="ir.ui.view">
+        <field name="name">sc360.estimate.list</field>
+        <field name="model">sc360.estimate</field>
+        <field name="arch" type="xml">
+            <list decoration-info="state == 'draft'"
+                  decoration-success="state == 'approved'"
+                  decoration-warning="state == 'paid'">
+                <field name="name"/>
+                <field name="contract_id"/>
+                <field name="project_id"/>
+                <field name="contractor_id"/>
+                <field name="number"/>
+                <field name="period_start" optional="show"/>
+                <field name="period_end" optional="show"/>
+                <field name="total" sum="Total"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'approved'"
+                       decoration-warning="state == 'paid'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Estimate Search                                              -->
+    <!-- ============================================================ -->
+
+    <record id="view_estimation_search" model="ir.ui.view">
+        <field name="name">sc360.estimate.search</field>
+        <field name="model">sc360.estimate</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="contract_id"/>
+                <field name="project_id"/>
+                <field name="contractor_id"/>
+                <separator/>
+                <filter string="Borrador" name="draft"
+                        domain="[('state', '=', 'draft')]"/>
+                <filter string="Aprobadas" name="approved"
+                        domain="[('state', '=', 'approved')]"/>
+                <filter string="Pagadas" name="paid"
+                        domain="[('state', '=', 'paid')]"/>
+                <group string="Agrupar por">
+                    <filter string="Proyecto" name="group_project"
+                            context="{'group_by': 'project_id'}"/>
+                    <filter string="Contrato" name="group_contract"
+                            context="{'group_by': 'contract_id'}"/>
+                    <filter string="Estado" name="group_state"
+                            context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Estimate Action                                              -->
+    <!-- ============================================================ -->
+
+    <record id="action_estimation" model="ir.actions.act_window">
+        <field name="name">Estimaciones</field>
+        <field name="res_model">sc360.estimate</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Crear la primera estimacion de avance</p>
+        </field>
+    </record>
+
+</odoo>

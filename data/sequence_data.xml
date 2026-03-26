@@ -4,7 +4,7 @@
 
         <!-- Secuencia para requisiciones -->
         <record id="sequence_sc360_requisition" model="ir.sequence">
-            <field name="name">Requisición SC360</field>
+            <field name="name">Requisicion SC360</field>
             <field name="code">sc360.requisition</field>
             <field name="prefix">REQ-%(year)s-</field>
             <field name="padding">4</field>
@@ -13,10 +13,10 @@
             <field name="company_id" eval="False"/>
         </record>
 
-        <!-- Secuencia para conceptos del catálogo -->
-        <record id="sequence_sc360_concept" model="ir.sequence">
-            <field name="name">Concepto SC360</field>
-            <field name="code">sc360.concept</field>
+        <!-- Secuencia para contratos -->
+        <record id="sequence_sc360_contract" model="ir.sequence">
+            <field name="name">Contrato SC360</field>
+            <field name="code">sc360.contract</field>
             <field name="prefix">CON-</field>
             <field name="padding">5</field>
             <field name="number_next">1</field>
@@ -24,20 +24,9 @@
             <field name="company_id" eval="False"/>
         </record>
 
-        <!-- Secuencia para períodos de estimación -->
-        <record id="sequence_sc360_estimate_period" model="ir.sequence">
-            <field name="name">Período de Estimación</field>
-            <field name="code">sc360.estimate.period</field>
-            <field name="prefix">PER-</field>
-            <field name="padding">4</field>
-            <field name="number_next">1</field>
-            <field name="number_increment">1</field>
-            <field name="company_id" eval="False"/>
-        </record>
-
         <!-- Secuencia para estimaciones -->
         <record id="sequence_sc360_estimate" model="ir.sequence">
-            <field name="name">Estimación SC360</field>
+            <field name="name">Estimacion SC360</field>
             <field name="code">sc360.estimate</field>
             <field name="prefix">EST-%(year)s-</field>
             <field name="padding">4</field>

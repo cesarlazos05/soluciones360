@@ -1,49 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="0">
 
-        <!-- Categoría de módulo -->
-        <record id="module_category_sc360" model="ir.module.category">
-            <field name="name">SC360 Construcción</field>
-            <field name="description">Gestión de proyectos de construcción SC360</field>
-            <field name="sequence">50</field>
-        </record>
+    <!-- Module category -->
+    <record id="module_category_sc360" model="ir.module.category">
+        <field name="name">SC360 Construccion</field>
+        <field name="sequence">100</field>
+    </record>
 
-        <!-- Privilegio (reemplaza category_id en res.groups para Odoo 19) -->
-        <record id="privilege_sc360" model="res.groups.privilege">
-            <field name="name">SC360 Construcción</field>
-            <field name="description">Nivel de acceso al módulo SC360 Construcción</field>
-            <field name="category_id" ref="module_category_sc360"/>
-            <field name="sequence">50</field>
-        </record>
+    <!-- Privilege -->
+    <record id="privilege_sc360" model="res.groups.privilege">
+        <field name="name">SC360 Construccion</field>
+        <field name="category_id" ref="module_category_sc360"/>
+    </record>
 
-        <!-- Grupos de usuario -->
-        <record id="group_sc360_user" model="res.groups">
-            <field name="name">Usuario</field>
-            <field name="privilege_id" ref="privilege_sc360"/>
-            <field name="comment">Puede ver proyectos, crear requisiciones y consultar información</field>
-        </record>
+    <!-- Group: Supervisor de Obra (base) -->
+    <record id="group_sc360_user" model="res.groups">
+        <field name="name">Supervisor de Obra</field>
+        <field name="category_id" ref="module_category_sc360"/>
+        <field name="privilege_id" ref="privilege_sc360"/>
+    </record>
 
-        <record id="group_sc360_supervisor" model="res.groups">
-            <field name="name">Supervisor de obra</field>
-            <field name="privilege_id" ref="privilege_sc360"/>
-            <field name="implied_ids" eval="[(4, ref('group_sc360_user'))]"/>
-            <field name="comment">Puede gestionar requisiciones y ver presupuestos de sus proyectos</field>
-        </record>
+    <!-- Group: Compras (implies user) -->
+    <record id="group_sc360_purchase" model="res.groups">
+        <field name="name">Compras</field>
+        <field name="category_id" ref="module_category_sc360"/>
+        <field name="privilege_id" ref="privilege_sc360"/>
+        <field name="implied_ids" eval="[(4, ref('group_sc360_user'))]"/>
+    </record>
 
-        <record id="group_sc360_purchase" model="res.groups">
-            <field name="name">Compras</field>
-            <field name="privilege_id" ref="privilege_sc360"/>
-            <field name="implied_ids" eval="[(4, ref('group_sc360_user'))]"/>
-            <field name="comment">Puede procesar requisiciones y generar órdenes de compra</field>
-        </record>
+    <!-- Group: Arquitectura (implies user) -->
+    <record id="group_sc360_architect" model="res.groups">
+        <field name="name">Arquitectura</field>
+        <field name="category_id" ref="module_category_sc360"/>
+        <field name="privilege_id" ref="privilege_sc360"/>
+        <field name="implied_ids" eval="[(4, ref('group_sc360_user'))]"/>
+    </record>
 
-        <record id="group_sc360_manager" model="res.groups">
-            <field name="name">Administrador</field>
-            <field name="privilege_id" ref="privilege_sc360"/>
-            <field name="implied_ids" eval="[(4, ref('group_sc360_supervisor')), (4, ref('group_sc360_purchase'))]"/>
-            <field name="comment">Acceso completo a todas las funciones de SC360</field>
-        </record>
+    <!-- Group: Administrador (implies purchase + architect) -->
+    <record id="group_sc360_manager" model="res.groups">
+        <field name="name">Administrador</field>
+        <field name="category_id" ref="module_category_sc360"/>
+        <field name="privilege_id" ref="privilege_sc360"/>
+        <field name="implied_ids" eval="[(4, ref('group_sc360_purchase')), (4, ref('group_sc360_architect'))]"/>
+    </record>
 
-    </data>
 </odoo>
