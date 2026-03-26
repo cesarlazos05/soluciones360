@@ -1,12 +1,9 @@
-# -*- coding: utf-8 -*-
-
 from . import concept_catalog
 from . import project
-from . import project_inventory
-from . import budget_line
+from . import budget
 from . import requisition
+from . import contract
+from . import estimation
+from . import logbook
 from . import purchase
-from . import estimate_period
-from . import estimate
-from . import dashboard
-from . import labor_cost
+from . import res_config_settings
