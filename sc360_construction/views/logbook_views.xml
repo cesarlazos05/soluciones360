@@ -104,11 +104,11 @@
                 <field name="author_id"/>
                 <separator/>
                 <filter string="Esta semana" name="this_week"
-                        domain="[('date', '>=', (context_today() - relativedelta(weekday=0, weeks=1)).strftime('%Y-%m-%d')),
-                                 ('date', '&lt;=', (context_today() + relativedelta(weekday=6)).strftime('%Y-%m-%d'))]"/>
+                        domain="[('date', '&gt;=', '=week_start'),
+                                 ('date', '&lt;', '=week_start +1w')]"/>
                 <filter string="Este mes" name="this_month"
-                        domain="[('date', '>=', context_today().strftime('%Y-%m-01'))]"/>
-                <group string="Agrupar por">
+                        domain="[('date', '&gt;=', 'today =1d')]"/>
+                <group>
                     <filter string="Proyecto" name="group_project"
                             context="{'group_by': 'project_id'}"/>
                     <filter string="Autor" name="group_author"

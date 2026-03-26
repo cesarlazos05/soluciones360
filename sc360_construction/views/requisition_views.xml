@@ -179,7 +179,7 @@
                         domain="[('state', '=', 'in_purchase')]"/>
                 <filter string="Completadas" name="done"
                         domain="[('state', '=', 'done')]"/>
-                <group string="Agrupar por">
+                <group>
                     <filter string="Proyecto" name="group_project"
                             context="{'group_by': 'project_id'}"/>
                     <filter string="Estado" name="group_state"

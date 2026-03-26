@@ -143,7 +143,7 @@
                         domain="[('state', '=', 'done')]"/>
                 <filter string="Cancelados" name="cancel"
                         domain="[('state', '=', 'cancel')]"/>
-                <group string="Agrupar por">
+                <group>
                     <filter string="Proyecto" name="group_project"
                             context="{'group_by': 'project_id'}"/>
                     <filter string="Contratista" name="group_contractor"

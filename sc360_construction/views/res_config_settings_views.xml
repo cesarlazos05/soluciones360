@@ -13,6 +13,7 @@
             <xpath expr="//form" position="inside">
                 <app data-string="SC360 Construccion"
                      string="SC360 Construccion"
+                     name="sc360_construction"
                      groups="sc360_construction.group_sc360_manager">
                     <block title="Requisiciones">
                         <setting string="Aprobador por defecto"

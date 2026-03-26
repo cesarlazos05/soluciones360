@@ -145,7 +145,7 @@
                         domain="[('state', '=', 'approved')]"/>
                 <filter string="Pagadas" name="paid"
                         domain="[('state', '=', 'paid')]"/>
-                <group string="Agrupar por">
+                <group>
                     <filter string="Proyecto" name="group_project"
                             context="{'group_by': 'project_id'}"/>
                     <filter string="Contrato" name="group_contract"

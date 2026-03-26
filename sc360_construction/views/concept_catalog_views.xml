@@ -154,7 +154,7 @@
                 <separator/>
                 <filter string="Archivados" name="inactive"
                         domain="[('active', '=', False)]"/>
-                <group string="Agrupar por">
+                <group>
                     <filter string="Partida" name="group_category"
                             context="{'group_by': 'category_id'}"/>
                 </group>
