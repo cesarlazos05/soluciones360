@@ -83,8 +83,8 @@ class GeneratePurchaseWizard(models.TransientModel):
                 po_vals['order_line'].append((0, 0, {
                     'product_id': wl.product_id.id if wl.product_id else False,
                     'name': wl.description or '/',
-                    'product_qty': wl.quantity,
-                    'product_uom': wl.uom_id.id if wl.uom_id else False,
+                    'product_uom_qty': wl.quantity,
+                    'product_uom_id': wl.uom_id.id if wl.uom_id else False,
                     'price_unit': wl.price_unit,
                     'sc360_requisition_line_id': wl.requisition_line_id.id,
                 }))
