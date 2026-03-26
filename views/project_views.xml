@@ -70,6 +70,7 @@
                         <group>
                             <field name="total_budget"/>
                             <field name="total_purchased"/>
+                            <field name="total_estimated"/>
                         </group>
                         <group>
                             <field name="budget_variance"/>

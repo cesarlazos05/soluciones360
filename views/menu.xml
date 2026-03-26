@@ -102,6 +102,21 @@
               action="sc360_construction.action_concept_template"/>
 
     <!-- ============================================================ -->
+    <!-- Inventario (sequence=40)                                     -->
+    <!-- ============================================================ -->
+
+    <menuitem id="menu_sc360_inventory_parent"
+              name="Inventario"
+              parent="menu_sc360_root"
+              sequence="40"/>
+
+    <menuitem id="menu_sc360_inventory"
+              name="Inventario por Obra"
+              parent="menu_sc360_inventory_parent"
+              sequence="10"
+              action="stock.action_picking_tree_all"/>
+
+    <!-- ============================================================ -->
     <!-- Configuracion (sequence=90)                                  -->
     <!-- ============================================================ -->
 

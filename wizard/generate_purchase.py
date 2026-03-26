@@ -75,6 +75,7 @@ class GeneratePurchaseWizard(models.TransientModel):
                 'sc360_category_id': req.category_id.id if req.category_id else False,
                 'sc360_concept_id': req.concept_id.id if req.concept_id else False,
                 'sc360_requisition_id': req.id,
+                'sc360_tpu_reference': self._get_tpu_reference(req),
                 'origin': req.name,
                 'order_line': [],
             }
@@ -109,6 +110,18 @@ class GeneratePurchaseWizard(models.TransientModel):
             'view_mode': 'list,form',
             'domain': [('id', 'in', created_pos.ids)],
         }
+
+
+    def _get_tpu_reference(self, req):
+        """Load TPU reference from budget for this requisition's partition."""
+        if req.project_id and req.category_id:
+            partition = self.env['sc360.project.partition'].search([
+                ('project_id', '=', req.project_id.id),
+                ('category_id', '=', req.category_id.id),
+            ], limit=1)
+            if partition and partition.total_budget:
+                return partition.total_budget
+        return 0.0
 
 
 class GeneratePurchaseWizardLine(models.TransientModel):
